@@ -1138,6 +1138,8 @@ function mostrarRecordatorioSiHay(){
 }
 
 function renderCalendario(){
+  const hoy = new Date(); hoy.setHours(0,0,0,0);
+
   // Recordatorio: eventos en los próximos 2 días (persiste hasta que se acepte)
   const proximos = eventosPendientesRecordatorio();
   const banner = document.getElementById('bannerRecordatorio');
