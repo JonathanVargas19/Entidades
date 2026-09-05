@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>COOPEBIS - Base Social</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -16,10 +18,10 @@
     --panel:#FFFFFF; --panel-2:#F0F3F5; --borde:#1A1A1A;
     --texto:#0B2530; --texto-sec:#5C6B73;
     --verde:#2E9E6C; --rojo:#D14550;
-    --fondo:#C7D2D8; --fondo-2:#B9C6CC;
+    --fondo:#EEF2F4; --fondo-2:#E4EAED;
   }
-  *{box-sizing:border-box;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;}
-  body{margin:0;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;background:linear-gradient(160deg, var(--fondo) 0%, var(--fondo-2) 100%);background-attachment:fixed;color:var(--texto);}
+  *{box-sizing:border-box;font-family:'Poppins',sans-serif;}
+  body{margin:0;font-family:'Poppins',sans-serif;background:linear-gradient(160deg, var(--fondo) 0%, var(--fondo-2) 100%);background-attachment:fixed;color:var(--texto);}
   .app{max-width:1440px;margin:0 auto;padding:18px 22px 40px;position:relative;}
   .signature{text-align:right;padding:18px 10px 4px;font-size:10.5px;color:var(--texto-sec);opacity:.85;}
 
@@ -28,18 +30,18 @@
   .logo-chip{background:#FFFFFF;border:1.5px solid #1A1A1A;border-radius:10px;padding:6px 10px;display:inline-flex;align-items:center;box-shadow:0 2px 6px rgba(0,0,0,.10);}
   .logo-chip img{height:40px;display:block;}
   .nav-btns{display:flex;gap:8px;flex-wrap:wrap;}
-  .nav-btn{background:var(--panel-2);color:var(--texto-sec);border:1px solid var(--borde);padding:9px 16px;border-radius:8px;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:.15s;}
+  .nav-btn{background:var(--panel-2);color:var(--texto-sec);border:1px solid var(--borde);padding:9px 16px;border-radius:8px;font-family:'Poppins';font-size:12px;font-weight:500;cursor:pointer;transition:.15s;}
   .nav-btn.active{background:var(--azul-comp1);color:#FFFFFF;font-weight:700;border-color:var(--azul-comp1);}
   .nav-btn:hover{border-color:var(--azul-primario);box-shadow:0 8px 18px rgba(0,0,0,.16);transform:translateY(-2px);}
   .right-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
-  .refresh-btn{background:var(--azul-comp1);color:#FFFFFF;border:none;border-radius:8px;padding:10px 16px;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;font-weight:600;font-size:12px;cursor:pointer;transition:.15s ease;}
+  .refresh-btn{background:var(--azul-comp1);color:#FFFFFF;border:none;border-radius:8px;padding:10px 16px;font-family:'Poppins';font-weight:600;font-size:12px;cursor:pointer;transition:.15s ease;}
   .refresh-btn:hover{box-shadow:0 8px 18px rgba(0,0,0,.22);transform:translateY(-2px);}
-  .gold-btn{background:var(--dorado);color:var(--azul-primario);border:none;border-radius:8px;padding:10px 16px;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;font-weight:700;font-size:12px;cursor:pointer;transition:.15s ease;}
+  .gold-btn{background:var(--dorado);color:var(--azul-primario);border:none;border-radius:8px;padding:10px 16px;font-family:'Poppins';font-weight:700;font-size:12px;cursor:pointer;transition:.15s ease;}
   .gold-btn:hover{box-shadow:0 8px 18px rgba(0,0,0,.22);transform:translateY(-2px);}
-  .ghost-btn{background:transparent;border:1px solid var(--borde);color:var(--texto-sec);border-radius:8px;padding:9px 14px;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;font-size:11.5px;font-weight:600;cursor:pointer;transition:.15s ease;}
+  .ghost-btn{background:transparent;border:1px solid var(--borde);color:var(--texto-sec);border-radius:8px;padding:9px 14px;font-family:'Poppins';font-size:11.5px;font-weight:600;cursor:pointer;transition:.15s ease;}
   .ghost-btn:hover{border-color:var(--azul-primario);color:var(--azul-primario);box-shadow:0 8px 18px rgba(0,0,0,.16);transform:translateY(-2px);}
   .badge-admin{background:var(--dorado);color:var(--azul-primario);font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;}
-  .mobile-toggle-btn{background:var(--panel);color:var(--azul-comp1);border:1px solid var(--borde);border-radius:8px;padding:9px 12px;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;font-size:14px;cursor:pointer;transition:.15s ease;line-height:1;}
+  .mobile-toggle-btn{background:var(--panel);color:var(--azul-comp1);border:1px solid var(--borde);border-radius:8px;padding:9px 12px;font-family:'Poppins';font-size:14px;cursor:pointer;transition:.15s ease;line-height:1;}
   .mobile-toggle-btn:hover{box-shadow:0 8px 18px rgba(0,0,0,.16);transform:translateY(-2px);}
   .mobile-toggle-btn.active{background:var(--azul-comp1);color:#FFFFFF;}
 
@@ -65,7 +67,7 @@
 
   .filters{display:flex;gap:10px;align-items:center;margin-bottom:18px;flex-wrap:wrap;}
   select, input[type=text], input[type=number], input[type=date], input[type=email], textarea{
-    background:var(--panel-2);color:var(--texto);border:1px solid var(--borde);border-radius:8px;padding:9px 12px;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;font-size:12px;
+    background:var(--panel-2);color:var(--texto);border:1px solid var(--borde);border-radius:8px;padding:9px 12px;font-family:'Poppins';font-size:12px;
   }
   .filters label{font-size:10px;color:var(--texto-sec);display:block;margin-bottom:3px;text-transform:uppercase;letter-spacing:.4px;}
   .filter-group{display:flex;flex-direction:column;}
@@ -105,7 +107,7 @@
   .search-box{display:flex;gap:8px;align-items:center;}
   .search-box input{flex:1;min-width:160px;}
 
-  .editable{border:1px solid transparent;background:transparent;width:100%;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;font-size:11.5px;color:var(--texto);padding:3px 4px;border-radius:4px;}
+  .editable{border:1px solid transparent;background:transparent;width:100%;font-family:'Poppins';font-size:11.5px;color:var(--texto);padding:3px 4px;border-radius:4px;}
   .editable:focus{border-color:var(--azul-comp1);background:#FFFFFF;outline:none;}
   .row-actions{display:flex;gap:6px;}
   .icon-btn{border:none;background:var(--panel-2);border-radius:6px;padding:5px 8px;cursor:pointer;font-size:12px;transition:.15s ease;}
@@ -130,7 +132,7 @@
   .cal-evt-acciones button:hover{background:rgba(255,255,255,.45);}
   .cal-evt.cancelado{background:var(--rojo);opacity:.7;text-decoration:line-through;}
   .cal-nav{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
-  .cal-nav button{background:var(--panel-2);border:1px solid var(--borde);border-radius:8px;padding:7px 12px;cursor:pointer;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;font-weight:700;}
+  .cal-nav button{background:var(--panel-2);border:1px solid var(--borde);border-radius:8px;padding:7px 12px;cursor:pointer;font-family:'Poppins';font-weight:700;}
   .cal-nav .mes-actual{font-size:15px;font-weight:700;min-width:170px;text-align:center;}
 
   .modal-backdrop{display:none;position:fixed;inset:0;background:rgba(1,46,63,.55);z-index:50;align-items:center;justify-content:center;padding:20px;}
@@ -250,7 +252,7 @@
       </div>
 
       <div class="card full-width" style="margin-bottom:16px;">
-        <div class="card-title">Asociados por entidad <span class="tag">Todas las entidades · según filtros</span></div>
+        <div class="card-title">Asociados por pagaduría <span class="tag">Todas las pagadurías · según filtros</span></div>
         <div class="table-scroll" id="wrapBarAsesor" style="overflow-x:auto;overflow-y:hidden;">
           <div id="innerBarAsesor" style="position:relative;height:460px;min-width:100%;"><canvas id="barAsesor"></canvas></div>
         </div>
@@ -792,7 +794,10 @@ function poblarFiltros(){
   const entidadesArr = entidadesUnificadas.map(function(e){ return {v:e,t:e}; });
   llenarSelect('fVisEntidad', entidadesArr, 'Todas');
   llenarSelect('fEntEntidad', entidadesArr, 'Todas');
-  llenarSelect('fDirEntidad', entidadesArr, 'Todas');
+
+  const pagaduriasUnicas = [...new Set(DATA.base.map(function(r){ return (r.pagaduria && String(r.pagaduria).trim()) ? String(r.pagaduria).trim() : 'Sin pagaduría'; }))].sort();
+  const pagaduriasArr = pagaduriasUnicas.map(function(p){ return {v:p,t:p}; });
+  llenarSelect('fDirEntidad', pagaduriasArr, 'Todas');
 
   const selAsesorModal = document.getElementById('mAsesoresLista');
   selAsesorModal.innerHTML = ASESORES_LISTA.map(function(a, idx){
@@ -883,20 +888,20 @@ function renderEntidades(){
   document.getElementById('kpiEntEdad2').textContent = e2.toLocaleString('es-CO');
   document.getElementById('kpiEntEdad3').textContent = e3.toLocaleString('es-CO');
 
-  // Asociados por entidad
-  const porEntidad = {};
-  filtrado.forEach(function(r){ const e = unificarEtiqueta(r.entidad); porEntidad[e] = (porEntidad[e]||0) + 1; });
-  const entidadesOrdenadas = Object.keys(porEntidad).sort(function(a,b){ return porEntidad[b]-porEntidad[a]; });
+  // Asociados por pagaduría
+  const porPagaduria = {};
+  filtrado.forEach(function(r){ const p = (r.pagaduria && String(r.pagaduria).trim()) ? String(r.pagaduria).trim() : 'Sin pagaduría'; porPagaduria[p] = (porPagaduria[p]||0) + 1; });
+  const pagaduriasOrdenadas = Object.keys(porPagaduria).sort(function(a,b){ return porPagaduria[b]-porPagaduria[a]; });
 
-  // Ancho dinámico para que quepan todas las entidades sin apretarse (barras verticales)
+  // Ancho dinámico para que quepan todas las pagadurías sin apretarse (barras verticales)
   const anchoPorBarra = 78;
-  const anchoMinimo = Math.max(entidadesOrdenadas.length * anchoPorBarra, 100);
+  const anchoMinimo = Math.max(pagaduriasOrdenadas.length * anchoPorBarra, 100);
   document.getElementById('innerBarAsesor').style.minWidth = anchoMinimo+'px';
 
   if(chartBarAsesor) chartBarAsesor.destroy();
   chartBarAsesor = new Chart(document.getElementById('barAsesor'), {
     type:'bar',
-    data:{ labels: entidadesOrdenadas, datasets:[{ label:'Asociados', data: entidadesOrdenadas.map(function(e){return porEntidad[e];}), backgroundColor:'#045078', hoverBackgroundColor:'#297780', borderRadius:6, maxBarThickness:46 }] },
+    data:{ labels: pagaduriasOrdenadas, datasets:[{ label:'Asociados', data: pagaduriasOrdenadas.map(function(p){return porPagaduria[p];}), backgroundColor:'#045078', hoverBackgroundColor:'#297780', borderRadius:6, maxBarThickness:46 }] },
     options:{
       responsive:true, maintainAspectRatio:false,
       layout:{ padding:{ top:26 } },
@@ -905,7 +910,7 @@ function renderEntidades(){
         datalabels:{ anchor:'end', align:'top', color:'#0B2530', font:{weight:'700', size:11} }
       },
       scales:{
-        x:{ ticks:{ autoSkip:false, font:{size:10.5, weight:'500'}, maxRotation:55, minRotation:entidadesOrdenadas.length>6?45:0 }, grid:{ display:false } },
+        x:{ ticks:{ autoSkip:false, font:{size:10.5, weight:'500'}, maxRotation:55, minRotation:pagaduriasOrdenadas.length>6?45:0 }, grid:{ display:false } },
         y:{ beginAtZero:true, grid:{ color:'rgba(11,37,48,.06)' } }
       }
     }
@@ -1015,7 +1020,7 @@ function renderDirectorio(){
   const q = normTxt(document.getElementById('searchDir').value);
   let filas = DATA.directorioTodos();
   if(asesor) filas = filas.filter(function(r){ return r.asesor === asesor; });
-  if(entidadSel) filas = filas.filter(function(r){ return unificarEtiqueta(r.entidad) === entidadSel; });
+  if(entidadSel) filas = filas.filter(function(r){ return normTxt(r.entidad) === normTxt(entidadSel); });
   if(q) filas = filas.filter(function(r){ return normTxt(r.entidad).indexOf(q)>-1 || normTxt(r.nombre).indexOf(q)>-1; });
 
   document.getElementById('tagDirTotal').textContent = filas.length.toLocaleString('es-CO') + ' contactos';
