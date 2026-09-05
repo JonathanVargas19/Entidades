@@ -32,14 +32,18 @@
   .nav-btns{display:flex;gap:8px;flex-wrap:wrap;}
   .nav-btn{background:var(--panel-2);color:var(--texto-sec);border:1px solid var(--borde);padding:9px 16px;border-radius:8px;font-family:'Poppins';font-size:12px;font-weight:500;cursor:pointer;transition:.15s;}
   .nav-btn.active{background:var(--azul-comp1);color:#FFFFFF;font-weight:700;border-color:var(--azul-comp1);}
-  .nav-btn:hover{border-color:var(--azul-comp1);box-shadow:0 0 12px rgba(2,115,191,.30);}
+  .nav-btn:hover{border-color:var(--azul-primario);box-shadow:0 8px 18px rgba(0,0,0,.16);transform:translateY(-2px);}
   .right-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
-  .refresh-btn{background:var(--azul-comp1);color:#FFFFFF;border:none;border-radius:8px;padding:10px 16px;font-family:'Poppins';font-weight:600;font-size:12px;cursor:pointer;transition:box-shadow .15s ease;}
-  .refresh-btn:hover{box-shadow:0 0 14px rgba(2,115,191,.45);}
-  .gold-btn{background:var(--dorado);color:var(--azul-primario);border:none;border-radius:8px;padding:10px 16px;font-family:'Poppins';font-weight:700;font-size:12px;cursor:pointer;transition:box-shadow .15s ease;}
-  .gold-btn:hover{box-shadow:0 0 14px rgba(210,187,29,.5);}
-  .ghost-btn{background:transparent;border:1px solid var(--borde);color:var(--texto-sec);border-radius:8px;padding:9px 14px;font-family:'Poppins';font-size:11.5px;font-weight:600;cursor:pointer;}
+  .refresh-btn{background:var(--azul-comp1);color:#FFFFFF;border:none;border-radius:8px;padding:10px 16px;font-family:'Poppins';font-weight:600;font-size:12px;cursor:pointer;transition:.15s ease;}
+  .refresh-btn:hover{box-shadow:0 8px 18px rgba(0,0,0,.22);transform:translateY(-2px);}
+  .gold-btn{background:var(--dorado);color:var(--azul-primario);border:none;border-radius:8px;padding:10px 16px;font-family:'Poppins';font-weight:700;font-size:12px;cursor:pointer;transition:.15s ease;}
+  .gold-btn:hover{box-shadow:0 8px 18px rgba(0,0,0,.22);transform:translateY(-2px);}
+  .ghost-btn{background:transparent;border:1px solid var(--borde);color:var(--texto-sec);border-radius:8px;padding:9px 14px;font-family:'Poppins';font-size:11.5px;font-weight:600;cursor:pointer;transition:.15s ease;}
+  .ghost-btn:hover{border-color:var(--azul-primario);color:var(--azul-primario);box-shadow:0 8px 18px rgba(0,0,0,.16);transform:translateY(-2px);}
   .badge-admin{background:var(--dorado);color:var(--azul-primario);font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;}
+  .mobile-toggle-btn{background:var(--panel);color:var(--azul-comp1);border:1px solid var(--borde);border-radius:8px;padding:9px 12px;font-family:'Poppins';font-size:14px;cursor:pointer;transition:.15s ease;line-height:1;}
+  .mobile-toggle-btn:hover{box-shadow:0 8px 18px rgba(0,0,0,.16);transform:translateY(-2px);}
+  .mobile-toggle-btn.active{background:var(--azul-comp1);color:#FFFFFF;}
 
   .view{display:none;}
   .view.active{display:block;animation:fade .25s ease;}
@@ -72,7 +76,8 @@
   .status.ok{color:var(--verde);} .status.err{color:var(--rojo);}
 
   .kpi-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:18px;}
-  .kpi{background:var(--panel);border:1px solid var(--borde);border-radius:10px;padding:16px 18px;position:relative;overflow:hidden;border-top:4px solid var(--azul-comp1);box-shadow:0 3px 10px rgba(0,0,0,.08);min-width:0;}
+  .kpi{background:var(--panel);border:1px solid var(--borde);border-radius:10px;padding:16px 18px;position:relative;overflow:hidden;border-top:4px solid var(--azul-comp1);box-shadow:0 3px 10px rgba(0,0,0,.08);min-width:0;transition:.2s ease;}
+  .kpi:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.16);border-color:var(--azul-primario);}
   .kpi.verde{border-top-color:var(--verde);} .kpi.dorado{border-top-color:var(--dorado);} .kpi.rojo{border-top-color:var(--rojo);}
   .kpi-label{font-size:10.5px;color:var(--texto-sec);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px;}
   .kpi-value{font-size:22px;font-weight:700;}
@@ -80,7 +85,8 @@
 
   .grid2{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:16px;margin-bottom:16px;}
   .grid3{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;margin-bottom:16px;}
-  .card{background:var(--panel);border:1px solid var(--borde);border-radius:10px;padding:16px 18px;box-shadow:0 3px 10px rgba(0,0,0,.08);min-width:0;}
+  .card{background:var(--panel);border:1px solid var(--borde);border-radius:10px;padding:16px 18px;box-shadow:0 3px 10px rgba(0,0,0,.08);min-width:0;transition:.2s ease;}
+  .card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.16);border-color:var(--azul-primario);}
   .card-title{font-size:13px;font-weight:600;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;}
   .card-title span.tag{font-size:10px;background:var(--panel-2);color:var(--texto-sec);padding:3px 8px;border-radius:6px;font-weight:400;}
   .full-width{grid-column:1 / -1;}
@@ -102,9 +108,9 @@
   .editable{border:1px solid transparent;background:transparent;width:100%;font-family:'Poppins';font-size:11.5px;color:var(--texto);padding:3px 4px;border-radius:4px;}
   .editable:focus{border-color:var(--azul-comp1);background:#FFFFFF;outline:none;}
   .row-actions{display:flex;gap:6px;}
-  .icon-btn{border:none;background:var(--panel-2);border-radius:6px;padding:5px 8px;cursor:pointer;font-size:12px;}
+  .icon-btn{border:none;background:var(--panel-2);border-radius:6px;padding:5px 8px;cursor:pointer;font-size:12px;transition:.15s ease;}
   .icon-btn.del{color:var(--rojo);}
-  .icon-btn:hover{box-shadow:0 0 8px rgba(0,0,0,.2);}
+  .icon-btn:hover{box-shadow:0 8px 16px rgba(0,0,0,.2);transform:translateY(-2px);}
 
   .banner{background:rgba(210,187,29,.15);border:1px solid var(--dorado);border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:12px;}
   .banner b{color:var(--azul-primario);}
@@ -117,7 +123,12 @@
   .cal-day.empty{background:transparent;border:none;cursor:default;}
   .cal-day.hoy{border-color:var(--dorado);border-width:2px;}
   .cal-day .num{font-weight:700;font-size:11.5px;}
-  .cal-evt{background:var(--azul-comp1);color:#fff;border-radius:5px;padding:2px 5px;font-size:9px;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .cal-evt{background:var(--azul-comp1);color:#fff;border-radius:5px;padding:2px 5px;font-size:9px;margin-top:3px;display:flex;align-items:center;justify-content:space-between;gap:4px;}
+  .cal-evt-nombre{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;flex:1;}
+  .cal-evt-acciones{display:flex;gap:3px;flex-shrink:0;}
+  .cal-evt-acciones button{border:none;background:rgba(255,255,255,.25);color:#fff;border-radius:3px;font-size:8px;cursor:pointer;padding:1px 3px;line-height:1.4;}
+  .cal-evt-acciones button:hover{background:rgba(255,255,255,.45);}
+  .cal-evt.cancelado{background:var(--rojo);opacity:.7;text-decoration:line-through;}
   .cal-nav{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
   .cal-nav button{background:var(--panel-2);border:1px solid var(--borde);border-radius:8px;padding:7px 12px;cursor:pointer;font-family:'Poppins';font-weight:700;}
   .cal-nav .mes-actual{font-size:15px;font-weight:700;min-width:170px;text-align:center;}
@@ -166,7 +177,7 @@
 
   <div id="appContent" style="display:none;">
     <div class="topbar">
-      <div class="logo-wrap">
+      <div class="logo-wrap" id="topbarLogoWrap">
         <div class="logo-chip"><img id="logoImg" src="" alt="COOPEBIS"></div>
       </div>
       <div class="nav-btns">
@@ -176,11 +187,13 @@
         <button class="nav-btn" data-view="directorio">Directorio</button>
         <button class="nav-btn" data-view="calendario">Calendario</button>
         <button class="nav-btn" data-view="visitas">Visitas</button>
+        <button class="nav-btn" data-view="admin" id="navBtnAdmin" style="display:none;">Panel admin</button>
       </div>
       <div class="right-actions">
         <span class="badge-admin" id="badgeAdmin" style="display:none;">ADMIN</span>
         <button class="gold-btn" id="btnExportarExcel" style="display:none;">Descargar Excel actualizado</button>
-        <button class="ghost-btn" id="btnBloquear">Bloquear</button>
+        <button class="mobile-toggle-btn" id="btnVistaMovil" title="Alternar vista móvil">📱 Vista móvil</button>
+        <button class="ghost-btn" id="btnBloquear">Cerrar sesión</button>
       </div>
     </div>
 
@@ -196,9 +209,6 @@
         <h1>Base Social COOPEBIS</h1>
         <p>Gestión de entidades, asesores, directorio y visitas comerciales</p>
       </div>
-      <div class="kpi-row" style="max-width:300px;margin:0 auto 30px;">
-        <div class="kpi dorado"><div class="kpi-label">Total asociados a la fecha</div><div class="kpi-value" id="kpiHomeTotal">-</div></div>
-      </div>
       <div class="home-cards">
         <div class="home-card" data-goto="entidades"><div class="icon">🏢</div><h3>Entidades</h3><p>Asesores, entidades y asociados por asesor. KPIs y filtros por mes, año y asesor.</p><div class="go">Ir a Entidades →</div></div>
         <div class="home-card" data-goto="asociados"><div class="icon">🔍</div><h3>Asociados</h3><p>Buscador por cédula o nombre con pagaduría, celular y asesor asignado.</p><div class="go">Ir a Asociados →</div></div>
@@ -213,6 +223,15 @@
         <div class="filter-group"><label>Año de afiliación</label><select id="fEntAnio"><option value="">Todos</option></select></div>
         <div class="filter-group"><label>Mes de afiliación</label><select id="fEntMes"><option value="">Todos</option></select></div>
         <div class="filter-group"><label>Asesor</label><select id="fEntAsesor"><option value="">Todos</option></select></div>
+        <div class="filter-group"><label>Entidad</label><select id="fEntEntidad"><option value="">Todas</option></select></div>
+        <div class="filter-group"><label>Rango de edad</label>
+          <select id="fEntRangoEdad">
+            <option value="">Todos</option>
+            <option value="1">Menores de 49 años</option>
+            <option value="2">Entre 50 y 59 años</option>
+            <option value="3">Mayores de 60 años</option>
+          </select>
+        </div>
         <div class="toolbar">
           <button class="refresh-btn" id="btnLimpiarEnt">Quitar filtros</button>
         </div>
@@ -228,12 +247,11 @@
         <div class="kpi"><div class="kpi-label">Menores de 49 años</div><div class="kpi-value" id="kpiEntEdad1">-</div></div>
         <div class="kpi"><div class="kpi-label">Entre 50 y 59 años</div><div class="kpi-value" id="kpiEntEdad2">-</div></div>
         <div class="kpi"><div class="kpi-label">Mayores de 60 años</div><div class="kpi-value" id="kpiEntEdad3">-</div></div>
-        <div class="kpi dorado"><div class="kpi-label">Total asociados a la fecha</div><div class="kpi-value" id="kpiEntGranTotal">-</div></div>
       </div>
 
       <div class="grid3">
         <div class="card">
-          <div class="card-title">Asociados por asesor <span class="tag">Según filtros</span></div>
+          <div class="card-title">Asociados por entidad <span class="tag">Según filtros</span></div>
           <div style="position:relative;height:300px;"><canvas id="barAsesor"></canvas></div>
         </div>
         <div class="card">
@@ -244,6 +262,7 @@
 
       <div class="card">
         <div class="card-title">Entidades y asociados por asesor <span class="tag" id="tagEntTabla">Todos los asesores</span></div>
+        <div class="search-box" style="margin-bottom:10px;"><input type="text" id="searchEntTabla" placeholder="Buscar por nombre de entidad o asesor…"></div>
         <div class="table-scroll full">
           <table id="tableEntAsesor"><thead><tr><th>Asesor</th><th>Entidad</th><th>Asociados</th></tr></thead><tbody></tbody></table>
         </div>
@@ -269,20 +288,10 @@
     <div class="view" id="view-directorio">
       <div class="filters">
         <div class="filter-group"><label>Asesor encargado</label><select id="fDirAsesor"><option value="">Todos</option></select></div>
+        <div class="filter-group"><label>Entidad</label><select id="fDirEntidad"><option value="">Todas</option></select></div>
         <div class="toolbar">
           <button class="refresh-btn" id="btnAgregarContacto" style="display:none;">+ Agregar contacto</button>
           <span class="status" id="statusDir"></span>
-        </div>
-      </div>
-
-      <div class="grid2">
-        <div class="card">
-          <div class="card-title">Contactos por entidad <span class="tag">Top 12</span></div>
-          <div style="position:relative;height:260px;"><canvas id="barDirEntidad"></canvas></div>
-        </div>
-        <div class="card">
-          <div class="card-title">Contactos por asesor <span class="tag">Directorio</span></div>
-          <div style="position:relative;height:260px;"><canvas id="pieDirAsesor"></canvas></div>
         </div>
       </div>
 
@@ -296,7 +305,10 @@
     </div>
 
     <div class="view" id="view-calendario">
-      <div id="bannerRecordatorio" class="banner" style="display:none;"></div>
+      <div id="bannerRecordatorio" class="banner" style="display:none;">
+        <div id="bannerRecordatorioTexto"></div>
+        <div style="text-align:right;margin-top:8px;"><button class="gold-btn" id="btnAceptarRecordatorio">Aceptar</button></div>
+      </div>
       <div class="filters">
         <div class="toolbar">
           <button class="refresh-btn" id="btnNuevoEvento">+ Nuevo evento</button>
@@ -346,6 +358,16 @@
       </div>
     </div>
 
+    <div class="view" id="view-admin">
+      <div class="card">
+        <div class="card-title">Panel administrativo · Sesiones <span class="tag" id="tagAdminSesiones">-</span></div>
+        <p style="font-size:11.5px;color:var(--texto-sec);margin-top:0;">Aquí puedes ver quién ha ingresado como usuario y cerrar su sesión de forma remota.</p>
+        <div class="table-scroll full">
+          <table id="tableAdminSesiones"><thead><tr><th>Nombre</th><th>Tipo</th><th>Hora de ingreso</th><th>Última actividad</th><th>Estado</th><th></th></tr></thead><tbody></tbody></table>
+        </div>
+      </div>
+    </div>
+
     </div>
   </div>
 
@@ -357,21 +379,52 @@
     <h3 id="modalEventoTitulo">Nuevo evento</h3>
     <div class="modal-grid">
       <div style="grid-column:1/-1;"><label>Entidad</label><input type="text" id="mEntidad" placeholder="Nombre de la entidad"></div>
-      <div><label>Fecha</label><input type="date" id="mFecha"></div>
-      <div><label>Asesor</label>
-        <select id="mAsesor">
-          <option value="">Seleccione</option>
-        </select>
+      <div style="grid-column:1/-1;">
+        <label>Asesores (puedes seleccionar varios)</label>
+        <div id="mAsesoresLista" style="display:flex;flex-wrap:wrap;gap:6px 14px;max-height:130px;overflow:auto;border:1px solid var(--borde);border-radius:8px;padding:10px;background:var(--panel-2);"></div>
       </div>
-      <div><label>Asesor (otro / no está en la lista)</label><input type="text" id="mAsesorOtro" placeholder="Escribir nombre"></div>
+      <div style="grid-column:1/-1;"><label>Otros asesores (no están en la lista, separados por coma)</label><input type="text" id="mAsesorOtro" placeholder="Ej: Nombre Apellido, Otro Nombre"></div>
+      <div><label>Fecha</label><input type="date" id="mFecha"></div>
       <div><label>Clientes que asistirán</label><input type="number" id="mAsistentes" min="0"></div>
       <div><label>Afiliaciones nuevas logradas</label><input type="number" id="mAfiliaciones" min="0"></div>
       <div style="grid-column:1/-1;"><label>Observaciones (material POP, crispetera, yoga de la risa, etc.)</label><textarea id="mObservaciones" rows="3" style="width:100%;"></textarea></div>
     </div>
+    <div class="status" id="statusModalEvento" style="margin-bottom:10px;"></div>
     <div class="modal-actions">
-      <button class="ghost-btn" id="btnCancelarEvento">Cancelar</button>
+      <button class="ghost-btn" id="btnCancelarEvento">Cerrar</button>
+      <button class="icon-btn del" id="btnCancelarEventoAgendado" style="display:none;">Cancelar evento</button>
       <button class="icon-btn del" id="btnEliminarEvento" style="display:none;">Eliminar evento</button>
       <button class="refresh-btn" id="btnGuardarEvento">Guardar evento</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="modalRecordatorio">
+  <div class="modal-box">
+    <h3>Recordatorio de calendario</h3>
+    <div id="modalRecordatorioTexto" style="font-size:12.5px;margin-bottom:14px;"></div>
+    <div class="modal-actions">
+      <button class="gold-btn" id="btnAceptarModalRecordatorio">Aceptar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="modalContacto">
+  <div class="modal-box">
+    <h3>Agregar contacto al directorio</h3>
+    <div class="modal-grid">
+      <div style="grid-column:1/-1;"><label>Entidad</label><input type="text" id="cEntidad" placeholder="Nombre de la entidad"></div>
+      <div style="grid-column:1/-1;"><label>Nombre</label><input type="text" id="cNombre" placeholder="Nombres y apellidos"></div>
+      <div><label>Cargo</label><input type="text" id="cCargo" placeholder="Cargo"></div>
+      <div><label>Tel. corporativo</label><input type="text" id="cTelCorp" placeholder="Teléfono corporativo"></div>
+      <div><label>Celular</label><input type="text" id="cCelular" placeholder="Número de celular"></div>
+      <div><label>Correo</label><input type="email" id="cCorreo" placeholder="Correo institucional"></div>
+      <div style="grid-column:1/-1;"><label>Dirección</label><input type="text" id="cDireccion" placeholder="Dirección"></div>
+    </div>
+    <div class="status" id="statusModalContacto" style="margin-bottom:10px;"></div>
+    <div class="modal-actions">
+      <button class="ghost-btn" id="btnCancelarContacto">Cancelar</button>
+      <button class="refresh-btn" id="btnGuardarContacto">Guardar contacto</button>
     </div>
   </div>
 </div>
@@ -396,6 +449,19 @@ const firebaseConfig = {
 let db = null;
 try{ firebase.initializeApp(firebaseConfig); db = firebase.firestore(); }catch(e){ console.error('Firebase no configurado:', e); }
 
+if(typeof ChartDataLabels !== 'undefined'){
+  Chart.register(ChartDataLabels);
+  Chart.defaults.set('plugins.datalabels', {
+    color:'#0B2530',
+    font:{ weight:'700', size:12 },
+    formatter: function(value){
+      if(value===null || value===undefined) return '';
+      if(typeof value === 'number') return value.toLocaleString('es-CO');
+      return value;
+    }
+  });
+}
+
 let ES_ADMIN = false;
 
 function mostrarApp(){
@@ -404,8 +470,17 @@ function mostrarApp(){
   document.getElementById('badgeAdmin').style.display = ES_ADMIN ? 'inline-block' : 'none';
   document.getElementById('btnExportarExcel').style.display = ES_ADMIN ? 'inline-block' : 'none';
   document.getElementById('btnAgregarContacto').style.display = ES_ADMIN ? 'inline-block' : 'none';
+  const navAdmin = document.getElementById('navBtnAdmin');
+  if(navAdmin) navAdmin.style.display = ES_ADMIN ? 'inline-block' : 'none';
+  const topbarLogo = document.getElementById('topbarLogoWrap');
+  if(topbarLogo) topbarLogo.style.display = 'none';
   cargarDatos();
+  if(ES_ADMIN) iniciarMonitoreoSesiones(); else registrarSesionUsuario();
 }
+document.getElementById('btnVistaMovil').addEventListener('click', function(){
+  document.body.classList.toggle('mobile');
+  this.classList.toggle('active');
+});
 function pedirAcceso(){
   if(sessionStorage.getItem('bs_admin') === '1'){ ES_ADMIN = true; mostrarApp(); return; }
   if(sessionStorage.getItem('bs_unlocked') === '1'){ ES_ADMIN = false; mostrarApp(); return; }
@@ -442,11 +517,103 @@ document.getElementById('btnEntrarAdminLock').addEventListener('click', function
 });
 document.getElementById('lockPwdAdmin').addEventListener('keydown', function(e){ if(e.key==='Enter') document.getElementById('btnEntrarAdminLock').click(); });
 document.getElementById('btnBloquear').addEventListener('click', function(){
+  cerrarSesionPropia();
   sessionStorage.removeItem('bs_admin');
   sessionStorage.removeItem('bs_unlocked');
   sessionStorage.removeItem('bs_nombre');
+  sessionStorage.removeItem('bs_session_id');
   location.reload();
 });
+
+/* ======================================================================
+   SESIONES / PANEL ADMINISTRATIVO
+====================================================================== */
+function generarIdSesion(){
+  return 'ses_' + Date.now() + '_' + Math.random().toString(36).slice(2,10);
+}
+function obtenerIdSesion(){
+  let id = sessionStorage.getItem('bs_session_id');
+  if(!id){ id = generarIdSesion(); sessionStorage.setItem('bs_session_id', id); }
+  return id;
+}
+let sesionMonitorInterval = null;
+async function registrarSesionUsuario(){
+  if(!db) return;
+  const id = obtenerIdSesion();
+  const nombre = sessionStorage.getItem('bs_nombre') || 'Usuario sin nombre';
+  const ahora = new Date().toISOString();
+  try{
+    const ref = db.collection('bs_sesiones').doc(id);
+    const snap = await ref.get();
+    if(!snap.exists){
+      await ref.set({ nombre: nombre, tipo:'Usuario', entrada: ahora, ultimaActividad: ahora, activo:true, forzarCierre:false });
+    } else {
+      await ref.update({ ultimaActividad: ahora, activo:true });
+    }
+  }catch(e){ console.error('No se pudo registrar la sesión:', e); return; }
+
+  if(sesionMonitorInterval) clearInterval(sesionMonitorInterval);
+  sesionMonitorInterval = setInterval(async function(){
+    if(!db) return;
+    try{
+      const ref = db.collection('bs_sesiones').doc(id);
+      const snap = await ref.get();
+      if(snap.exists){
+        const d = snap.data();
+        if(d.forzarCierre){
+          clearInterval(sesionMonitorInterval);
+          alert('El administrador ha cerrado tu sesión.');
+          sessionStorage.removeItem('bs_admin');
+          sessionStorage.removeItem('bs_unlocked');
+          sessionStorage.removeItem('bs_nombre');
+          sessionStorage.removeItem('bs_session_id');
+          location.reload();
+          return;
+        }
+      }
+      await ref.update({ ultimaActividad: new Date().toISOString() });
+    }catch(e){ /* silencioso */ }
+  }, 15000);
+}
+async function cerrarSesionPropia(){
+  if(!db) return;
+  const id = sessionStorage.getItem('bs_session_id');
+  if(!id) return;
+  if(sesionMonitorInterval) clearInterval(sesionMonitorInterval);
+  try{ await db.collection('bs_sesiones').doc(id).update({ activo:false }); }catch(e){}
+}
+function iniciarMonitoreoSesiones(){
+  if(sesionMonitorInterval) clearInterval(sesionMonitorInterval);
+  sesionMonitorInterval = setInterval(function(){
+    if(document.getElementById('view-admin').classList.contains('active')) renderPanelAdmin();
+  }, 15000);
+}
+async function renderPanelAdmin(){
+  const tbody = document.getElementById('tableAdminSesiones').querySelector('tbody');
+  if(!db){ tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--texto-sec);">Firebase no disponible</td></tr>'; return; }
+  try{
+    const snap = await db.collection('bs_sesiones').orderBy('entrada','desc').limit(100).get();
+    const sesiones = [];
+    snap.forEach(function(doc){ sesiones.push(Object.assign({id:doc.id}, doc.data())); });
+    document.getElementById('tagAdminSesiones').textContent = sesiones.filter(function(s){return s.activo;}).length + ' sesión(es) activa(s)';
+    tbody.innerHTML = sesiones.map(function(s){
+      const entrada = s.entrada ? new Date(s.entrada).toLocaleString('es-CO') : '-';
+      const actividad = s.ultimaActividad ? new Date(s.ultimaActividad).toLocaleString('es-CO') : '-';
+      const estado = s.forzarCierre ? 'Cierre solicitado' : (s.activo ? 'Activa' : 'Cerrada');
+      const pill = s.forzarCierre ? 'rojo' : (s.activo ? 'aprob' : 'otro');
+      const boton = (s.activo && !s.forzarCierre) ? '<button class="icon-btn del" data-cerrar-sesion="'+s.id+'">Cerrar sesión</button>' : '';
+      return '<tr><td>'+(s.nombre||'-')+'</td><td>'+(s.tipo||'Usuario')+'</td><td>'+entrada+'</td><td>'+actividad+'</td>' +
+        '<td><span class="pill '+pill+'">'+estado+'</span></td><td>'+boton+'</td></tr>';
+    }).join('') || '<tr><td colspan="6" style="text-align:center;color:var(--texto-sec);">Sin sesiones registradas</td></tr>';
+    tbody.querySelectorAll('[data-cerrar-sesion]').forEach(function(btn){
+      btn.addEventListener('click', async function(){
+        if(!confirm('¿Cerrar la sesión de este usuario?')) return;
+        await db.collection('bs_sesiones').doc(btn.dataset.cerrarSesion).update({ forzarCierre:true });
+        renderPanelAdmin();
+      });
+    });
+  }catch(e){ tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--texto-sec);">Error al cargar sesiones: '+e.message+'</td></tr>'; }
+}
 
 /* ======================================================================
    CARGA Y PROCESAMIENTO DE DATOS (base_social.xlsx vía SheetJS)
@@ -568,7 +735,7 @@ async function cargarDatos(){
 
     poblarFiltros();
     renderTodo();
-    document.getElementById('kpiHomeTotal').textContent = DATA.base.length.toLocaleString('es-CO');
+    mostrarRecordatorioSiHay();
 
     document.getElementById('cargandoDatos').style.display = 'none';
     document.getElementById('contenidoPrincipal').style.display = 'block';
@@ -609,11 +776,17 @@ function poblarFiltros(){
   llenarSelect('fVisMes', mesesArr, 'Todos');
   llenarSelect('fVisAsesor', asesoresArr, 'Todos');
 
-  const entidadesArr = [...new Set(DATA.base.map(function(r){return r.entidad;}))].sort().map(function(e){ return {v:e,t:e}; });
+  const entidadesUnificadas = [...new Set(DATA.base.map(function(r){return unificarEtiqueta(r.entidad);}))].sort();
+  const entidadesArr = entidadesUnificadas.map(function(e){ return {v:e,t:e}; });
   llenarSelect('fVisEntidad', entidadesArr, 'Todas');
+  llenarSelect('fEntEntidad', entidadesArr, 'Todas');
+  llenarSelect('fDirEntidad', entidadesArr, 'Todas');
 
-  const selAsesorModal = document.getElementById('mAsesor');
-  selAsesorModal.innerHTML = '<option value="">Seleccione</option>' + ASESORES_LISTA.map(function(a){ return '<option value="'+a+'">'+a+'</option>'; }).join('');
+  const selAsesorModal = document.getElementById('mAsesoresLista');
+  selAsesorModal.innerHTML = ASESORES_LISTA.map(function(a, idx){
+    return '<label style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:400;text-transform:none;cursor:pointer;">' +
+      '<input type="checkbox" class="chk-asesor-evento" value="'+a.replace(/"/g,'&quot;')+'" id="chkAsesor'+idx+'"> '+a+'</label>';
+  }).join('');
 }
 
 DATA.directorioTodos = function(){ return DATA.directorioBase.concat(DATA.directorioExtra); };
@@ -630,6 +803,9 @@ function goTo(view){
   document.querySelectorAll('.view').forEach(function(v){ v.classList.remove('active'); });
   document.getElementById('view-'+view).classList.add('active');
   document.querySelectorAll('.nav-btn').forEach(function(b){ b.classList.toggle('active', b.dataset.view===view); });
+  const topbarLogo = document.getElementById('topbarLogoWrap');
+  if(topbarLogo) topbarLogo.style.display = (view==='home') ? 'none' : 'flex';
+  if(view==='admin') renderPanelAdmin();
   window.scrollTo({top:0,behavior:'smooth'});
 }
 document.querySelectorAll('.nav-btn').forEach(function(b){ b.addEventListener('click', function(){ goTo(b.dataset.view); }); });
@@ -639,24 +815,41 @@ document.querySelectorAll('[data-goto]').forEach(function(el){ el.addEventListen
    VISTA ENTIDADES
 ====================================================================== */
 let chartBarAsesor=null, chartPieContrato=null;
+
+// Unifica variantes de "sin asignar" / "no asignada" en una sola etiqueta
+function unificarEtiqueta(valor){
+  const v = normTxt(valor);
+  if(!v || v==='SIN ASIGNAR' || v==='NO ASIGNADA' || v==='NO ASIGNADO' || v==='SIN ASIGNAR/NO ASIGNADA') return 'Sin asignar';
+  return String(valor).trim();
+}
+
 function renderEntidades(){
   const anio = document.getElementById('fEntAnio').value;
   const mes = document.getElementById('fEntMes').value;
   const asesor = document.getElementById('fEntAsesor').value;
+  const entidadSel = document.getElementById('fEntEntidad').value;
+  const rangoEdad = document.getElementById('fEntRangoEdad').value;
+  const q = normTxt(document.getElementById('searchEntTabla') ? document.getElementById('searchEntTabla').value : '');
 
   const filtrado = DATA.base.filter(function(r){
     if(anio && String(r.anioAfil) !== anio) return false;
     if(mes && String(r.mesAfil) !== mes) return false;
     if(asesor && r.asesor !== asesor) return false;
+    if(entidadSel && unificarEtiqueta(r.entidad) !== entidadSel) return false;
+    if(rangoEdad){
+      if(r.edad===null) return false;
+      if(rangoEdad==='1' && !(r.edad < 49)) return false;
+      if(rangoEdad==='2' && !(r.edad >= 50 && r.edad <= 59)) return false;
+      if(rangoEdad==='3' && !(r.edad > 59)) return false;
+    }
     return true;
   });
 
   const total = filtrado.length;
   const totalGeneral = DATA.base.length;
   document.getElementById('kpiEntTotal').textContent = total.toLocaleString('es-CO');
-  document.getElementById('kpiEntTotalMeta').textContent = (anio||mes||asesor) ? 'Según filtros aplicados' : 'Sin filtros (todos)';
+  document.getElementById('kpiEntTotalMeta').textContent = (anio||mes||asesor||entidadSel||rangoEdad) ? 'Según filtros aplicados' : 'Sin filtros (todos, total '+totalGeneral.toLocaleString('es-CO')+')';
   document.getElementById('kpiEntPct').textContent = totalGeneral ? ((total/totalGeneral*100).toFixed(1)+'%') : '0%';
-  document.getElementById('kpiEntGranTotal').textContent = totalGeneral.toLocaleString('es-CO');
 
   let f=0, m=0, e1=0, e2=0, e3=0;
   const porContrato = {};
@@ -669,7 +862,7 @@ function renderEntidades(){
       else if(r.edad <= 59) e2++;
       else e3++;
     }
-    const tc = r.tipoContrato || 'Sin dato';
+    const tc = unificarEtiqueta(r.tipoContrato || 'Sin dato');
     porContrato[tc] = (porContrato[tc]||0) + 1;
   });
   document.getElementById('kpiEntF').textContent = f.toLocaleString('es-CO') + (total? ' ('+(f/total*100).toFixed(0)+'%)':'');
@@ -678,46 +871,53 @@ function renderEntidades(){
   document.getElementById('kpiEntEdad2').textContent = e2.toLocaleString('es-CO');
   document.getElementById('kpiEntEdad3').textContent = e3.toLocaleString('es-CO');
 
-  // Asociados por asesor
-  const porAsesor = {};
-  filtrado.forEach(function(r){ porAsesor[r.asesor] = (porAsesor[r.asesor]||0) + 1; });
-  const asesoresOrdenados = Object.keys(porAsesor).sort(function(a,b){ return porAsesor[b]-porAsesor[a]; });
+  // Asociados por entidad
+  const porEntidad = {};
+  filtrado.forEach(function(r){ const e = unificarEtiqueta(r.entidad); porEntidad[e] = (porEntidad[e]||0) + 1; });
+  const entidadesOrdenadas = Object.keys(porEntidad).sort(function(a,b){ return porEntidad[b]-porEntidad[a]; });
 
   if(chartBarAsesor) chartBarAsesor.destroy();
   chartBarAsesor = new Chart(document.getElementById('barAsesor'), {
     type:'bar',
-    data:{ labels: asesoresOrdenados, datasets:[{ label:'Asociados', data: asesoresOrdenados.map(function(a){return porAsesor[a];}), backgroundColor:'#045078', borderRadius:5 }] },
-    options:{ responsive:true, maintainAspectRatio:false, indexAxis:'y', plugins:{legend:{display:false}} }
+    data:{ labels: entidadesOrdenadas, datasets:[{ label:'Asociados', data: entidadesOrdenadas.map(function(e){return porEntidad[e];}), backgroundColor:'#045078', borderRadius:5 }] },
+    options:{ responsive:true, maintainAspectRatio:false, indexAxis:'y', plugins:{legend:{display:false}, datalabels:{anchor:'end', align:'end'}} }
   });
 
   const contratosOrdenados = Object.keys(porContrato).sort(function(a,b){ return porContrato[b]-porContrato[a]; });
   const paletaContrato = ['#045078','#50D6DD','#D2BB1D','#2E9E6C','#D14550','#297780','#8a6a2f','#012E3F','#5C6B73'];
   if(chartPieContrato) chartPieContrato.destroy();
   chartPieContrato = new Chart(document.getElementById('pieContrato'), {
-    type:'doughnut',
-    data:{ labels: contratosOrdenados, datasets:[{ data: contratosOrdenados.map(function(c){return porContrato[c];}), backgroundColor: paletaContrato }] },
-    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'bottom', labels:{boxWidth:10, font:{size:9}}}} }
+    type:'bar',
+    data:{ labels: contratosOrdenados, datasets:[{ label:'Asociados', data: contratosOrdenados.map(function(c){return porContrato[c];}), backgroundColor: paletaContrato, borderRadius:5 }] },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}, datalabels:{anchor:'end', align:'top'}}, scales:{ x:{ ticks:{ autoSkip:false, font:{size:10} } } } }
   });
 
-  // Tabla asesor -> entidad -> cantidad
+  // Tabla asesor -> entidad -> cantidad (entidades unificadas por nombre)
   const porAsesorEntidad = {};
   filtrado.forEach(function(r){
-    const k = r.asesor + '|||' + r.entidad;
-    porAsesorEntidad[k] = (porAsesorEntidad[k]||0) + 1;
+    const entidadUnificada = unificarEtiqueta(r.entidad);
+    const k = r.asesor + '|||' + normTxt(entidadUnificada);
+    if(!porAsesorEntidad[k]) porAsesorEntidad[k] = { asesor:r.asesor, entidad:entidadUnificada, cantidad:0 };
+    porAsesorEntidad[k].cantidad++;
   });
-  const filas = Object.keys(porAsesorEntidad).map(function(k){
-    const parts = k.split('|||');
-    return { asesor: parts[0], entidad: parts[1], cantidad: porAsesorEntidad[k] };
-  }).sort(function(a,b){ if(a.asesor!==b.asesor) return a.asesor.localeCompare(b.asesor); return b.cantidad-a.cantidad; });
+  let filas = Object.values(porAsesorEntidad)
+    .sort(function(a,b){ if(a.asesor!==b.asesor) return a.asesor.localeCompare(b.asesor); return b.cantidad-a.cantidad; });
 
-  document.getElementById('tagEntTabla').textContent = asesor ? asesor : (Object.keys(porAsesor).length+' asesores · '+filas.length+' entidades');
+  if(q){
+    filas = filas.filter(function(f){ return normTxt(f.entidad).indexOf(q)>-1 || normTxt(f.asesor).indexOf(q)>-1; });
+  }
+
+  const asesoresUnicos = new Set(filas.map(function(f){return f.asesor;}));
+  document.getElementById('tagEntTabla').textContent = asesor ? asesor : (asesoresUnicos.size+' asesores · '+filas.length+' entidades');
   document.getElementById('tableEntAsesor').querySelector('tbody').innerHTML = filas.map(function(f){
     return '<tr><td>'+f.asesor+'</td><td>'+f.entidad+'</td><td>'+f.cantidad.toLocaleString('es-CO')+'</td></tr>';
   }).join('') || '<tr><td colspan="3" style="text-align:center;color:var(--texto-sec);">Sin datos para los filtros seleccionados</td></tr>';
 }
-['fEntAnio','fEntMes','fEntAsesor'].forEach(function(id){ document.getElementById(id).addEventListener('change', renderEntidades); });
+['fEntAnio','fEntMes','fEntAsesor','fEntEntidad','fEntRangoEdad'].forEach(function(id){ document.getElementById(id).addEventListener('change', renderEntidades); });
+document.getElementById('searchEntTabla').addEventListener('input', renderEntidades);
 document.getElementById('btnLimpiarEnt').addEventListener('click', function(){
   document.getElementById('fEntAnio').value=''; document.getElementById('fEntMes').value=''; document.getElementById('fEntAsesor').value='';
+  document.getElementById('fEntEntidad').value=''; document.getElementById('fEntRangoEdad').value=''; document.getElementById('searchEntTabla').value='';
   renderEntidades();
 });
 
@@ -765,48 +965,29 @@ async function cargarDirectorioExtra(){
   }catch(e){ console.error('No se pudo cargar directorio extra:', e); }
 }
 
-let chartBarDirEnt=null, chartPieDirAsesor=null;
 function renderDirectorio(){
   const asesor = document.getElementById('fDirAsesor').value;
+  const entidadSel = document.getElementById('fDirEntidad').value;
   const q = normTxt(document.getElementById('searchDir').value);
   let filas = DATA.directorioTodos();
   if(asesor) filas = filas.filter(function(r){ return r.asesor === asesor; });
+  if(entidadSel) filas = filas.filter(function(r){ return unificarEtiqueta(r.entidad) === entidadSel; });
   if(q) filas = filas.filter(function(r){ return normTxt(r.entidad).indexOf(q)>-1 || normTxt(r.nombre).indexOf(q)>-1; });
 
   document.getElementById('tagDirTotal').textContent = filas.length.toLocaleString('es-CO') + ' contactos';
 
-  const porEntidad = {};
-  filas.forEach(function(r){ porEntidad[r.entidad] = (porEntidad[r.entidad]||0)+1; });
-  const topEnt = Object.keys(porEntidad).sort(function(a,b){return porEntidad[b]-porEntidad[a];}).slice(0,12);
-  if(chartBarDirEnt) chartBarDirEnt.destroy();
-  chartBarDirEnt = new Chart(document.getElementById('barDirEntidad'), {
-    type:'bar',
-    data:{ labels: topEnt, datasets:[{ label:'Contactos', data: topEnt.map(function(e){return porEntidad[e];}), backgroundColor:'#045078', borderRadius:5 }] },
-    options:{ responsive:true, maintainAspectRatio:false, indexAxis:'y', plugins:{legend:{display:false}} }
-  });
-
-  const porAsesorDir = {};
-  filas.forEach(function(r){ porAsesorDir[r.asesor] = (porAsesorDir[r.asesor]||0)+1; });
-  const asesoresDir = Object.keys(porAsesorDir);
-  const paleta = ['#045078','#50D6DD','#D2BB1D','#2E9E6C','#D14550','#297780','#8a6a2f'];
-  if(chartPieDirAsesor) chartPieDirAsesor.destroy();
-  chartPieDirAsesor = new Chart(document.getElementById('pieDirAsesor'), {
-    type:'doughnut',
-    data:{ labels: asesoresDir, datasets:[{ data: asesoresDir.map(function(a){return porAsesorDir[a];}), backgroundColor: paleta }] },
-    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'bottom', labels:{boxWidth:10, font:{size:9}}}} }
-  });
-
   const tbody = document.getElementById('tableDir').querySelector('tbody');
   if(!ES_ADMIN){
     tbody.innerHTML = filas.map(function(r){
-      return '<tr><td>'+r.entidad+'</td><td>'+r.nombre+'</td><td>'+r.cargo+'</td><td>'+r.telCorp+'</td><td>'+r.celular+'</td><td>'+r.correo+'</td><td>'+r.direccion+'</td><td>'+r.asesor+'</td><td></td></tr>';
+      return '<tr><td>'+unificarEtiqueta(r.entidad)+'</td><td>'+r.nombre+'</td><td>'+r.cargo+'</td><td>'+r.telCorp+'</td><td>'+r.celular+'</td><td>'+r.correo+'</td><td>'+r.direccion+'</td><td>'+r.asesor+'</td><td></td></tr>';
     }).join('') || '<tr><td colspan="9" style="text-align:center;color:var(--texto-sec);">Sin contactos</td></tr>';
     return;
   }
   tbody.innerHTML = filas.map(function(r){
     const campos = ['entidad','nombre','cargo','telCorp','celular','correo','direccion'];
     const tds = campos.map(function(c){
-      return '<td><input class="editable" data-id="'+r.id+'" data-campo="'+c+'" value="'+String(r[c]||'').replace(/"/g,'&quot;')+'"></td>';
+      const val = c==='entidad' ? unificarEtiqueta(r[c]) : (r[c]||'');
+      return '<td><input class="editable" data-id="'+r.id+'" data-campo="'+c+'" value="'+String(val).replace(/"/g,'&quot;')+'"></td>';
     }).join('');
     return '<tr>'+tds+'<td>'+r.asesor+'</td><td class="row-actions"><button class="icon-btn del" data-del="'+r.id+'">✕</button></td></tr>';
   }).join('') || '<tr><td colspan="9" style="text-align:center;color:var(--texto-sec);">Sin contactos</td></tr>';
@@ -825,6 +1006,7 @@ function renderDirectorio(){
   });
 }
 document.getElementById('fDirAsesor').addEventListener('change', renderDirectorio);
+document.getElementById('fDirEntidad').addEventListener('change', renderDirectorio);
 document.getElementById('searchDir').addEventListener('input', renderDirectorio);
 
 async function guardarCampoDirectorio(id, campo, valor){
@@ -862,17 +1044,35 @@ async function eliminarContactoDirectorio(id){
     renderDirectorio();
   }catch(e){ status.textContent='Error al eliminar: '+e.message; status.className='status err'; }
 }
-document.getElementById('btnAgregarContacto').addEventListener('click', async function(){
-  if(!db) return;
-  const entidad = prompt('Nombre de la entidad:'); if(!entidad) return;
-  const nombre = prompt('Nombre del analista de nómina:') || '';
+document.getElementById('btnAgregarContacto').addEventListener('click', function(){
+  ['cEntidad','cNombre','cCargo','cTelCorp','cCelular','cCorreo','cDireccion'].forEach(function(id){ document.getElementById(id).value=''; });
+  document.getElementById('statusModalContacto').textContent = '';
+  document.getElementById('modalContacto').classList.add('show');
+});
+document.getElementById('btnCancelarContacto').addEventListener('click', function(){
+  document.getElementById('modalContacto').classList.remove('show');
+});
+document.getElementById('btnGuardarContacto').addEventListener('click', async function(){
+  const status = document.getElementById('statusModalContacto');
+  const entidad = document.getElementById('cEntidad').value.trim();
+  const nombre = document.getElementById('cNombre').value.trim();
+  const cargo = document.getElementById('cCargo').value.trim();
+  const telCorp = document.getElementById('cTelCorp').value.trim();
+  const celular = document.getElementById('cCelular').value.trim();
+  const correo = document.getElementById('cCorreo').value.trim();
+  const direccion = document.getElementById('cDireccion').value.trim();
+  if(!entidad || !nombre){ status.textContent='Completa al menos la entidad y el nombre.'; status.className='status err'; return; }
+  if(!db){ status.textContent='Firebase no disponible'; status.className='status err'; return; }
   const key = normTxt(entidad);
   const asesor = DATA.entMap[key] || 'Sin asignar';
-  const payload = { entidad: entidad.trim(), nombre: nombre.trim(), cargo:'', telCorp:'', celular:'', correo:'', direccion:'', asesor: asesor };
-  const ref = await db.collection('bs_directorio').add(payload);
-  DATA.directorioExtra.push(Object.assign({id: ref.id, origen:'extra'}, payload));
-  poblarFiltros();
-  renderDirectorio();
+  const payload = { entidad: unificarEtiqueta(entidad), nombre: nombre, cargo: cargo, telCorp: telCorp, celular: celular, correo: correo, direccion: direccion, asesor: asesor };
+  try{
+    const ref = await db.collection('bs_directorio').add(payload);
+    DATA.directorioExtra.push(Object.assign({id: ref.id, origen:'extra'}, payload));
+    document.getElementById('modalContacto').classList.remove('show');
+    poblarFiltros();
+    renderDirectorio();
+  }catch(e){ status.textContent='Error al guardar: '+e.message; status.className='status err'; }
 });
 
 /* ======================================================================
@@ -890,19 +1090,60 @@ async function cargarEventos(){
 let calMesRef = new Date();
 let eventoEditandoId = null;
 
-function renderCalendario(){
-  // Recordatorio: eventos en los próximos 2 días
+let RECORDATORIOS_ACEPTADOS = [];
+try{ RECORDATORIOS_ACEPTADOS = JSON.parse(localStorage.getItem('bs_recordatorios_aceptados')||'[]'); }catch(e){ RECORDATORIOS_ACEPTADOS = []; }
+
+// Devuelve siempre un arreglo de asesores para un evento, compatible con datos antiguos (campo 'asesor' string)
+function asesoresDeEvento(ev){
+  if(Array.isArray(ev.asesores) && ev.asesores.length) return ev.asesores;
+  if(ev.asesor) return [ev.asesor];
+  return [];
+}
+function textoAsesoresEvento(ev){
+  const a = asesoresDeEvento(ev);
+  return a.length ? a.join(', ') : 'Sin asesor asignado';
+}
+
+function eventosPendientesRecordatorio(){
   const hoy = new Date(); hoy.setHours(0,0,0,0);
   const en2dias = new Date(hoy); en2dias.setDate(en2dias.getDate()+2);
-  const proximos = DATA.eventos.filter(function(ev){
+  return DATA.eventos.filter(function(ev){
+    if(ev.cancelado) return false;
     const f = new Date(ev.fecha+'T00:00:00');
-    return f >= hoy && f <= en2dias;
+    return f >= hoy && f <= en2dias && RECORDATORIOS_ACEPTADOS.indexOf(ev.id) === -1;
   }).sort(function(a,b){ return a.fecha.localeCompare(b.fecha); });
+}
+
+function textoRecordatorio(pendientes){
+  return '<b>Recordatorio:</b> tienes '+pendientes.length+' evento(s) programado(s) en los próximos 2 días.<ul>' +
+    pendientes.map(function(ev){ return '<li>'+ev.fecha+' · '+ev.entidad+' · '+textoAsesoresEvento(ev)+'</li>'; }).join('') + '</ul>';
+}
+
+function aceptarRecordatorios(){
+  const pendientes = eventosPendientesRecordatorio();
+  pendientes.forEach(function(ev){ if(RECORDATORIOS_ACEPTADOS.indexOf(ev.id)===-1) RECORDATORIOS_ACEPTADOS.push(ev.id); });
+  try{ localStorage.setItem('bs_recordatorios_aceptados', JSON.stringify(RECORDATORIOS_ACEPTADOS)); }catch(e){}
+  document.getElementById('modalRecordatorio').classList.remove('show');
+  renderCalendario();
+}
+document.getElementById('btnAceptarRecordatorio').addEventListener('click', aceptarRecordatorios);
+document.getElementById('btnAceptarModalRecordatorio').addEventListener('click', aceptarRecordatorios);
+
+function mostrarRecordatorioSiHay(){
+  const pendientes = eventosPendientesRecordatorio();
+  if(pendientes.length){
+    document.getElementById('modalRecordatorioTexto').innerHTML = textoRecordatorio(pendientes);
+    document.getElementById('modalRecordatorio').classList.add('show');
+  }
+}
+
+function renderCalendario(){
+  // Recordatorio: eventos en los próximos 2 días (persiste hasta que se acepte)
+  const proximos = eventosPendientesRecordatorio();
   const banner = document.getElementById('bannerRecordatorio');
   if(proximos.length){
     banner.style.display='block';
-    banner.innerHTML = '<b>Recordatorio:</b> tienes '+proximos.length+' evento(s) programado(s) en los próximos 2 días.<ul>' +
-      proximos.map(function(ev){ return '<li>'+ev.fecha+' · '+ev.entidad+' · '+ev.asesor+'</li>'; }).join('') + '</ul>';
+    document.getElementById('bannerRecordatorioTexto').innerHTML = textoRecordatorio(proximos);
   } else { banner.style.display='none'; }
 
   const anio = calMesRef.getFullYear(), mes = calMesRef.getMonth();
@@ -926,14 +1167,23 @@ function renderCalendario(){
     const esHoy = fechaStr === (hoy.toISOString().slice(0,10));
     const evs = eventosPorFecha[fechaStr] || [];
     html += '<div class="cal-day'+(esHoy?' hoy':'')+'" data-fecha="'+fechaStr+'"><div class="num">'+d+'</div>' +
-      evs.map(function(ev){ return '<div class="cal-evt" data-id="'+ev.id+'">'+ev.entidad+'</div>'; }).join('') + '</div>';
+      evs.map(function(ev){
+        return '<div class="cal-evt'+(ev.cancelado?' cancelado':'')+'" title="'+String(ev.entidad).replace(/"/g,'&quot;')+' · '+textoAsesoresEvento(ev).replace(/"/g,'&quot;')+'">' +
+          '<span class="cal-evt-nombre" data-id="'+ev.id+'">'+ev.entidad+(ev.cancelado?' (Cancelado)':'')+'</span>' +
+          '<span class="cal-evt-acciones">' +
+            '<button data-editar-evt="'+ev.id+'" title="Editar">✎</button>' +
+            (ev.cancelado ? '' : '<button data-cancelar-evt="'+ev.id+'" title="Cancelar">✕</button>') +
+          '</span></div>';
+      }).join('') + '</div>';
   }
   document.getElementById('calGrid').innerHTML = html;
 
   document.querySelectorAll('.cal-day[data-fecha]').forEach(function(el){
     el.addEventListener('click', function(e){
-      if(e.target.dataset.id){ abrirModalEvento(e.target.dataset.id); }
-      else{ abrirModalEvento(null, el.dataset.fecha); }
+      if(e.target.dataset.editarEvt){ abrirModalEvento(e.target.dataset.editarEvt); return; }
+      if(e.target.dataset.cancelarEvt){ cancelarEvento(e.target.dataset.cancelarEvt); return; }
+      if(e.target.dataset.id){ abrirModalEvento(e.target.dataset.id); return; }
+      abrirModalEvento(null, el.dataset.fecha);
     });
   });
 
@@ -941,34 +1191,59 @@ function renderCalendario(){
     .sort(function(a,b){ return a.fecha.localeCompare(b.fecha); });
   document.getElementById('tagCalMes').textContent = eventosMes.length + ' evento(s)';
   document.getElementById('tableCal').querySelector('tbody').innerHTML = eventosMes.map(function(ev){
-    return '<tr><td>'+ev.fecha+'</td><td>'+ev.entidad+'</td><td>'+ev.asesor+'</td><td>'+(ev.asistentes||0)+'</td><td>'+(ev.afiliaciones||0)+'</td><td>'+(ev.observaciones||'')+'</td>' +
-      '<td><button class="icon-btn" data-editar="'+ev.id+'">✎</button></td></tr>';
+    const estilo = ev.cancelado ? ' style="opacity:.6;text-decoration:line-through;"' : '';
+    const estadoPill = ev.cancelado ? ' <span class="pill rojo">Cancelado</span>' : '';
+    return '<tr'+estilo+'><td>'+ev.fecha+estadoPill+'</td><td>'+ev.entidad+'</td><td>'+textoAsesoresEvento(ev)+'</td><td>'+(ev.asistentes||0)+'</td><td>'+(ev.afiliaciones||0)+'</td><td>'+(ev.observaciones||'')+'</td>' +
+      '<td class="row-actions"><button class="icon-btn" data-editar="'+ev.id+'" title="Editar">✎</button>' +
+      (ev.cancelado ? '' : '<button class="icon-btn del" data-cancelar="'+ev.id+'" title="Cancelar evento">Cancelar</button>') + '</td></tr>';
   }).join('') || '<tr><td colspan="7" style="text-align:center;color:var(--texto-sec);">Sin eventos este mes</td></tr>';
   document.getElementById('tableCal').querySelectorAll('[data-editar]').forEach(function(btn){
     btn.addEventListener('click', function(){ abrirModalEvento(btn.dataset.editar); });
+  });
+  document.getElementById('tableCal').querySelectorAll('[data-cancelar]').forEach(function(btn){
+    btn.addEventListener('click', function(){ cancelarEvento(btn.dataset.cancelar); });
   });
 }
 document.getElementById('btnMesAnterior').addEventListener('click', function(){ calMesRef.setMonth(calMesRef.getMonth()-1); renderCalendario(); });
 document.getElementById('btnMesSiguiente').addEventListener('click', function(){ calMesRef.setMonth(calMesRef.getMonth()+1); renderCalendario(); });
 
+async function cancelarEvento(id){
+  if(!db){ alert('Firebase no disponible'); return; }
+  if(!confirm('¿Marcar este evento como cancelado? El evento se conserva en el historial.')) return;
+  try{
+    await db.collection('bs_calendario_eventos').doc(id).update({ cancelado: true });
+    const idx = DATA.eventos.findIndex(function(e){return e.id===id;});
+    if(idx>-1) DATA.eventos[idx].cancelado = true;
+    renderCalendario();
+    renderVisitas();
+  }catch(e){ alert('Error al cancelar: '+e.message); }
+}
+
 function abrirModalEvento(id, fechaPreset){
   eventoEditandoId = id;
   document.getElementById('modalEventoTitulo').textContent = id ? 'Editar evento' : 'Nuevo evento';
   document.getElementById('btnEliminarEvento').style.display = id ? 'inline-block' : 'none';
+  document.getElementById('btnCancelarEventoAgendado').style.display = 'none';
+  document.getElementById('statusModalEvento').textContent = '';
+  document.querySelectorAll('.chk-asesor-evento').forEach(function(chk){ chk.checked = false; });
   if(id){
     const ev = DATA.eventos.find(function(e){ return e.id === id; });
     document.getElementById('mEntidad').value = ev.entidad || '';
     document.getElementById('mFecha').value = ev.fecha || '';
-    const enLista = ASESORES_LISTA.indexOf(ev.asesor) > -1;
-    document.getElementById('mAsesor').value = enLista ? ev.asesor : '';
-    document.getElementById('mAsesorOtro').value = enLista ? '' : (ev.asesor || '');
+    const listaAsesores = asesoresDeEvento(ev);
+    const otros = [];
+    listaAsesores.forEach(function(a){
+      const chk = document.querySelector('.chk-asesor-evento[value="'+a.replace(/"/g,'&quot;')+'"]');
+      if(chk) chk.checked = true; else otros.push(a);
+    });
+    document.getElementById('mAsesorOtro').value = otros.join(', ');
     document.getElementById('mAsistentes').value = ev.asistentes || 0;
     document.getElementById('mAfiliaciones').value = ev.afiliaciones || 0;
     document.getElementById('mObservaciones').value = ev.observaciones || '';
+    if(!ev.cancelado) document.getElementById('btnCancelarEventoAgendado').style.display = 'inline-block';
   } else {
     document.getElementById('mEntidad').value = '';
     document.getElementById('mFecha').value = fechaPreset || '';
-    document.getElementById('mAsesor').value = '';
     document.getElementById('mAsesorOtro').value = '';
     document.getElementById('mAsistentes').value = '';
     document.getElementById('mAfiliaciones').value = '';
@@ -978,18 +1253,25 @@ function abrirModalEvento(id, fechaPreset){
 }
 document.getElementById('btnNuevoEvento').addEventListener('click', function(){ abrirModalEvento(null); });
 document.getElementById('btnCancelarEvento').addEventListener('click', function(){ document.getElementById('modalEvento').classList.remove('show'); });
+document.getElementById('btnCancelarEventoAgendado').addEventListener('click', function(){
+  if(!eventoEditandoId) return;
+  cancelarEvento(eventoEditandoId);
+  document.getElementById('modalEvento').classList.remove('show');
+});
 
 document.getElementById('btnGuardarEvento').addEventListener('click', async function(){
   const entidad = document.getElementById('mEntidad').value.trim();
   const fecha = document.getElementById('mFecha').value;
-  const asesor = document.getElementById('mAsesorOtro').value.trim() || document.getElementById('mAsesor').value;
+  const marcados = Array.from(document.querySelectorAll('.chk-asesor-evento:checked')).map(function(c){return c.value;});
+  const otros = document.getElementById('mAsesorOtro').value.split(',').map(function(s){return s.trim();}).filter(Boolean);
+  const asesores = Array.from(new Set(marcados.concat(otros)));
   const asistentes = Number(document.getElementById('mAsistentes').value) || 0;
   const afiliaciones = Number(document.getElementById('mAfiliaciones').value) || 0;
   const observaciones = document.getElementById('mObservaciones').value.trim();
-  const status = document.getElementById('statusCal');
-  if(!entidad || !fecha || !asesor){ status.textContent='Completa entidad, fecha y asesor.'; status.className='status err'; return; }
+  const status = document.getElementById('statusModalEvento');
+  if(!entidad || !fecha || !asesores.length){ status.textContent='Completa entidad, fecha y al menos un asesor.'; status.className='status err'; return; }
   if(!db){ status.textContent='Firebase no disponible'; status.className='status err'; return; }
-  const payload = { entidad, fecha, asesor, asistentes, afiliaciones, observaciones };
+  const payload = { entidad, fecha, asesores, asesor: asesores[0], asistentes, afiliaciones, observaciones, cancelado:false };
   try{
     if(eventoEditandoId){
       await db.collection('bs_calendario_eventos').doc(eventoEditandoId).update(payload);
@@ -1003,17 +1285,18 @@ document.getElementById('btnGuardarEvento').addEventListener('click', async func
     poblarFiltros();
     renderCalendario();
     renderVisitas();
-    status.textContent='Evento guardado'; status.className='status ok';
-  }catch(e){ status.textContent='Error al guardar: '+e.message; status.className='status err'; }
+  }catch(e){ status.textContent='Error al guardar: '+e.message+' — revisa las reglas de Firestore para la colección bs_calendario_eventos.'; status.className='status err'; }
 });
 document.getElementById('btnEliminarEvento').addEventListener('click', async function(){
   if(!eventoEditandoId || !db) return;
-  if(!confirm('¿Eliminar este evento?')) return;
-  await db.collection('bs_calendario_eventos').doc(eventoEditandoId).delete();
-  DATA.eventos = DATA.eventos.filter(function(e){ return e.id !== eventoEditandoId; });
-  document.getElementById('modalEvento').classList.remove('show');
-  renderCalendario();
-  renderVisitas();
+  if(!confirm('¿Eliminar este evento definitivamente?')) return;
+  try{
+    await db.collection('bs_calendario_eventos').doc(eventoEditandoId).delete();
+    DATA.eventos = DATA.eventos.filter(function(e){ return e.id !== eventoEditandoId; });
+    document.getElementById('modalEvento').classList.remove('show');
+    renderCalendario();
+    renderVisitas();
+  }catch(e){ document.getElementById('statusModalEvento').textContent='Error al eliminar: '+e.message; document.getElementById('statusModalEvento').className='status err'; }
 });
 
 /* ======================================================================
@@ -1028,11 +1311,12 @@ function renderVisitas(){
 
   const filtrado = DATA.eventos.filter(function(ev){
     if(!ev.fecha) return false;
+    if(ev.cancelado) return false;
     const f = new Date(ev.fecha+'T00:00:00');
     if(anio && String(f.getFullYear()) !== anio) return false;
     if(mes && String(f.getMonth()+1) !== mes) return false;
     if(entidad && ev.entidad !== entidad) return false;
-    if(asesor && ev.asesor !== asesor) return false;
+    if(asesor && asesoresDeEvento(ev).indexOf(asesor) === -1) return false;
     return true;
   });
 
@@ -1100,7 +1384,7 @@ document.getElementById('btnExportarExcel').addEventListener('click', function()
   XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(dirRows), 'DIRECTORIO');
 
   const calRows = DATA.eventos.map(function(ev){
-    return { 'Fecha': ev.fecha, 'Entidad': ev.entidad, 'Asesor': ev.asesor, 'Asistentes': ev.asistentes||0, 'Afiliaciones nuevas': ev.afiliaciones||0, 'Observaciones': ev.observaciones||'' };
+    return { 'Fecha': ev.fecha, 'Entidad': ev.entidad, 'Asesor(es)': asesoresDeEvento(ev).join(', '), 'Asistentes': ev.asistentes||0, 'Afiliaciones nuevas': ev.afiliaciones||0, 'Cancelado': ev.cancelado ? 'Sí' : 'No', 'Observaciones': ev.observaciones||'' };
   });
   XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(calRows), 'CALENDARIO');
 
