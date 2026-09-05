@@ -1,0 +1,1774 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COOPEBIS - Base Social</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+<style>
+  :root{
+    --azul-primario:#012E3F; --azul-secundario:#297780; --azul-comp1:#045078;
+    --turquesa:#50D6DD; --dorado:#D2BB1D;
+    --panel:#FFFFFF; --panel-2:#F0F3F5; --borde:#1A1A1A;
+    --texto:#0B2530; --texto-sec:#5C6B73;
+    --verde:#2E9E6C; --rojo:#D14550;
+    --fondo:#EEF2F4; --fondo-2:#E4EAED;
+  }
+  *{box-sizing:border-box;font-family:'Poppins',sans-serif;}
+  body{margin:0;font-family:'Poppins',sans-serif;background:linear-gradient(160deg, var(--fondo) 0%, var(--fondo-2) 100%);background-attachment:fixed;color:var(--texto);}
+  .app{max-width:1440px;margin:0 auto;padding:18px 22px 40px;position:relative;}
+  .signature{text-align:right;padding:18px 10px 4px;font-size:10.5px;color:var(--texto-sec);opacity:.85;}
+
+  .topbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;padding:26px 4px 14px;margin-bottom:10px;border-bottom:1px solid var(--borde);}
+  .logo-wrap{display:flex;align-items:center;gap:12px;}
+  .logo-chip{background:#FFFFFF;border:1.5px solid #1A1A1A;border-radius:10px;padding:6px 10px;display:inline-flex;align-items:center;box-shadow:0 2px 6px rgba(0,0,0,.10);}
+  .logo-chip img{height:40px;display:block;}
+  .nav-btns{display:flex;gap:8px;flex-wrap:wrap;}
+  .nav-btn{background:var(--panel-2);color:var(--texto-sec);border:1px solid var(--borde);padding:9px 16px;border-radius:8px;font-family:'Poppins';font-size:12px;font-weight:500;cursor:pointer;transition:.15s;}
+  .nav-btn.active{background:var(--azul-comp1);color:#FFFFFF;font-weight:700;border-color:var(--azul-comp1);}
+  .nav-btn:hover{border-color:var(--azul-primario);box-shadow:0 8px 18px rgba(0,0,0,.16);transform:translateY(-2px);}
+  .right-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+  .refresh-btn{background:var(--azul-comp1);color:#FFFFFF;border:none;border-radius:8px;padding:10px 16px;font-family:'Poppins';font-weight:600;font-size:12px;cursor:pointer;transition:.15s ease;}
+  .refresh-btn:hover{box-shadow:0 8px 18px rgba(0,0,0,.22);transform:translateY(-2px);}
+  .gold-btn{background:var(--dorado);color:var(--azul-primario);border:none;border-radius:8px;padding:10px 16px;font-family:'Poppins';font-weight:700;font-size:12px;cursor:pointer;transition:.15s ease;}
+  .gold-btn:hover{box-shadow:0 8px 18px rgba(0,0,0,.22);transform:translateY(-2px);}
+  .ghost-btn{background:transparent;border:1px solid var(--borde);color:var(--texto-sec);border-radius:8px;padding:9px 14px;font-family:'Poppins';font-size:11.5px;font-weight:600;cursor:pointer;transition:.15s ease;}
+  .ghost-btn:hover{border-color:var(--azul-primario);color:var(--azul-primario);box-shadow:0 8px 18px rgba(0,0,0,.16);transform:translateY(-2px);}
+  .badge-admin{background:var(--dorado);color:var(--azul-primario);font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;}
+  .mobile-toggle-btn{background:var(--panel);color:var(--azul-comp1);border:1px solid var(--borde);border-radius:8px;padding:9px 12px;font-family:'Poppins';font-size:14px;cursor:pointer;transition:.15s ease;line-height:1;}
+  .mobile-toggle-btn:hover{box-shadow:0 8px 18px rgba(0,0,0,.16);transform:translateY(-2px);}
+  .mobile-toggle-btn.active{background:var(--azul-comp1);color:#FFFFFF;}
+
+  .view{display:none;}
+  .view.active{display:block;animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+
+  .home-hero{text-align:center;padding:40px 20px 20px;}
+  .home-hero .logo-chip{padding:10px 16px;border-radius:14px;margin-bottom:18px;box-shadow:0 4px 14px rgba(0,0,0,.12);}
+  .home-hero .logo-chip img{height:64px;}
+  .home-hero h1{font-size:22px;font-weight:700;margin:0 0 6px;}
+  .home-hero p{color:var(--texto-sec);font-size:13px;margin:0;}
+  .home-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;max-width:1200px;margin:24px auto 0;}
+  .home-card{background:var(--panel);border:1px solid var(--borde);border-radius:12px;padding:17px 16px;cursor:pointer;transition:.2s;position:relative;overflow:hidden;box-shadow:0 3px 10px rgba(0,0,0,.08);}
+  .home-card:hover{border-color:var(--azul-primario);transform:translateY(-2px);box-shadow:0 8px 18px rgba(0,0,0,.14);}
+  .home-card::before{content:"";position:absolute;top:0;left:0;width:4px;height:100%;background:var(--azul-comp1);}
+  .home-card.gold::before{background:var(--dorado);}
+  .home-card .icon{font-size:20px;margin-bottom:8px;}
+  .home-card h3{font-size:13px;margin:0 0 6px;font-weight:600;}
+  .home-card p{font-size:10.5px;color:var(--texto-sec);margin:0 0 10px;line-height:1.45;}
+  .home-card .go{font-size:11.5px;color:var(--azul-comp1);font-weight:600;}
+  .home-card.gold .go{color:var(--dorado);}
+
+  .filters{display:flex;gap:10px;align-items:center;margin-bottom:18px;flex-wrap:wrap;}
+  select, input[type=text], input[type=number], input[type=date], input[type=email], textarea{
+    background:var(--panel-2);color:var(--texto);border:1px solid var(--borde);border-radius:8px;padding:9px 12px;font-family:'Poppins';font-size:12px;
+  }
+  .filters label{font-size:10px;color:var(--texto-sec);display:block;margin-bottom:3px;text-transform:uppercase;letter-spacing:.4px;}
+  .filter-group{display:flex;flex-direction:column;}
+  .toolbar{display:flex;align-items:center;gap:10px;margin-left:auto;flex-wrap:wrap;}
+  .status{font-size:10px;color:var(--texto-sec);}
+  .status.ok{color:var(--verde);} .status.err{color:var(--rojo);}
+
+  .kpi-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px;}
+  .kpi{background:linear-gradient(155deg,#FFFFFF 0%,#F4F7F8 100%);border:1px solid #D6DEE2;border-radius:12px;padding:12px 14px;position:relative;overflow:hidden;box-shadow:0 3px 10px rgba(1,46,63,.07);min-width:0;transition:.2s ease;}
+  .kpi::after{content:"";position:absolute;top:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,var(--azul-comp1),var(--turquesa));}
+  .kpi.verde::after{background:linear-gradient(90deg,var(--verde),#79d1a8);} .kpi.dorado::after{background:linear-gradient(90deg,var(--dorado),#e9d772);} .kpi.rojo::after{background:linear-gradient(90deg,var(--rojo),#e8898f);}
+  .kpi:hover{transform:translateY(-3px);box-shadow:0 10px 20px rgba(1,46,63,.14);border-color:var(--azul-comp1);}
+  .kpi-icon{position:absolute;top:10px;right:10px;font-size:16px;opacity:.16;line-height:1;}
+  .kpi-label{font-size:9.5px;color:var(--texto-sec);text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px;font-weight:600;}
+  .kpi-value{font-size:19px;font-weight:800;color:var(--azul-primario);letter-spacing:-.3px;}
+  .kpi-meta{font-size:9.5px;color:var(--texto-sec);margin-top:3px;}
+
+  .grid2{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:12px;margin-bottom:12px;}
+  .grid3{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;margin-bottom:12px;}
+  .card{background:var(--panel);border:1px solid #D6DEE2;border-radius:12px;padding:13px 15px;box-shadow:0 3px 12px rgba(1,46,63,.07);min-width:0;transition:.2s ease;position:relative;}
+  .card:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(1,46,63,.14);border-color:var(--azul-comp1);}
+  .card-title{font-size:12px;font-weight:700;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;color:var(--azul-primario);}
+  .card-title span.tag{font-size:10px;background:var(--panel-2);color:var(--texto-sec);padding:3px 8px;border-radius:6px;font-weight:400;}
+  .full-width{grid-column:1 / -1;}
+
+  table{width:100%;border-collapse:collapse;font-size:11.5px;}
+  th{text-align:left;color:#FFFFFF;background:var(--azul-comp1);padding:9px 10px;font-weight:600;font-size:10.5px;text-transform:uppercase;}
+  th:first-child{border-radius:6px 0 0 6px;} th:last-child{border-radius:0 6px 6px 0;}
+  td{padding:8px 10px;border-bottom:1px solid #D8DEE2;}
+  tr:nth-child(even) td{background:var(--panel-2);}
+  .table-scroll{max-height:420px;overflow:auto;}
+  .table-scroll.full{max-height:560px;}
+  .pill{padding:3px 9px;border-radius:20px;font-size:9.5px;font-weight:600;white-space:nowrap;}
+  .pill.aprob{background:rgba(46,158,108,.18);color:var(--verde);}
+  .pill.otro{background:rgba(2,115,191,.2);color:var(--azul-comp1);}
+  .pill.rojo{background:rgba(224,85,91,.18);color:var(--rojo);}
+  .search-box{display:flex;gap:8px;align-items:center;}
+  .search-box input{flex:1;min-width:160px;}
+
+  .editable{border:1px solid transparent;background:transparent;width:100%;font-family:'Poppins';font-size:11.5px;color:var(--texto);padding:3px 4px;border-radius:4px;}
+  .editable:focus{border-color:var(--azul-comp1);background:#FFFFFF;outline:none;}
+  .row-actions{display:flex;gap:6px;}
+  .icon-btn{border:none;background:var(--panel-2);border-radius:6px;padding:5px 8px;cursor:pointer;font-size:12px;transition:.15s ease;}
+  .icon-btn.del{color:var(--rojo);}
+  .icon-btn:hover{box-shadow:0 8px 16px rgba(0,0,0,.2);transform:translateY(-2px);}
+
+  .banner{background:rgba(210,187,29,.15);border:1px solid var(--dorado);border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:12px;}
+  .banner b{color:var(--azul-primario);}
+  .banner ul{margin:6px 0 0;padding-left:18px;}
+
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;}
+  .cal-dow{font-size:10px;text-transform:uppercase;color:var(--texto-sec);text-align:center;padding:4px 0;font-weight:700;}
+  .cal-day{background:var(--panel-2);border:1px solid var(--borde);border-radius:8px;min-height:82px;padding:6px;font-size:10.5px;cursor:pointer;transition:.15s;position:relative;}
+  .cal-day:hover{border-color:var(--azul-comp1);box-shadow:0 0 10px rgba(2,115,191,.25);}
+  .cal-day.empty{background:transparent;border:none;cursor:default;}
+  .cal-day.hoy{border-color:var(--dorado);border-width:2px;}
+  .cal-day .num{font-weight:700;font-size:11.5px;}
+  .cal-evt{background:var(--azul-comp1);color:#fff;border-radius:5px;padding:2px 5px;font-size:9px;margin-top:3px;display:flex;align-items:center;justify-content:space-between;gap:4px;}
+  .cal-evt-nombre{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;flex:1;}
+  .cal-evt-acciones{display:flex;gap:3px;flex-shrink:0;}
+  .cal-evt-acciones button{border:none;background:rgba(255,255,255,.25);color:#fff;border-radius:3px;font-size:8px;cursor:pointer;padding:1px 3px;line-height:1.4;}
+  .cal-evt-acciones button:hover{background:rgba(255,255,255,.45);}
+  .cal-evt.cancelado{background:var(--rojo);opacity:.7;text-decoration:line-through;}
+  .cal-nav{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+  .cal-nav button{background:var(--panel-2);border:1px solid var(--borde);border-radius:8px;padding:7px 12px;cursor:pointer;font-family:'Poppins';font-weight:700;}
+  .cal-nav .mes-actual{font-size:15px;font-weight:700;min-width:170px;text-align:center;}
+
+  .modal-backdrop{display:none;position:fixed;inset:0;background:rgba(1,46,63,.55);z-index:50;align-items:center;justify-content:center;padding:20px;}
+  .modal-backdrop.show{display:flex;}
+  .modal-box{background:var(--panel);border-radius:14px;padding:24px;max-width:560px;width:100%;max-height:88vh;overflow:auto;box-shadow:0 20px 50px rgba(0,0,0,.3);}
+  .modal-box h3{margin:0 0 16px;font-size:16px;color:var(--azul-primario);}
+  .modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px;margin-bottom:14px;}
+  .modal-grid label{font-size:10px;color:var(--texto-sec);text-transform:uppercase;display:block;margin-bottom:3px;}
+  .modal-grid select,.modal-grid input,.modal-grid textarea{width:100%;}
+  .modal-actions{display:flex;justify-content:flex-end;gap:10px;}
+
+  body.mobile .app{max-width:430px;}
+  body.mobile .kpi-row{grid-template-columns:1fr 1fr !important;}
+  body.mobile .grid2,body.mobile .grid3{grid-template-columns:1fr !important;}
+  body.mobile .modal-grid{grid-template-columns:1fr !important;}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div id="lockScreen" style="min-height:70vh;display:flex;align-items:center;justify-content:center;flex-direction:column;">
+    <div class="logo-chip" style="margin-bottom:22px;"><img id="logoLock" src="" alt="COOPEBIS"></div>
+    <div style="background:var(--panel);border:1px solid var(--borde);border-radius:16px;padding:34px;max-width:400px;width:100%;box-shadow:0 8px 24px rgba(0,0,0,.12);">
+      <div id="userLockForm">
+        <h3 style="margin:0 0 18px;font-size:19px;text-align:center;color:var(--azul-primario);">Base Social · Acceso</h3>
+        <label style="font-size:13px;color:var(--texto-sec);text-transform:uppercase;font-weight:600;">Nombre completo</label>
+        <input type="text" id="lockNombre" style="width:100%;margin:6px 0 16px;font-size:15px;padding:12px 14px;">
+        <label style="font-size:13px;color:var(--texto-sec);text-transform:uppercase;font-weight:600;">Contraseña</label>
+        <input type="password" id="lockPwd" style="width:100%;margin:6px 0 18px;font-size:15px;padding:12px 14px;">
+        <button class="refresh-btn" id="btnEntrarLock" style="width:100%;font-size:14px;padding:13px 16px;">Ingresar</button>
+        <div id="lockMsg" style="font-size:13px;color:var(--rojo);margin-top:10px;min-height:18px;text-align:center;"></div>
+        <div style="text-align:center;margin-top:16px;"><button class="ghost-btn" id="toAdminLock" style="font-size:13px;padding:10px 16px;">Acceso administrador</button></div>
+      </div>
+      <div id="adminLockForm" style="display:none;">
+        <h3 style="margin:0 0 18px;font-size:19px;text-align:center;color:var(--azul-primario);">Acceso administrador</h3>
+        <label style="font-size:13px;color:var(--texto-sec);text-transform:uppercase;font-weight:600;">Contraseña de administrador</label>
+        <input type="password" id="lockPwdAdmin" style="width:100%;margin:6px 0 18px;font-size:15px;padding:12px 14px;">
+        <button class="gold-btn" id="btnEntrarAdminLock" style="width:100%;font-size:14px;padding:13px 16px;">Ingresar como administrador</button>
+        <div id="lockMsgAdmin" style="font-size:13px;color:var(--rojo);margin-top:10px;min-height:18px;text-align:center;"></div>
+        <div style="text-align:center;margin-top:16px;"><button class="ghost-btn" id="toUserLock" style="font-size:13px;padding:10px 16px;">Volver</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="appContent" style="display:none;">
+    <div class="topbar">
+      <div class="logo-wrap" id="topbarLogoWrap">
+        <div class="logo-chip"><img id="logoImg" src="" alt="COOPEBIS"></div>
+      </div>
+      <div class="nav-btns">
+        <button class="nav-btn" data-view="home">Inicio</button>
+        <button class="nav-btn" data-view="entidades">Entidades</button>
+        <button class="nav-btn" data-view="asociados">Asociados</button>
+        <button class="nav-btn" data-view="directorio">Directorio</button>
+        <button class="nav-btn" data-view="calendario">Calendario</button>
+        <button class="nav-btn" data-view="visitas">Visitas</button>
+        <button class="nav-btn" data-view="asesores">Asesores</button>
+        <button class="nav-btn" data-view="admin" id="navBtnAdmin" style="display:none;">Panel admin</button>
+      </div>
+      <div class="right-actions">
+        <span class="badge-admin" id="badgeAdmin" style="display:none;">ADMIN</span>
+        <button class="gold-btn" id="btnExportarExcel" style="display:none;">Descargar Excel actualizado</button>
+        <button class="mobile-toggle-btn" id="btnVistaMovil" title="Alternar vista móvil">📱 Vista móvil</button>
+        <button class="ghost-btn" id="btnBloquear">Cerrar sesión</button>
+      </div>
+    </div>
+
+    <div id="cargandoDatos" style="text-align:center;padding:60px 20px;color:var(--texto-sec);">
+      Cargando base_social.xlsx…
+    </div>
+
+    <div id="contenidoPrincipal" style="display:none;">
+
+    <div class="view active" id="view-home">
+      <div class="home-hero">
+        <div class="logo-chip"><img id="logoHero" src="" alt="COOPEBIS"></div>
+        <h1>Base Social COOPEBIS</h1>
+        <p>Gestión de entidades, asesores, directorio y visitas comerciales</p>
+      </div>
+      <div class="home-cards">
+        <div class="home-card" data-goto="entidades"><div class="icon">🏢</div><h3>Entidades</h3><p>Asesores, entidades y asociados por asesor. KPIs y filtros por mes, año y asesor.</p><div class="go">Ir a Entidades →</div></div>
+        <div class="home-card" data-goto="asociados"><div class="icon">🔍</div><h3>Asociados</h3><p>Buscador por cédula o nombre con pagaduría, celular y asesor asignado.</p><div class="go">Ir a Asociados →</div></div>
+        <div class="home-card gold" data-goto="directorio"><div class="icon">📇</div><h3>Directorio</h3><p>Analistas de nómina por pagaduría: contacto, correo y dirección.</p><div class="go">Ir a Directorio →</div></div>
+        <div class="home-card" data-goto="calendario"><div class="icon">📅</div><h3>Calendario</h3><p>Ferias, stands y visitas: asistentes, afiliaciones y observaciones.</p><div class="go">Ir a Calendario →</div></div>
+        <div class="home-card gold" data-goto="visitas"><div class="icon">📈</div><h3>Visitas</h3><p>Frecuencia de visitas por entidad, asistentes y afiliaciones nuevas.</p><div class="go">Ir a Visitas →</div></div>
+        <div class="home-card" data-goto="asesores"><div class="icon">🧑‍💼</div><h3>Asesores</h3><p>Entidades asignadas y asociados a cargo de cada asesor, con gráficas.</p><div class="go">Ir a Asesores →</div></div>
+      </div>
+    </div>
+
+    <div class="view" id="view-entidades">
+      <div class="filters">
+        <div class="filter-group"><label>Año de afiliación</label><select id="fEntAnio"><option value="">Todos</option></select></div>
+        <div class="filter-group"><label>Mes de afiliación</label><select id="fEntMes"><option value="">Todos</option></select></div>
+        <div class="filter-group"><label>Asesor</label><select id="fEntAsesor"><option value="">Todos</option></select></div>
+        <div class="filter-group"><label>Pagaduría</label><select id="fEntEntidad"><option value="">Todas</option></select></div>
+        <div class="filter-group"><label>Rango de edad</label>
+          <select id="fEntRangoEdad">
+            <option value="">Todos</option>
+            <option value="1">Menores de 49 años</option>
+            <option value="2">Entre 50 y 59 años</option>
+            <option value="3">Mayores de 60 años</option>
+          </select>
+        </div>
+        <div class="toolbar">
+          <button class="refresh-btn" id="btnLimpiarEnt">Quitar filtros</button>
+        </div>
+      </div>
+
+      <div class="kpi-row">
+        <div class="kpi"><span class="kpi-icon">👥</span><div class="kpi-label">Afiliados (filtro actual)</div><div class="kpi-value" id="kpiEntTotal">-</div><div class="kpi-meta" id="kpiEntTotalMeta">-</div></div>
+        <div class="kpi dorado"><span class="kpi-icon">📊</span><div class="kpi-label">% de la base total</div><div class="kpi-value" id="kpiEntPct">-</div></div>
+        <div class="kpi verde"><span class="kpi-icon">♀</span><div class="kpi-label">Femenino</div><div class="kpi-value" id="kpiEntF">-</div></div>
+        <div class="kpi"><span class="kpi-icon">♂</span><div class="kpi-label">Masculino</div><div class="kpi-value" id="kpiEntM">-</div></div>
+      </div>
+      <div class="kpi-row">
+        <div class="kpi"><span class="kpi-icon">🎂</span><div class="kpi-label">Menores de 49 años</div><div class="kpi-value" id="kpiEntEdad1">-</div></div>
+        <div class="kpi"><span class="kpi-icon">🎂</span><div class="kpi-label">Entre 50 y 59 años</div><div class="kpi-value" id="kpiEntEdad2">-</div></div>
+        <div class="kpi"><span class="kpi-icon">🎂</span><div class="kpi-label">Mayores de 60 años</div><div class="kpi-value" id="kpiEntEdad3">-</div></div>
+      </div>
+
+      <div class="card full-width" style="margin-bottom:16px;">
+        <div class="card-title">Asociados por pagaduría <span class="tag">Todas las pagadurías · según filtros</span></div>
+        <div class="table-scroll" id="wrapBarAsesor" style="overflow-x:auto;overflow-y:hidden;">
+          <div id="innerBarAsesor" style="position:relative;height:300px;min-width:100%;"><canvas id="barAsesor"></canvas></div>
+        </div>
+      </div>
+      <div class="card full-width" style="margin-bottom:16px;">
+        <div class="card-title">Por tipo de contrato <span class="tag">Según filtros</span></div>
+        <div style="position:relative;height:300px;max-width:420px;margin:0 auto;"><canvas id="pieContrato"></canvas></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Pagadurías y asociados por asesor <span class="tag" id="tagEntTabla">Todos los asesores</span></div>
+        <div class="search-box" style="margin-bottom:10px;gap:10px;">
+          <input type="text" id="searchEntTabla" placeholder="Buscar por nombre de pagaduría o asesor…">
+          <button class="ghost-btn" id="btnOrdenarEntTabla" data-orden="desc" title="Ordenar por cantidad de afiliados">⇅ Mayor a menor</button>
+        </div>
+        <div class="table-scroll full">
+          <table id="tableEntAsesor"><thead><tr><th>Asesor</th><th>Pagaduría</th><th>Asociados</th></tr></thead><tbody></tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <div class="view" id="view-asociados">
+      <div class="filters">
+        <div class="filter-group"><label>Asesor</label><select id="fAsoAsesor"><option value="">Todos</option></select></div>
+        <div class="toolbar"><span class="status" id="statusAso"></span></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Asociados <span class="tag" id="tagAsoTotal">-</span></div>
+        <div class="search-box" style="margin-bottom:10px;">
+          <input type="text" id="searchAso" placeholder="Buscar por número de cédula o nombre…">
+        </div>
+        <div class="table-scroll full">
+          <table id="tableAso"><thead><tr><th>Cédula</th><th>Nombre</th><th>Pagaduría</th><th>Celular</th><th>Asesor asignado</th></tr></thead><tbody></tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <div class="view" id="view-directorio">
+      <div class="filters">
+        <div class="filter-group"><label>Asesor encargado</label><select id="fDirAsesor"><option value="">Todos</option></select></div>
+        <div class="filter-group"><label>Pagaduría</label><select id="fDirEntidad"><option value="">Todas</option></select></div>
+        <div class="toolbar">
+          <button class="refresh-btn" id="btnAgregarContacto" style="display:none;">+ Agregar contacto</button>
+          <span class="status" id="statusDir"></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Directorio de analistas de nómina <span class="tag" id="tagDirTotal">-</span></div>
+        <div class="search-box" style="margin-bottom:10px;"><input type="text" id="searchDir" placeholder="Buscar por pagaduría o nombre…"></div>
+        <div class="table-scroll full">
+          <table id="tableDir"><thead><tr><th>Pagaduría</th><th>Nombre</th><th>Cargo</th><th>Tel. corporativo</th><th>Celular</th><th>Correo</th><th>Dirección</th><th>Asesor</th><th></th></tr></thead><tbody></tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <div class="view" id="view-calendario">
+      <div id="bannerRecordatorio" class="banner" style="display:none;">
+        <div id="bannerRecordatorioTexto"></div>
+        <div style="text-align:right;margin-top:8px;"><button class="gold-btn" id="btnAceptarRecordatorio">Aceptar</button></div>
+      </div>
+      <div class="filters">
+        <div class="toolbar">
+          <button class="refresh-btn" id="btnNuevoEvento">+ Nuevo evento</button>
+          <span class="status" id="statusCal"></span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="cal-nav">
+          <button id="btnMesAnterior">←</button>
+          <div class="mes-actual" id="calMesActual">-</div>
+          <button id="btnMesSiguiente">→</button>
+        </div>
+        <div class="cal-grid" id="calGridDow"></div>
+        <div class="cal-grid" id="calGrid" style="margin-top:6px;"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Eventos del mes <span class="tag" id="tagCalMes">-</span></div>
+        <div class="table-scroll full">
+          <table id="tableCal"><thead><tr><th>Fecha</th><th>Entidad</th><th>Asesor</th><th>Asistentes</th><th>Afiliaciones</th><th>Observaciones</th><th></th></tr></thead><tbody></tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <div class="view" id="view-visitas">
+      <div class="filters">
+        <div class="filter-group"><label>Año</label><select id="fVisAnio"><option value="">Todos</option></select></div>
+        <div class="filter-group"><label>Mes</label><select id="fVisMes"><option value="">Todos</option></select></div>
+        <div class="filter-group"><label>Pagaduría</label><select id="fVisEntidad"><option value="">Todas</option></select></div>
+        <div class="filter-group"><label>Asesor</label><select id="fVisAsesor"><option value="">Todos</option></select></div>
+        <div class="toolbar">
+          <button class="gold-btn" id="btnExportarInformeVisitas">⬇ Descargar informe de visitas (Excel)</button>
+          <button class="refresh-btn" id="btnLimpiarVis">Quitar filtros</button>
+        </div>
+      </div>
+      <div class="kpi-row">
+        <div class="kpi"><span class="kpi-icon">📅</span><div class="kpi-label">Visitas realizadas</div><div class="kpi-value" id="kpiVisVisitas">-</div></div>
+        <div class="kpi verde"><span class="kpi-icon">👤</span><div class="kpi-label">Asistentes totales</div><div class="kpi-value" id="kpiVisAsistentes">-</div></div>
+        <div class="kpi dorado"><span class="kpi-icon">✅</span><div class="kpi-label">Afiliaciones nuevas</div><div class="kpi-value" id="kpiVisAfiliaciones">-</div></div>
+        <div class="kpi"><span class="kpi-icon">🏢</span><div class="kpi-label">Entidades visitadas</div><div class="kpi-value" id="kpiVisEntidades">-</div></div>
+      </div>
+      <div class="kpi-row">
+        <div class="kpi"><span class="kpi-icon">📈</span><div class="kpi-label">Promedio asistentes / visita</div><div class="kpi-value" id="kpiVisPromAsist">-</div></div>
+        <div class="kpi verde"><span class="kpi-icon">🎯</span><div class="kpi-label">Tasa de conversión</div><div class="kpi-value" id="kpiVisConversion">-</div><div class="kpi-meta">Afiliaciones / asistentes</div></div>
+        <div class="kpi dorado"><span class="kpi-icon">🚫</span><div class="kpi-label">Visitas canceladas</div><div class="kpi-value" id="kpiVisCanceladas">-</div></div>
+        <div class="kpi"><span class="kpi-icon">🏆</span><div class="kpi-label">Entidad más visitada</div><div class="kpi-value" id="kpiVisTopEntidad" style="font-size:15px;">-</div></div>
+      </div>
+      <div class="grid2">
+        <div class="card">
+          <div class="card-title">Veces que se visita cada entidad <span class="tag">Conteo de visitas</span></div>
+          <div style="position:relative;height:240px;"><canvas id="barVisitasEntidad"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Asistentes y afiliaciones por visita <span class="tag">Por entidad</span></div>
+          <div style="position:relative;height:240px;"><canvas id="barVisAsistAfil"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="view" id="view-asesores">
+      <div class="filters">
+        <div class="filter-group"><label>Asesor</label><select id="fAseAsesor"><option value="">Todos</option></select></div>
+        <div class="toolbar"><span class="status" id="statusAse"></span></div>
+      </div>
+      <div class="kpi-row" style="grid-template-columns:repeat(3,minmax(0,1fr));">
+        <div class="kpi"><span class="kpi-icon">🧑‍💼</span><div class="kpi-label">Asesores</div><div class="kpi-value" id="kpiAseAsesores">-</div></div>
+        <div class="kpi dorado"><span class="kpi-icon">🏢</span><div class="kpi-label">Entidades asignadas</div><div class="kpi-value" id="kpiAseEntidades">-</div></div>
+        <div class="kpi verde"><span class="kpi-icon">👥</span><div class="kpi-label">Asociados asignados</div><div class="kpi-value" id="kpiAseAsociados">-</div></div>
+      </div>
+      <div class="grid2">
+        <div class="card">
+          <div class="card-title">Entidades asignadas por asesor <span class="tag">Cantidad de entidades</span></div>
+          <div style="position:relative;height:280px;"><canvas id="barAseEntidadesPorAsesor"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Asociados asignados por asesor <span class="tag">Cantidad de asociados</span></div>
+          <div style="position:relative;height:280px;"><canvas id="barAseAsociadosPorAsesor"></canvas></div>
+        </div>
+      </div>
+      <div class="card full-width">
+        <div class="card-title">Detalle por asesor <span class="tag" id="tagAseDetalle">Selecciona un asesor</span></div>
+        <div id="aseDetalleVacio" style="font-size:11.5px;color:var(--texto-sec);text-align:center;padding:20px 10px;">Selecciona un asesor en el filtro de arriba para ver qué entidades tiene asignadas y cuántos asociados tiene en cada una.</div>
+        <div id="aseDetalleGrafico" style="position:relative;height:340px;display:none;"><canvas id="barAseDetalleEntidades"></canvas></div>
+      </div>
+    </div>
+
+    <div class="view" id="view-admin">
+      <div class="card">
+        <div class="card-title">Panel administrativo · Sesiones <span class="tag" id="tagAdminSesiones">-</span></div>
+        <p style="font-size:11.5px;color:var(--texto-sec);margin-top:0;">Aquí puedes ver quién ha ingresado como usuario y cerrar su sesión de forma remota.</p>
+        <div class="table-scroll full">
+          <table id="tableAdminSesiones"><thead><tr><th>Nombre</th><th>Tipo</th><th>Hora de ingreso</th><th>Última actividad</th><th>Estado</th><th></th></tr></thead><tbody></tbody></table>
+        </div>
+      </div>
+    </div>
+
+    </div>
+  </div>
+
+  <div class="signature">Creado por Jonathan Vargas</div>
+</div>
+
+<div class="modal-backdrop" id="modalEvento">
+  <div class="modal-box">
+    <h3 id="modalEventoTitulo">Nuevo evento</h3>
+    <div class="modal-grid">
+      <div style="grid-column:1/-1;"><label>Entidad</label><input type="text" id="mEntidad" placeholder="Nombre de la entidad"></div>
+      <div style="grid-column:1/-1;">
+        <label>Asesores (puedes seleccionar varios)</label>
+        <div id="mAsesoresLista" style="display:flex;flex-wrap:wrap;gap:6px 14px;max-height:130px;overflow:auto;border:1px solid var(--borde);border-radius:8px;padding:10px;background:var(--panel-2);"></div>
+      </div>
+      <div style="grid-column:1/-1;"><label>Otros asesores (no están en la lista, separados por coma)</label><input type="text" id="mAsesorOtro" placeholder="Ej: Nombre Apellido, Otro Nombre"></div>
+      <div><label>Fecha</label><input type="date" id="mFecha"></div>
+      <div><label>Clientes que asistirán</label><input type="number" id="mAsistentes" min="0"></div>
+      <div><label>Afiliaciones nuevas logradas</label><input type="number" id="mAfiliaciones" min="0"></div>
+      <div style="grid-column:1/-1;"><label>Observaciones (material POP, crispetera, yoga de la risa, etc.)</label><textarea id="mObservaciones" rows="3" style="width:100%;"></textarea></div>
+    </div>
+    <div class="status" id="statusModalEvento" style="margin-bottom:10px;"></div>
+    <div class="modal-actions">
+      <button class="ghost-btn" id="btnCancelarEvento">Cerrar</button>
+      <button class="icon-btn del" id="btnCancelarEventoAgendado" style="display:none;">Cancelar evento</button>
+      <button class="icon-btn del" id="btnEliminarEvento" style="display:none;">Eliminar evento</button>
+      <button class="refresh-btn" id="btnGuardarEvento">Guardar evento</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="modalRecordatorio">
+  <div class="modal-box">
+    <h3>Recordatorio de calendario</h3>
+    <div id="modalRecordatorioTexto" style="font-size:12.5px;margin-bottom:14px;"></div>
+    <div class="modal-actions">
+      <button class="gold-btn" id="btnAceptarModalRecordatorio">Aceptar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="modalContacto">
+  <div class="modal-box">
+    <h3>Agregar contacto al directorio</h3>
+    <div class="modal-grid">
+      <div style="grid-column:1/-1;"><label>Entidad</label><input type="text" id="cEntidad" placeholder="Nombre de la entidad"></div>
+      <div style="grid-column:1/-1;"><label>Nombre</label><input type="text" id="cNombre" placeholder="Nombres y apellidos"></div>
+      <div><label>Cargo</label><input type="text" id="cCargo" placeholder="Cargo"></div>
+      <div><label>Tel. corporativo</label><input type="text" id="cTelCorp" placeholder="Teléfono corporativo"></div>
+      <div><label>Celular</label><input type="text" id="cCelular" placeholder="Número de celular"></div>
+      <div><label>Correo</label><input type="email" id="cCorreo" placeholder="Correo institucional"></div>
+      <div style="grid-column:1/-1;"><label>Dirección</label><input type="text" id="cDireccion" placeholder="Dirección"></div>
+    </div>
+    <div class="status" id="statusModalContacto" style="margin-bottom:10px;"></div>
+    <div class="modal-actions">
+      <button class="ghost-btn" id="btnCancelarContacto">Cancelar</button>
+      <button class="refresh-btn" id="btnGuardarContacto">Guardar contacto</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="modalPin">
+  <div class="modal-box" style="max-width:340px;text-align:center;">
+    <h3 style="text-align:center;">Verificación requerida</h3>
+    <p style="font-size:11.5px;color:var(--texto-sec);margin-top:-10px;margin-bottom:14px;">Ingresa el PIN para programar, editar o eliminar eventos del calendario.</p>
+    <input type="password" id="pinInput" placeholder="PIN" maxlength="8" style="width:100%;font-size:18px;padding:11px 12px;text-align:center;letter-spacing:6px;">
+    <div id="pinMsg" style="font-size:11.5px;color:var(--rojo);min-height:16px;margin-top:8px;"></div>
+    <div class="modal-actions" style="justify-content:center;margin-top:10px;">
+      <button class="ghost-btn" id="btnPinCancelar">Cancelar</button>
+      <button class="refresh-btn" id="btnPinConfirmar">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const LOGO_B64 = "data:image/png;base64,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";
+document.getElementById('logoLock').src = LOGO_B64;
+document.getElementById('logoImg').src = LOGO_B64;
+document.getElementById('logoHero').src = LOGO_B64;
+
+/* ===== Acceso ===== */
+const ACCESS_PASSWORD = "112101";
+const ADMIN_PASSWORD = "Johnalexvgs279*";
+const firebaseConfig = {
+  apiKey: "AIzaSyADlRjCN3kbxQvsfe2-QxhDVtz4oKF6KOE",
+  authDomain: "coopebis-dashboard.firebaseapp.com",
+  projectId: "coopebis-dashboard",
+  storageBucket: "coopebis-dashboard.firebasestorage.app",
+  messagingSenderId: "788173435276",
+  appId: "1:788173435276:web:2ed65d0b856db2574ee6a9"
+};
+let db = null;
+try{ firebase.initializeApp(firebaseConfig); db = firebase.firestore(); }catch(e){ console.error('Firebase no configurado:', e); }
+
+if(typeof ChartDataLabels !== 'undefined'){
+  Chart.register(ChartDataLabels);
+  Chart.defaults.set('plugins.datalabels', {
+    color:'#0B2530',
+    font:{ weight:'700', size:12 },
+    formatter: function(value){
+      if(value===null || value===undefined) return '';
+      if(typeof value === 'number') return value.toLocaleString('es-CO');
+      return value;
+    }
+  });
+}
+
+let ES_ADMIN = false;
+
+/* ===== PIN de calendario (usuarios no administradores) ===== */
+const PIN_CALENDARIO = "1212";
+let _pinCallbackPendiente = null;
+function solicitarPin(callback){
+  if(ES_ADMIN){ callback(); return; }
+  _pinCallbackPendiente = callback;
+  const input = document.getElementById('pinInput');
+  document.getElementById('pinMsg').textContent = '';
+  input.value = '';
+  document.getElementById('modalPin').classList.add('show');
+  setTimeout(function(){ input.focus(); }, 60);
+}
+document.getElementById('btnPinCancelar').addEventListener('click', function(){
+  _pinCallbackPendiente = null;
+  document.getElementById('modalPin').classList.remove('show');
+});
+document.getElementById('btnPinConfirmar').addEventListener('click', function(){
+  const val = document.getElementById('pinInput').value;
+  if(val !== PIN_CALENDARIO){
+    document.getElementById('pinMsg').textContent = 'PIN incorrecto.';
+    return;
+  }
+  document.getElementById('modalPin').classList.remove('show');
+  const cb = _pinCallbackPendiente;
+  _pinCallbackPendiente = null;
+  if(cb) cb();
+});
+document.getElementById('pinInput').addEventListener('keydown', function(e){ if(e.key==='Enter') document.getElementById('btnPinConfirmar').click(); });
+
+function mostrarApp(){
+  document.getElementById('lockScreen').style.display = 'none';
+  document.getElementById('appContent').style.display = 'block';
+  document.getElementById('badgeAdmin').style.display = ES_ADMIN ? 'inline-block' : 'none';
+  document.getElementById('btnExportarExcel').style.display = ES_ADMIN ? 'inline-block' : 'none';
+  document.getElementById('btnAgregarContacto').style.display = ES_ADMIN ? 'inline-block' : 'none';
+  const navAdmin = document.getElementById('navBtnAdmin');
+  if(navAdmin) navAdmin.style.display = ES_ADMIN ? 'inline-block' : 'none';
+  const topbarLogo = document.getElementById('topbarLogoWrap');
+  if(topbarLogo) topbarLogo.style.display = 'none';
+  cargarDatos();
+  if(ES_ADMIN) iniciarMonitoreoSesiones(); else registrarSesionUsuario();
+}
+document.getElementById('btnVistaMovil').addEventListener('click', function(){
+  document.body.classList.toggle('mobile');
+  this.classList.toggle('active');
+});
+function pedirAcceso(){
+  if(sessionStorage.getItem('bs_admin') === '1'){ ES_ADMIN = true; mostrarApp(); return; }
+  if(sessionStorage.getItem('bs_unlocked') === '1'){ ES_ADMIN = false; mostrarApp(); return; }
+  document.getElementById('lockScreen').style.display = 'flex';
+  document.getElementById('appContent').style.display = 'none';
+}
+document.getElementById('toAdminLock').addEventListener('click', function(){
+  document.getElementById('userLockForm').style.display = 'none';
+  document.getElementById('adminLockForm').style.display = 'block';
+});
+document.getElementById('toUserLock').addEventListener('click', function(){
+  document.getElementById('adminLockForm').style.display = 'none';
+  document.getElementById('userLockForm').style.display = 'block';
+});
+document.getElementById('btnEntrarLock').addEventListener('click', function(){
+  const nombre = document.getElementById('lockNombre').value.trim();
+  const val = document.getElementById('lockPwd').value;
+  const msg = document.getElementById('lockMsg');
+  if(!nombre){ msg.textContent = 'Escribe tu nombre completo.'; return; }
+  if(val !== ACCESS_PASSWORD){ msg.textContent = 'Contraseña incorrecta.'; return; }
+  sessionStorage.setItem('bs_unlocked','1');
+  sessionStorage.setItem('bs_nombre', nombre);
+  ES_ADMIN = false;
+  mostrarApp();
+});
+document.getElementById('lockPwd').addEventListener('keydown', function(e){ if(e.key==='Enter') document.getElementById('btnEntrarLock').click(); });
+document.getElementById('btnEntrarAdminLock').addEventListener('click', function(){
+  const val = document.getElementById('lockPwdAdmin').value;
+  const msg = document.getElementById('lockMsgAdmin');
+  if(val !== ADMIN_PASSWORD){ msg.textContent = 'Contraseña de administrador incorrecta.'; return; }
+  sessionStorage.setItem('bs_admin','1');
+  ES_ADMIN = true;
+  mostrarApp();
+});
+document.getElementById('lockPwdAdmin').addEventListener('keydown', function(e){ if(e.key==='Enter') document.getElementById('btnEntrarAdminLock').click(); });
+document.getElementById('btnBloquear').addEventListener('click', function(){
+  cerrarSesionPropia();
+  sessionStorage.removeItem('bs_admin');
+  sessionStorage.removeItem('bs_unlocked');
+  sessionStorage.removeItem('bs_nombre');
+  sessionStorage.removeItem('bs_session_id');
+  location.reload();
+});
+
+/* ======================================================================
+   SESIONES / PANEL ADMINISTRATIVO
+====================================================================== */
+function generarIdSesion(){
+  return 'ses_' + Date.now() + '_' + Math.random().toString(36).slice(2,10);
+}
+function obtenerIdSesion(){
+  let id = sessionStorage.getItem('bs_session_id');
+  if(!id){ id = generarIdSesion(); sessionStorage.setItem('bs_session_id', id); }
+  return id;
+}
+let sesionMonitorInterval = null;
+async function registrarSesionUsuario(){
+  if(!db) return;
+  const id = obtenerIdSesion();
+  const nombre = sessionStorage.getItem('bs_nombre') || 'Usuario sin nombre';
+  const ahora = new Date().toISOString();
+  try{
+    const ref = db.collection('bs_sesiones').doc(id);
+    const snap = await ref.get();
+    if(!snap.exists){
+      await ref.set({ nombre: nombre, tipo:'Usuario', entrada: ahora, ultimaActividad: ahora, activo:true, forzarCierre:false });
+    } else {
+      await ref.update({ ultimaActividad: ahora, activo:true });
+    }
+  }catch(e){ console.error('No se pudo registrar la sesión:', e); return; }
+
+  if(sesionMonitorInterval) clearInterval(sesionMonitorInterval);
+  sesionMonitorInterval = setInterval(async function(){
+    if(!db) return;
+    try{
+      const ref = db.collection('bs_sesiones').doc(id);
+      const snap = await ref.get();
+      if(snap.exists){
+        const d = snap.data();
+        if(d.forzarCierre){
+          clearInterval(sesionMonitorInterval);
+          alert('El administrador ha cerrado tu sesión.');
+          sessionStorage.removeItem('bs_admin');
+          sessionStorage.removeItem('bs_unlocked');
+          sessionStorage.removeItem('bs_nombre');
+          sessionStorage.removeItem('bs_session_id');
+          location.reload();
+          return;
+        }
+      }
+      await ref.update({ ultimaActividad: new Date().toISOString() });
+    }catch(e){ /* silencioso */ }
+  }, 15000);
+}
+async function cerrarSesionPropia(){
+  if(!db) return;
+  const id = sessionStorage.getItem('bs_session_id');
+  if(!id) return;
+  if(sesionMonitorInterval) clearInterval(sesionMonitorInterval);
+  try{ await db.collection('bs_sesiones').doc(id).update({ activo:false }); }catch(e){}
+}
+function iniciarMonitoreoSesiones(){
+  if(sesionMonitorInterval) clearInterval(sesionMonitorInterval);
+  sesionMonitorInterval = setInterval(function(){
+    if(document.getElementById('view-admin').classList.contains('active')) renderPanelAdmin();
+  }, 15000);
+}
+async function renderPanelAdmin(){
+  const tbody = document.getElementById('tableAdminSesiones').querySelector('tbody');
+  if(!db){ tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--texto-sec);">Firebase no disponible</td></tr>'; return; }
+  try{
+    const snap = await db.collection('bs_sesiones').orderBy('entrada','desc').limit(100).get();
+    const sesiones = [];
+    snap.forEach(function(doc){ sesiones.push(Object.assign({id:doc.id}, doc.data())); });
+    document.getElementById('tagAdminSesiones').textContent = sesiones.filter(function(s){return s.activo;}).length + ' sesión(es) activa(s)';
+    tbody.innerHTML = sesiones.map(function(s){
+      const entrada = s.entrada ? new Date(s.entrada).toLocaleString('es-CO') : '-';
+      const actividad = s.ultimaActividad ? new Date(s.ultimaActividad).toLocaleString('es-CO') : '-';
+      const estado = s.forzarCierre ? 'Cierre solicitado' : (s.activo ? 'Activa' : 'Cerrada');
+      const pill = s.forzarCierre ? 'rojo' : (s.activo ? 'aprob' : 'otro');
+      const boton = (s.activo && !s.forzarCierre) ? '<button class="icon-btn del" data-cerrar-sesion="'+s.id+'">Cerrar sesión</button>' : '';
+      return '<tr><td>'+(s.nombre||'-')+'</td><td>'+(s.tipo||'Usuario')+'</td><td>'+entrada+'</td><td>'+actividad+'</td>' +
+        '<td><span class="pill '+pill+'">'+estado+'</span></td><td>'+boton+'</td></tr>';
+    }).join('') || '<tr><td colspan="6" style="text-align:center;color:var(--texto-sec);">Sin sesiones registradas</td></tr>';
+    tbody.querySelectorAll('[data-cerrar-sesion]').forEach(function(btn){
+      btn.addEventListener('click', async function(){
+        if(!confirm('¿Cerrar la sesión de este usuario?')) return;
+        await db.collection('bs_sesiones').doc(btn.dataset.cerrarSesion).update({ forzarCierre:true });
+        renderPanelAdmin();
+      });
+    });
+  }catch(e){ tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--texto-sec);">Error al cargar sesiones: '+e.message+'</td></tr>'; }
+}
+
+/* ======================================================================
+   CARGA Y PROCESAMIENTO DE DATOS (base_social.xlsx vía SheetJS)
+====================================================================== */
+const ARCHIVO = 'base_social.xlsx';
+const ASESORES_LISTA = [
+  "Anyileny Rodriguez Angarita","Bueno Amortegui Leonela","Contento Mendez Jorge Alejandro",
+  "Diego Fernando Moreno Acevedo","Diego Ochoa","Erika Julieth Raigoso Ibañez",
+  "Ingrid Julieth Gongora Chaguala","John Jairo Romero Marroquin","Karen Johana Cely Gomez",
+  "Laura Camila Castañeda Anzola","Leonela Bueno Amortegui","Maribel Cruz Arevalo",
+  "Pedraza Castillo Ingrid Patricia","Saira Libeth Arevalo Quintero"
+];
+
+let DATA = { base: [], entMap: {}, entMapOriginal: {}, directorioBase: [], directorioExtra: [], eventos: [] };
+let WB_ORIGINAL = null;
+
+function normTxt(v){ return (v===null||v===undefined) ? '' : String(v).trim().toUpperCase(); }
+
+async function cargarDatos(){
+  document.getElementById('cargandoDatos').style.display = 'block';
+  document.getElementById('contenidoPrincipal').style.display = 'none';
+  try{
+    const res = await fetch('./'+ARCHIVO+'?t='+Date.now(), {cache:'no-store'});
+    const buffer = await res.arrayBuffer();
+    const wb = XLSX.read(buffer, {type:'array', cellDates:true});
+    WB_ORIGINAL = wb;
+
+    const wsBase = wb.Sheets['BASE SOCIAL'];
+    const wsEnt = wb.Sheets['ENTIDADES'];
+    const wsDir = wb.Sheets['DIRECTORIO'];
+
+    const rawBase = wsBase ? XLSX.utils.sheet_to_json(wsBase, {defval:''}) : [];
+    const rawEnt = wsEnt ? XLSX.utils.sheet_to_json(wsEnt, {defval:''}) : [];
+    const rawDir = wsDir ? XLSX.utils.sheet_to_json(wsDir, {defval:''}) : [];
+
+    // Mapa Entidad -> Asesor (según hoja ENTIDADES)
+    const entMap = {};
+    const entMapOriginal = {};
+    rawEnt.forEach(function(r){
+      const nombre = r['ENTIDAD'];
+      const asesor = r['ASESOR'];
+      if(nombre){
+        const key = normTxt(nombre);
+        entMap[key] = asesor ? String(asesor).trim() : 'Sin asignar';
+        entMapOriginal[key] = String(nombre).trim();
+      }
+    });
+
+    // Procesar BASE SOCIAL: asignar asesor, edad, mes/año de afiliación
+    const base = [];
+    const hoy = new Date();
+    rawBase.forEach(function(r){
+      const cedula = r['Cedula'];
+      if(cedula === '' || cedula === null || cedula === undefined) return;
+      if(String(cedula).trim().toLowerCase() === 'cedula') return; // fila de encabezado duplicada
+
+      const pagaduria = r['Pagaduria'] ? String(r['Pagaduria']).trim() : '';
+      const labora = r['Entidad donde trabaja'] ? String(r['Entidad donde trabaja']).trim() : '';
+      const pagNorm = normTxt(pagaduria);
+      let entidadClave, entidadOriginal;
+      if(pagNorm === 'VENTANILLA'){
+        entidadClave = normTxt(labora);
+        entidadOriginal = labora || 'Ventanilla (sin entidad)';
+      } else {
+        entidadClave = pagNorm;
+        entidadOriginal = pagaduria || 'Sin pagaduría';
+      }
+      let asesor = 'Sin asignar';
+      if(entidadClave && entMap.hasOwnProperty(entidadClave)){
+        asesor = entMap[entidadClave] || 'Sin asignar';
+        if(!asesor) asesor = 'Sin asignar';
+        entidadOriginal = entMapOriginal[entidadClave];
+      }
+
+      let edad = null;
+      const fnac = r['Fecha Nacimiento'];
+      if(fnac instanceof Date && !isNaN(fnac)){
+        edad = hoy.getFullYear() - fnac.getFullYear();
+        const m = hoy.getMonth() - fnac.getMonth();
+        if(m < 0 || (m===0 && hoy.getDate() < fnac.getDate())) edad--;
+      }
+      let anioAfil = null, mesAfil = null;
+      const fafil = r['Fecha Ultima Afiliacion'];
+      if(fafil instanceof Date && !isNaN(fafil)){
+        anioAfil = fafil.getFullYear();
+        mesAfil = fafil.getMonth() + 1;
+      }
+
+      base.push({
+        cedula: cedula, nombre: r['Nombre'] || '', celular: r['Celular'] || '',
+        pagaduria: pagaduria, labora: labora, tipoContrato: r['Tipo de contrato'] || '',
+        genero: r['Genero'] || '', edad: edad, anioAfil: anioAfil, mesAfil: mesAfil,
+        entidadClave: entidadClave, entidad: entidadOriginal, asesor: asesor
+      });
+    });
+
+    DATA.base = base;
+    DATA.entMap = entMap;
+    DATA.entMapOriginal = entMapOriginal;
+
+    // Directorio base (de la hoja) + asesor asociado por entidad
+    DATA.directorioBase = rawDir.filter(function(r){ return r['Entidad']; }).map(function(r, idx){
+      const entKey = normTxt(r['Entidad']);
+      return {
+        id: 'base_'+idx,
+        entidad: String(r['Entidad']).trim(),
+        nombre: r['Nombres y Apellidos '] || r['Nombres y Apellidos'] || '',
+        cargo: r['Cargo'] || '',
+        telCorp: r['Tel. Corporativo'] || '',
+        celular: r['Número de celular'] || '',
+        correo: r['Correo Institucional '] || r['Correo Institucional'] || '',
+        direccion: r['Dirección '] || r['Dirección'] || '',
+        asesor: entMap[entKey] || 'Sin asignar',
+        origen: 'base'
+      };
+    });
+
+    await Promise.all([cargarDirectorioExtra(), cargarEventos()]);
+
+    poblarFiltros();
+    renderTodo();
+    mostrarRecordatorioSiHay();
+
+    document.getElementById('cargandoDatos').style.display = 'none';
+    document.getElementById('contenidoPrincipal').style.display = 'block';
+  }catch(e){
+    console.error(e);
+    document.getElementById('cargandoDatos').innerHTML =
+      'No se pudo cargar <b>'+ARCHIVO+'</b>. Verifica que el archivo esté en la misma carpeta que este HTML en el repositorio.<br><span style="font-size:11px;">'+e.message+'</span>';
+  }
+}
+
+function poblarFiltros(){
+  const anios = new Set(), meses = new Set(), asesores = new Set(), entidades = new Set();
+  DATA.base.forEach(function(r){
+    if(r.anioAfil) anios.add(r.anioAfil);
+    if(r.mesAfil) meses.add(r.mesAfil);
+    asesores.add(r.asesor);
+  });
+  DATA.directorioTodos().forEach(function(r){ asesores.add(r.asesor); });
+  const nombresMes = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
+  function llenarSelect(id, opciones, placeholder){
+    const el = document.getElementById(id);
+    const actual = el.value;
+    el.innerHTML = '<option value="">'+placeholder+'</option>' + opciones.map(function(o){ return '<option value="'+o.v+'">'+o.t+'</option>'; }).join('');
+    if([...opciones].some(function(o){return String(o.v)===actual;})) el.value = actual;
+  }
+
+  const aniosArr = [...anios].sort(function(a,b){return b-a;}).map(function(a){ return {v:a,t:a}; });
+  const mesesArr = [...meses].sort(function(a,b){return a-b;}).map(function(m){ return {v:m,t:nombresMes[m-1]}; });
+  const asesoresArr = [...asesores].sort().map(function(a){ return {v:a,t:a}; });
+
+  llenarSelect('fEntAnio', aniosArr, 'Todos');
+  llenarSelect('fEntMes', mesesArr, 'Todos');
+  llenarSelect('fEntAsesor', asesoresArr, 'Todos');
+  llenarSelect('fAsoAsesor', asesoresArr, 'Todos');
+  llenarSelect('fDirAsesor', asesoresArr, 'Todos');
+  llenarSelect('fVisAnio', aniosArr, 'Todos');
+  llenarSelect('fVisMes', mesesArr, 'Todos');
+  llenarSelect('fVisAsesor', asesoresArr, 'Todos');
+  llenarSelect('fAseAsesor', asesoresArr, 'Todos');
+
+  const pagaduriasUnicas = [...new Set(DATA.base.map(function(r){ return (r.pagaduria && String(r.pagaduria).trim()) ? String(r.pagaduria).trim() : 'Sin pagaduría'; }))].sort();
+  const pagaduriasArr = pagaduriasUnicas.map(function(p){ return {v:p,t:p}; });
+  llenarSelect('fVisEntidad', pagaduriasArr, 'Todas');
+  llenarSelect('fEntEntidad', pagaduriasArr, 'Todas');
+  llenarSelect('fDirEntidad', pagaduriasArr, 'Todas');
+
+  const selAsesorModal = document.getElementById('mAsesoresLista');
+  selAsesorModal.innerHTML = ASESORES_LISTA.map(function(a, idx){
+    return '<label style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:400;text-transform:none;cursor:pointer;">' +
+      '<input type="checkbox" class="chk-asesor-evento" value="'+a.replace(/"/g,'&quot;')+'" id="chkAsesor'+idx+'"> '+a+'</label>';
+  }).join('');
+}
+
+DATA.directorioTodos = function(){ return DATA.directorioBase.concat(DATA.directorioExtra); };
+
+function renderTodo(){
+  renderEntidades();
+  renderAsociados();
+  renderDirectorio();
+  renderCalendario();
+  renderVisitas();
+  renderAsesores();
+}
+
+function goTo(view){
+  document.querySelectorAll('.view').forEach(function(v){ v.classList.remove('active'); });
+  document.getElementById('view-'+view).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(function(b){ b.classList.toggle('active', b.dataset.view===view); });
+  const topbarLogo = document.getElementById('topbarLogoWrap');
+  if(topbarLogo) topbarLogo.style.display = (view==='home') ? 'none' : 'flex';
+  if(view==='admin') renderPanelAdmin();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.querySelectorAll('.nav-btn').forEach(function(b){ b.addEventListener('click', function(){ goTo(b.dataset.view); }); });
+document.querySelectorAll('[data-goto]').forEach(function(el){ el.addEventListener('click', function(){ goTo(el.dataset.goto); }); });
+
+/* ======================================================================
+   VISTA ENTIDADES
+====================================================================== */
+let chartBarAsesor=null, chartPieContrato=null;
+
+// Unifica variantes de "sin asignar" / "no asignada" en una sola etiqueta
+function unificarEtiqueta(valor){
+  const v = normTxt(valor);
+  if(!v || v==='SIN ASIGNAR' || v==='NO ASIGNADA' || v==='NO ASIGNADO' || v==='SIN ASIGNAR/NO ASIGNADA') return 'Sin asignar';
+  return String(valor).trim();
+}
+
+function renderEntidades(){
+  const anio = document.getElementById('fEntAnio').value;
+  const mes = document.getElementById('fEntMes').value;
+  const asesor = document.getElementById('fEntAsesor').value;
+  const entidadSel = document.getElementById('fEntEntidad').value;
+  const rangoEdad = document.getElementById('fEntRangoEdad').value;
+  const q = normTxt(document.getElementById('searchEntTabla') ? document.getElementById('searchEntTabla').value : '');
+
+  const filtrado = DATA.base.filter(function(r){
+    if(anio && String(r.anioAfil) !== anio) return false;
+    if(mes && String(r.mesAfil) !== mes) return false;
+    if(asesor && r.asesor !== asesor) return false;
+    if(entidadSel){
+      const pagFila = (r.pagaduria && String(r.pagaduria).trim()) ? String(r.pagaduria).trim() : 'Sin pagaduría';
+      if(pagFila !== entidadSel) return false;
+    }
+    if(rangoEdad){
+      if(r.edad===null) return false;
+      if(rangoEdad==='1' && !(r.edad < 49)) return false;
+      if(rangoEdad==='2' && !(r.edad >= 50 && r.edad <= 59)) return false;
+      if(rangoEdad==='3' && !(r.edad > 59)) return false;
+    }
+    return true;
+  });
+
+  const total = filtrado.length;
+  const totalGeneral = DATA.base.length;
+  document.getElementById('kpiEntTotal').textContent = total.toLocaleString('es-CO');
+  document.getElementById('kpiEntTotalMeta').textContent = (anio||mes||asesor||entidadSel||rangoEdad) ? 'Según filtros aplicados' : 'Sin filtros (todos, total '+totalGeneral.toLocaleString('es-CO')+')';
+  document.getElementById('kpiEntPct').textContent = totalGeneral ? ((total/totalGeneral*100).toFixed(1)+'%') : '0%';
+
+  let f=0, m=0, e1=0, e2=0, e3=0;
+  const porContrato = {};
+  filtrado.forEach(function(r){
+    const g = normTxt(r.genero);
+    if(g==='F' || g==='FEMENINO') f++;
+    else if(g==='M' || g==='MASCULINO') m++;
+    if(r.edad!==null){
+      if(r.edad < 49) e1++;
+      else if(r.edad <= 59) e2++;
+      else e3++;
+    }
+    const tc = unificarEtiqueta(r.tipoContrato || 'Sin dato');
+    porContrato[tc] = (porContrato[tc]||0) + 1;
+  });
+  document.getElementById('kpiEntF').textContent = f.toLocaleString('es-CO') + (total? ' ('+(f/total*100).toFixed(0)+'%)':'');
+  document.getElementById('kpiEntM').textContent = m.toLocaleString('es-CO') + (total? ' ('+(m/total*100).toFixed(0)+'%)':'');
+  document.getElementById('kpiEntEdad1').textContent = e1.toLocaleString('es-CO');
+  document.getElementById('kpiEntEdad2').textContent = e2.toLocaleString('es-CO');
+  document.getElementById('kpiEntEdad3').textContent = e3.toLocaleString('es-CO');
+
+  // Asociados por pagaduría
+  const porPagaduria = {};
+  filtrado.forEach(function(r){ const p = (r.pagaduria && String(r.pagaduria).trim()) ? String(r.pagaduria).trim() : 'Sin pagaduría'; porPagaduria[p] = (porPagaduria[p]||0) + 1; });
+  const pagaduriasOrdenadas = Object.keys(porPagaduria).sort(function(a,b){ return porPagaduria[b]-porPagaduria[a]; });
+
+  // Ancho dinámico para que quepan todas las pagadurías sin apretarse (barras verticales)
+  const anchoPorBarra = 78;
+  const anchoMinimo = Math.max(pagaduriasOrdenadas.length * anchoPorBarra, 100);
+  document.getElementById('innerBarAsesor').style.minWidth = anchoMinimo+'px';
+
+  if(chartBarAsesor) chartBarAsesor.destroy();
+  chartBarAsesor = new Chart(document.getElementById('barAsesor'), {
+    type:'bar',
+    data:{ labels: pagaduriasOrdenadas, datasets:[{ label:'Asociados', data: pagaduriasOrdenadas.map(function(p){return porPagaduria[p];}), backgroundColor:'#045078', hoverBackgroundColor:'#297780', borderRadius:6, maxBarThickness:46 }] },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      layout:{ padding:{ top:26 } },
+      plugins:{
+        legend:{display:false},
+        datalabels:{ anchor:'end', align:'top', color:'#0B2530', font:{weight:'700', size:11} }
+      },
+      scales:{
+        x:{ ticks:{ autoSkip:false, font:{size:10.5, weight:'500'}, maxRotation:55, minRotation:pagaduriasOrdenadas.length>6?45:0 }, grid:{ display:false } },
+        y:{ beginAtZero:true, grid:{ color:'rgba(11,37,48,.06)' } }
+      }
+    }
+  });
+
+  const contratosOrdenados = Object.keys(porContrato).sort(function(a,b){ return porContrato[b]-porContrato[a]; });
+  const paletaContrato = ['#045078','#50D6DD','#D2BB1D','#2E9E6C','#D14550','#297780','#8a6a2f','#012E3F','#5C6B73'];
+  if(chartPieContrato) chartPieContrato.destroy();
+  chartPieContrato = new Chart(document.getElementById('pieContrato'), {
+    type:'bar',
+    data:{ labels: contratosOrdenados, datasets:[{ label:'Asociados', data: contratosOrdenados.map(function(c){return porContrato[c];}), backgroundColor: paletaContrato, borderRadius:6, maxBarThickness:70 }] },
+    options:{ responsive:true, maintainAspectRatio:false, layout:{padding:{top:26}}, plugins:{legend:{display:false}, datalabels:{anchor:'end', align:'top', font:{weight:'700', size:12}}}, scales:{ x:{ ticks:{ autoSkip:false, font:{size:11.5, weight:'500'} }, grid:{display:false} }, y:{ beginAtZero:true, grid:{ color:'rgba(11,37,48,.06)' } } } }
+  });
+
+  // Tabla asesor -> pagaduría -> cantidad
+  const porAsesorPagaduria = {};
+  filtrado.forEach(function(r){
+    const pagFila = (r.pagaduria && String(r.pagaduria).trim()) ? String(r.pagaduria).trim() : 'Sin pagaduría';
+    const k = r.asesor + '|||' + normTxt(pagFila);
+    if(!porAsesorPagaduria[k]) porAsesorPagaduria[k] = { asesor:r.asesor, pagaduria:pagFila, cantidad:0 };
+    porAsesorPagaduria[k].cantidad++;
+  });
+  let filas = Object.values(porAsesorPagaduria);
+
+  const btnOrden = document.getElementById('btnOrdenarEntTabla');
+  const ordenActivo = btnOrden ? btnOrden.dataset.orden : '';
+  if(ordenActivo === 'desc'){
+    filas.sort(function(a,b){ return b.cantidad-a.cantidad; });
+  } else if(ordenActivo === 'asc'){
+    filas.sort(function(a,b){ return a.cantidad-b.cantidad; });
+  } else {
+    filas.sort(function(a,b){ if(a.asesor!==b.asesor) return a.asesor.localeCompare(b.asesor); return b.cantidad-a.cantidad; });
+  }
+
+  if(q){
+    filas = filas.filter(function(f){ return normTxt(f.pagaduria).indexOf(q)>-1 || normTxt(f.asesor).indexOf(q)>-1; });
+  }
+
+  const asesoresUnicos = new Set(filas.map(function(f){return f.asesor;}));
+  document.getElementById('tagEntTabla').textContent = asesor ? asesor : (asesoresUnicos.size+' asesores · '+filas.length+' pagadurías');
+  document.getElementById('tableEntAsesor').querySelector('tbody').innerHTML = filas.map(function(f){
+    return '<tr><td>'+f.asesor+'</td><td>'+f.pagaduria+'</td><td>'+f.cantidad.toLocaleString('es-CO')+'</td></tr>';
+  }).join('') || '<tr><td colspan="3" style="text-align:center;color:var(--texto-sec);">Sin datos para los filtros seleccionados</td></tr>';
+}
+['fEntAnio','fEntMes','fEntAsesor','fEntEntidad','fEntRangoEdad'].forEach(function(id){ document.getElementById(id).addEventListener('change', renderEntidades); });
+document.getElementById('searchEntTabla').addEventListener('input', renderEntidades);
+document.getElementById('btnLimpiarEnt').addEventListener('click', function(){
+  document.getElementById('fEntAnio').value=''; document.getElementById('fEntMes').value=''; document.getElementById('fEntAsesor').value='';
+  document.getElementById('fEntEntidad').value=''; document.getElementById('fEntRangoEdad').value=''; document.getElementById('searchEntTabla').value='';
+  renderEntidades();
+});
+document.getElementById('btnOrdenarEntTabla').addEventListener('click', function(){
+  const actual = this.dataset.orden;
+  if(actual === 'desc'){ this.dataset.orden = 'asc'; this.innerHTML = '⇅ Menor a mayor'; }
+  else if(actual === 'asc'){ this.dataset.orden = ''; this.innerHTML = '⇅ Orden por asesor'; }
+  else { this.dataset.orden = 'desc'; this.innerHTML = '⇅ Mayor a menor'; }
+  renderEntidades();
+});
+
+/* ======================================================================
+   VISTA ASOCIADOS
+====================================================================== */
+function renderAsociados(){
+  const asesor = document.getElementById('fAsoAsesor').value;
+  const q = normTxt(document.getElementById('searchAso').value);
+  document.getElementById('tagAsoTotal').textContent = DATA.base.length.toLocaleString('es-CO') + ' registros en total';
+
+  if(!asesor && !q){
+    document.getElementById('tableAso').querySelector('tbody').innerHTML =
+      '<tr><td colspan="5" style="text-align:center;color:var(--texto-sec);">Escribe una cédula/nombre o elige un asesor para ver resultados</td></tr>';
+    document.getElementById('statusAso').textContent = '';
+    return;
+  }
+  let filtrado = DATA.base;
+  if(asesor) filtrado = filtrado.filter(function(r){ return r.asesor === asesor; });
+  if(q) filtrado = filtrado.filter(function(r){ return normTxt(r.cedula).indexOf(q)>-1 || normTxt(r.nombre).indexOf(q)>-1; });
+
+  const limite = 500;
+  const mostrar = filtrado.slice(0, limite);
+  document.getElementById('statusAso').textContent = filtrado.length > limite ? ('Mostrando '+limite+' de '+filtrado.length+' resultados — refina la búsqueda') : (filtrado.length+' resultados');
+
+  document.getElementById('tableAso').querySelector('tbody').innerHTML = mostrar.map(function(r){
+    return '<tr><td>'+r.cedula+'</td><td>'+r.nombre+'</td><td>'+r.pagaduria+'</td><td>'+r.celular+'</td><td>'+r.asesor+'</td></tr>';
+  }).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--texto-sec);">Sin resultados</td></tr>';
+}
+document.getElementById('searchAso').addEventListener('input', renderAsociados);
+document.getElementById('fAsoAsesor').addEventListener('change', renderAsociados);
+
+/* ======================================================================
+   DIRECTORIO (editable por admin, con Firestore)
+====================================================================== */
+async function cargarDirectorioExtra(){
+  DATA.directorioExtra = [];
+  if(!db) return;
+  try{
+    const snap = await db.collection('bs_directorio').get();
+    snap.forEach(function(doc){
+      const d = doc.data();
+      DATA.directorioExtra.push(Object.assign({id: doc.id, origen:'extra'}, d));
+    });
+  }catch(e){ console.error('No se pudo cargar directorio extra:', e); }
+}
+
+function renderDirectorio(){
+  const asesor = document.getElementById('fDirAsesor').value;
+  const entidadSel = document.getElementById('fDirEntidad').value;
+  const q = normTxt(document.getElementById('searchDir').value);
+  let filas = DATA.directorioTodos();
+  if(asesor) filas = filas.filter(function(r){ return r.asesor === asesor; });
+  if(entidadSel) filas = filas.filter(function(r){ return normTxt(r.entidad) === normTxt(entidadSel); });
+  if(q) filas = filas.filter(function(r){ return normTxt(r.entidad).indexOf(q)>-1 || normTxt(r.nombre).indexOf(q)>-1; });
+
+  document.getElementById('tagDirTotal').textContent = filas.length.toLocaleString('es-CO') + ' contactos';
+
+  const tbody = document.getElementById('tableDir').querySelector('tbody');
+  if(!ES_ADMIN){
+    tbody.innerHTML = filas.map(function(r){
+      return '<tr><td>'+unificarEtiqueta(r.entidad)+'</td><td>'+r.nombre+'</td><td>'+r.cargo+'</td><td>'+r.telCorp+'</td><td>'+r.celular+'</td><td>'+r.correo+'</td><td>'+r.direccion+'</td><td>'+r.asesor+'</td><td></td></tr>';
+    }).join('') || '<tr><td colspan="9" style="text-align:center;color:var(--texto-sec);">Sin contactos</td></tr>';
+    return;
+  }
+  tbody.innerHTML = filas.map(function(r){
+    const campos = ['entidad','nombre','cargo','telCorp','celular','correo','direccion'];
+    const tds = campos.map(function(c){
+      const val = c==='entidad' ? unificarEtiqueta(r[c]) : (r[c]||'');
+      return '<td><input class="editable" data-id="'+r.id+'" data-campo="'+c+'" value="'+String(val).replace(/"/g,'&quot;')+'"></td>';
+    }).join('');
+    return '<tr>'+tds+'<td>'+r.asesor+'</td><td class="row-actions"><button class="icon-btn del" data-del="'+r.id+'">✕</button></td></tr>';
+  }).join('') || '<tr><td colspan="9" style="text-align:center;color:var(--texto-sec);">Sin contactos</td></tr>';
+
+  tbody.querySelectorAll('.editable').forEach(function(inp){
+    inp.addEventListener('change', async function(){
+      const id = inp.dataset.id, campo = inp.dataset.campo, val = inp.value;
+      await guardarCampoDirectorio(id, campo, val);
+    });
+  });
+  tbody.querySelectorAll('[data-del]').forEach(function(btn){
+    btn.addEventListener('click', async function(){
+      if(!confirm('¿Eliminar este contacto del directorio?')) return;
+      await eliminarContactoDirectorio(btn.dataset.del);
+    });
+  });
+}
+document.getElementById('fDirAsesor').addEventListener('change', renderDirectorio);
+document.getElementById('fDirEntidad').addEventListener('change', renderDirectorio);
+document.getElementById('searchDir').addEventListener('input', renderDirectorio);
+
+async function guardarCampoDirectorio(id, campo, valor){
+  const status = document.getElementById('statusDir');
+  const item = DATA.directorioTodos().find(function(r){ return r.id === id; });
+  if(!item) return;
+  item[campo] = valor;
+  if(item.origen === 'base'){
+    // Se convierte en override guardado en Firestore, conservando su id
+    if(!db){ status.textContent='Firebase no disponible'; status.className='status err'; return; }
+    try{
+      const nuevoId = 'edit_'+id;
+      const yaExiste = DATA.directorioExtra.find(function(r){return r.id===nuevoId;});
+      const payload = { entidad:item.entidad, nombre:item.nombre, cargo:item.cargo, telCorp:item.telCorp, celular:item.celular, correo:item.correo, direccion:item.direccion, asesor:item.asesor, origenBaseId:id };
+      await db.collection('bs_directorio').doc(nuevoId).set(payload);
+      if(!yaExiste){ DATA.directorioExtra.push(Object.assign({id:nuevoId, origen:'extra'}, payload)); }
+      DATA.directorioBase = DATA.directorioBase.filter(function(r){return r.id!==id;});
+      status.textContent='Guardado'; status.className='status ok';
+    }catch(e){ status.textContent='Error al guardar: '+e.message; status.className='status err'; }
+  } else {
+    if(!db){ status.textContent='Firebase no disponible'; status.className='status err'; return; }
+    try{
+      await db.collection('bs_directorio').doc(id).update({ [campo]: valor });
+      status.textContent='Guardado'; status.className='status ok';
+    }catch(e){ status.textContent='Error al guardar: '+e.message; status.className='status err'; }
+  }
+}
+async function eliminarContactoDirectorio(id){
+  const status = document.getElementById('statusDir');
+  if(!db){ status.textContent='Firebase no disponible'; status.className='status err'; return; }
+  try{
+    await db.collection('bs_directorio').doc(id).delete();
+    DATA.directorioExtra = DATA.directorioExtra.filter(function(r){ return r.id !== id; });
+    status.textContent='Contacto eliminado'; status.className='status ok';
+    renderDirectorio();
+  }catch(e){ status.textContent='Error al eliminar: '+e.message; status.className='status err'; }
+}
+document.getElementById('btnAgregarContacto').addEventListener('click', function(){
+  ['cEntidad','cNombre','cCargo','cTelCorp','cCelular','cCorreo','cDireccion'].forEach(function(id){ document.getElementById(id).value=''; });
+  document.getElementById('statusModalContacto').textContent = '';
+  document.getElementById('modalContacto').classList.add('show');
+});
+document.getElementById('btnCancelarContacto').addEventListener('click', function(){
+  document.getElementById('modalContacto').classList.remove('show');
+});
+document.getElementById('btnGuardarContacto').addEventListener('click', async function(){
+  const status = document.getElementById('statusModalContacto');
+  const entidad = document.getElementById('cEntidad').value.trim();
+  const nombre = document.getElementById('cNombre').value.trim();
+  const cargo = document.getElementById('cCargo').value.trim();
+  const telCorp = document.getElementById('cTelCorp').value.trim();
+  const celular = document.getElementById('cCelular').value.trim();
+  const correo = document.getElementById('cCorreo').value.trim();
+  const direccion = document.getElementById('cDireccion').value.trim();
+  if(!entidad || !nombre){ status.textContent='Completa al menos la entidad y el nombre.'; status.className='status err'; return; }
+  if(!db){ status.textContent='Firebase no disponible'; status.className='status err'; return; }
+  const key = normTxt(entidad);
+  const asesor = DATA.entMap[key] || 'Sin asignar';
+  const payload = { entidad: unificarEtiqueta(entidad), nombre: nombre, cargo: cargo, telCorp: telCorp, celular: celular, correo: correo, direccion: direccion, asesor: asesor };
+  try{
+    const ref = await db.collection('bs_directorio').add(payload);
+    DATA.directorioExtra.push(Object.assign({id: ref.id, origen:'extra'}, payload));
+    document.getElementById('modalContacto').classList.remove('show');
+    poblarFiltros();
+    renderDirectorio();
+  }catch(e){ status.textContent='Error al guardar: '+e.message; status.className='status err'; }
+});
+
+/* ======================================================================
+   CALENDARIO
+====================================================================== */
+async function cargarEventos(){
+  DATA.eventos = [];
+  if(!db) return;
+  try{
+    const snap = await db.collection('bs_calendario_eventos').get();
+    snap.forEach(function(doc){ DATA.eventos.push(Object.assign({id:doc.id}, doc.data())); });
+  }catch(e){ console.error('No se pudo cargar el calendario:', e); }
+}
+
+let calMesRef = new Date();
+let eventoEditandoId = null;
+
+let RECORDATORIOS_ACEPTADOS = [];
+try{ RECORDATORIOS_ACEPTADOS = JSON.parse(localStorage.getItem('bs_recordatorios_aceptados')||'[]'); }catch(e){ RECORDATORIOS_ACEPTADOS = []; }
+
+// Devuelve siempre un arreglo de asesores para un evento, compatible con datos antiguos (campo 'asesor' string)
+function asesoresDeEvento(ev){
+  if(Array.isArray(ev.asesores) && ev.asesores.length) return ev.asesores;
+  if(ev.asesor) return [ev.asesor];
+  return [];
+}
+function textoAsesoresEvento(ev){
+  const a = asesoresDeEvento(ev);
+  return a.length ? a.join(', ') : 'Sin asesor asignado';
+}
+
+function eventosPendientesRecordatorio(){
+  const hoy = new Date(); hoy.setHours(0,0,0,0);
+  const en2dias = new Date(hoy); en2dias.setDate(en2dias.getDate()+2);
+  return DATA.eventos.filter(function(ev){
+    if(ev.cancelado) return false;
+    const f = new Date(ev.fecha+'T00:00:00');
+    return f >= hoy && f <= en2dias && RECORDATORIOS_ACEPTADOS.indexOf(ev.id) === -1;
+  }).sort(function(a,b){ return a.fecha.localeCompare(b.fecha); });
+}
+
+function textoRecordatorio(pendientes){
+  return '<b>Recordatorio:</b> tienes '+pendientes.length+' evento(s) programado(s) en los próximos 2 días.<ul>' +
+    pendientes.map(function(ev){ return '<li>'+ev.fecha+' · '+ev.entidad+' · '+textoAsesoresEvento(ev)+'</li>'; }).join('') + '</ul>';
+}
+
+function aceptarRecordatorios(){
+  const pendientes = eventosPendientesRecordatorio();
+  pendientes.forEach(function(ev){ if(RECORDATORIOS_ACEPTADOS.indexOf(ev.id)===-1) RECORDATORIOS_ACEPTADOS.push(ev.id); });
+  try{ localStorage.setItem('bs_recordatorios_aceptados', JSON.stringify(RECORDATORIOS_ACEPTADOS)); }catch(e){}
+  document.getElementById('modalRecordatorio').classList.remove('show');
+  renderCalendario();
+}
+document.getElementById('btnAceptarRecordatorio').addEventListener('click', aceptarRecordatorios);
+document.getElementById('btnAceptarModalRecordatorio').addEventListener('click', aceptarRecordatorios);
+
+function mostrarRecordatorioSiHay(){
+  const pendientes = eventosPendientesRecordatorio();
+  if(pendientes.length){
+    document.getElementById('modalRecordatorioTexto').innerHTML = textoRecordatorio(pendientes);
+    document.getElementById('modalRecordatorio').classList.add('show');
+  }
+}
+
+function renderCalendario(){
+  const hoy = new Date(); hoy.setHours(0,0,0,0);
+
+  // Recordatorio: eventos en los próximos 2 días (persiste hasta que se acepte)
+  const proximos = eventosPendientesRecordatorio();
+  const banner = document.getElementById('bannerRecordatorio');
+  if(proximos.length){
+    banner.style.display='block';
+    document.getElementById('bannerRecordatorioTexto').innerHTML = textoRecordatorio(proximos);
+  } else { banner.style.display='none'; }
+
+  const anio = calMesRef.getFullYear(), mes = calMesRef.getMonth();
+  const nombresMes = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  document.getElementById('calMesActual').textContent = nombresMes[mes] + ' ' + anio;
+
+  const dow = document.getElementById('calGridDow');
+  dow.innerHTML = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'].map(function(d){ return '<div class="cal-dow">'+d+'</div>'; }).join('');
+
+  const primerDia = new Date(anio, mes, 1);
+  let diaSemana = primerDia.getDay(); diaSemana = diaSemana===0 ? 6 : diaSemana-1;
+  const diasEnMes = new Date(anio, mes+1, 0).getDate();
+
+  const eventosPorFecha = {};
+  DATA.eventos.forEach(function(ev){ (eventosPorFecha[ev.fecha] = eventosPorFecha[ev.fecha]||[]).push(ev); });
+
+  let html = '';
+  for(let i=0;i<diaSemana;i++) html += '<div class="cal-day empty"></div>';
+  for(let d=1; d<=diasEnMes; d++){
+    const fechaStr = anio+'-'+String(mes+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    const esHoy = fechaStr === (hoy.toISOString().slice(0,10));
+    const evs = eventosPorFecha[fechaStr] || [];
+    html += '<div class="cal-day'+(esHoy?' hoy':'')+'" data-fecha="'+fechaStr+'"><div class="num">'+d+'</div>' +
+      evs.map(function(ev){
+        return '<div class="cal-evt'+(ev.cancelado?' cancelado':'')+'" title="'+String(ev.entidad).replace(/"/g,'&quot;')+' · '+textoAsesoresEvento(ev).replace(/"/g,'&quot;')+'">' +
+          '<span class="cal-evt-nombre" data-id="'+ev.id+'">'+ev.entidad+(ev.cancelado?' (Cancelado)':'')+'</span>' +
+          '<span class="cal-evt-acciones">' +
+            '<button data-editar-evt="'+ev.id+'" title="Editar">✎</button>' +
+            (ev.cancelado ? '' : '<button data-cancelar-evt="'+ev.id+'" title="Cancelar">✕</button>') +
+          '</span></div>';
+      }).join('') + '</div>';
+  }
+  document.getElementById('calGrid').innerHTML = html;
+
+  document.querySelectorAll('.cal-day[data-fecha]').forEach(function(el){
+    el.addEventListener('click', function(e){
+      if(e.target.dataset.editarEvt){ abrirModalEvento(e.target.dataset.editarEvt); return; }
+      if(e.target.dataset.cancelarEvt){ cancelarEvento(e.target.dataset.cancelarEvt); return; }
+      if(e.target.dataset.id){ abrirModalEvento(e.target.dataset.id); return; }
+      abrirModalEvento(null, el.dataset.fecha);
+    });
+  });
+
+  const eventosMes = DATA.eventos.filter(function(ev){ return ev.fecha && ev.fecha.slice(0,7) === (anio+'-'+String(mes+1).padStart(2,'0')); })
+    .sort(function(a,b){ return a.fecha.localeCompare(b.fecha); });
+  document.getElementById('tagCalMes').textContent = eventosMes.length + ' evento(s)';
+  document.getElementById('tableCal').querySelector('tbody').innerHTML = eventosMes.map(function(ev){
+    const estilo = ev.cancelado ? ' style="opacity:.6;text-decoration:line-through;"' : '';
+    const estadoPill = ev.cancelado ? ' <span class="pill rojo">Cancelado</span>' : '';
+    return '<tr'+estilo+'><td>'+ev.fecha+estadoPill+'</td><td>'+ev.entidad+'</td><td>'+textoAsesoresEvento(ev)+'</td><td>'+(ev.asistentes||0)+'</td><td>'+(ev.afiliaciones||0)+'</td><td>'+(ev.observaciones||'')+'</td>' +
+      '<td class="row-actions"><button class="icon-btn" data-editar="'+ev.id+'" title="Editar">✎</button>' +
+      (ev.cancelado ? '' : '<button class="icon-btn del" data-cancelar="'+ev.id+'" title="Cancelar evento">Cancelar</button>') + '</td></tr>';
+  }).join('') || '<tr><td colspan="7" style="text-align:center;color:var(--texto-sec);">Sin eventos este mes</td></tr>';
+  document.getElementById('tableCal').querySelectorAll('[data-editar]').forEach(function(btn){
+    btn.addEventListener('click', function(){ abrirModalEvento(btn.dataset.editar); });
+  });
+  document.getElementById('tableCal').querySelectorAll('[data-cancelar]').forEach(function(btn){
+    btn.addEventListener('click', function(){ cancelarEvento(btn.dataset.cancelar); });
+  });
+}
+document.getElementById('btnMesAnterior').addEventListener('click', function(){ calMesRef.setMonth(calMesRef.getMonth()-1); renderCalendario(); });
+document.getElementById('btnMesSiguiente').addEventListener('click', function(){ calMesRef.setMonth(calMesRef.getMonth()+1); renderCalendario(); });
+
+function cancelarEvento(id){
+  solicitarPin(function(){ cancelarEventoInterno(id); });
+}
+async function cancelarEventoInterno(id){
+  if(!db){ alert('Firebase no disponible'); return; }
+  if(!confirm('¿Marcar este evento como cancelado? El evento se conserva en el historial.')) return;
+  try{
+    await db.collection('bs_calendario_eventos').doc(id).update({ cancelado: true });
+    const idx = DATA.eventos.findIndex(function(e){return e.id===id;});
+    if(idx>-1) DATA.eventos[idx].cancelado = true;
+    renderCalendario();
+    renderVisitas();
+  }catch(e){ alert('Error al cancelar: '+e.message); }
+}
+
+function abrirModalEvento(id, fechaPreset){
+  solicitarPin(function(){ abrirModalEventoInterno(id, fechaPreset); });
+}
+function abrirModalEventoInterno(id, fechaPreset){
+  eventoEditandoId = id;
+  document.getElementById('modalEventoTitulo').textContent = id ? 'Editar evento' : 'Nuevo evento';
+  document.getElementById('btnEliminarEvento').style.display = id ? 'inline-block' : 'none';
+  document.getElementById('btnCancelarEventoAgendado').style.display = 'none';
+  document.getElementById('statusModalEvento').textContent = '';
+  document.querySelectorAll('.chk-asesor-evento').forEach(function(chk){ chk.checked = false; });
+  if(id){
+    const ev = DATA.eventos.find(function(e){ return e.id === id; });
+    document.getElementById('mEntidad').value = ev.entidad || '';
+    document.getElementById('mFecha').value = ev.fecha || '';
+    const listaAsesores = asesoresDeEvento(ev);
+    const otros = [];
+    listaAsesores.forEach(function(a){
+      const chk = document.querySelector('.chk-asesor-evento[value="'+a.replace(/"/g,'&quot;')+'"]');
+      if(chk) chk.checked = true; else otros.push(a);
+    });
+    document.getElementById('mAsesorOtro').value = otros.join(', ');
+    document.getElementById('mAsistentes').value = ev.asistentes || 0;
+    document.getElementById('mAfiliaciones').value = ev.afiliaciones || 0;
+    document.getElementById('mObservaciones').value = ev.observaciones || '';
+    if(!ev.cancelado) document.getElementById('btnCancelarEventoAgendado').style.display = 'inline-block';
+  } else {
+    document.getElementById('mEntidad').value = '';
+    document.getElementById('mFecha').value = fechaPreset || '';
+    document.getElementById('mAsesorOtro').value = '';
+    document.getElementById('mAsistentes').value = '';
+    document.getElementById('mAfiliaciones').value = '';
+    document.getElementById('mObservaciones').value = '';
+  }
+  document.getElementById('modalEvento').classList.add('show');
+}
+document.getElementById('btnNuevoEvento').addEventListener('click', function(){ abrirModalEvento(null); });
+document.getElementById('btnCancelarEvento').addEventListener('click', function(){ document.getElementById('modalEvento').classList.remove('show'); });
+document.getElementById('btnCancelarEventoAgendado').addEventListener('click', function(){
+  if(!eventoEditandoId) return;
+  cancelarEvento(eventoEditandoId);
+  document.getElementById('modalEvento').classList.remove('show');
+});
+
+document.getElementById('btnGuardarEvento').addEventListener('click', async function(){
+  const entidad = document.getElementById('mEntidad').value.trim();
+  const fecha = document.getElementById('mFecha').value;
+  const marcados = Array.from(document.querySelectorAll('.chk-asesor-evento:checked')).map(function(c){return c.value;});
+  const otros = document.getElementById('mAsesorOtro').value.split(',').map(function(s){return s.trim();}).filter(Boolean);
+  const asesores = Array.from(new Set(marcados.concat(otros)));
+  const asistentes = Number(document.getElementById('mAsistentes').value) || 0;
+  const afiliaciones = Number(document.getElementById('mAfiliaciones').value) || 0;
+  const observaciones = document.getElementById('mObservaciones').value.trim();
+  const status = document.getElementById('statusModalEvento');
+  if(!entidad || !fecha || !asesores.length){ status.textContent='Completa entidad, fecha y al menos un asesor.'; status.className='status err'; return; }
+  if(!db){ status.textContent='Firebase no disponible'; status.className='status err'; return; }
+  const payload = { entidad, fecha, asesores, asesor: asesores[0], asistentes, afiliaciones, observaciones, cancelado:false };
+  try{
+    if(eventoEditandoId){
+      await db.collection('bs_calendario_eventos').doc(eventoEditandoId).update(payload);
+      const idx = DATA.eventos.findIndex(function(e){return e.id===eventoEditandoId;});
+      DATA.eventos[idx] = Object.assign({id:eventoEditandoId}, payload);
+    } else {
+      const ref = await db.collection('bs_calendario_eventos').add(payload);
+      DATA.eventos.push(Object.assign({id:ref.id}, payload));
+    }
+    document.getElementById('modalEvento').classList.remove('show');
+    poblarFiltros();
+    renderCalendario();
+    renderVisitas();
+  }catch(e){ status.textContent='Error al guardar: '+e.message+' — revisa las reglas de Firestore para la colección bs_calendario_eventos.'; status.className='status err'; }
+});
+document.getElementById('btnEliminarEvento').addEventListener('click', async function(){
+  if(!eventoEditandoId || !db) return;
+  if(!confirm('¿Eliminar este evento definitivamente?')) return;
+  try{
+    await db.collection('bs_calendario_eventos').doc(eventoEditandoId).delete();
+    DATA.eventos = DATA.eventos.filter(function(e){ return e.id !== eventoEditandoId; });
+    document.getElementById('modalEvento').classList.remove('show');
+    renderCalendario();
+    renderVisitas();
+  }catch(e){ document.getElementById('statusModalEvento').textContent='Error al eliminar: '+e.message; document.getElementById('statusModalEvento').className='status err'; }
+});
+
+/* ======================================================================
+   VISTA VISITAS
+====================================================================== */
+let chartBarVisEnt=null, chartBarVisAsistAfil=null;
+let ULTIMO_REPORTE_VISITAS = { filtrado:[], canceladas:[], porEntidad:{}, asistPorEnt:{}, afilPorEnt:{} };
+function renderVisitas(){
+  const anio = document.getElementById('fVisAnio').value;
+  const mes = document.getElementById('fVisMes').value;
+  const entidad = document.getElementById('fVisEntidad').value;
+  const asesor = document.getElementById('fVisAsesor').value;
+
+  const cumpleFiltrosBase = function(ev){
+    if(!ev.fecha) return false;
+    const f = new Date(ev.fecha+'T00:00:00');
+    if(anio && String(f.getFullYear()) !== anio) return false;
+    if(mes && String(f.getMonth()+1) !== mes) return false;
+    if(entidad && ev.entidad !== entidad) return false;
+    if(asesor && asesoresDeEvento(ev).indexOf(asesor) === -1) return false;
+    return true;
+  };
+
+  const filtrado = DATA.eventos.filter(function(ev){ return cumpleFiltrosBase(ev) && !ev.cancelado; });
+  const canceladas = DATA.eventos.filter(function(ev){ return cumpleFiltrosBase(ev) && ev.cancelado; });
+
+  const totalAsistentes = filtrado.reduce(function(s,e){return s+(e.asistentes||0);},0);
+  const totalAfiliaciones = filtrado.reduce(function(s,e){return s+(e.afiliaciones||0);},0);
+
+  document.getElementById('kpiVisVisitas').textContent = filtrado.length.toLocaleString('es-CO');
+  document.getElementById('kpiVisAsistentes').textContent = totalAsistentes.toLocaleString('es-CO');
+  document.getElementById('kpiVisAfiliaciones').textContent = totalAfiliaciones.toLocaleString('es-CO');
+  document.getElementById('kpiVisEntidades').textContent = new Set(filtrado.map(function(e){return e.entidad;})).size.toLocaleString('es-CO');
+  document.getElementById('kpiVisPromAsist').textContent = filtrado.length ? (totalAsistentes/filtrado.length).toFixed(1) : '0';
+  document.getElementById('kpiVisConversion').textContent = totalAsistentes ? ((totalAfiliaciones/totalAsistentes)*100).toFixed(1)+'%' : '0%';
+  document.getElementById('kpiVisCanceladas').textContent = canceladas.length.toLocaleString('es-CO');
+
+  const porEntidad = {};
+  filtrado.forEach(function(ev){ porEntidad[ev.entidad] = (porEntidad[ev.entidad]||0)+1; });
+  const entidadesOrd = Object.keys(porEntidad).sort(function(a,b){return porEntidad[b]-porEntidad[a];});
+  document.getElementById('kpiVisTopEntidad').textContent = entidadesOrd.length ? (entidadesOrd[0]+' ('+porEntidad[entidadesOrd[0]]+')') : '-';
+  if(chartBarVisEnt) chartBarVisEnt.destroy();
+  chartBarVisEnt = new Chart(document.getElementById('barVisitasEntidad'), {
+    type:'bar',
+    data:{ labels: entidadesOrd, datasets:[{ label:'Visitas', data: entidadesOrd.map(function(e){return porEntidad[e];}), backgroundColor:'#045078', borderRadius:5 }] },
+    options:{ responsive:true, maintainAspectRatio:false, indexAxis:'y', plugins:{legend:{display:false}} }
+  });
+
+  const asistPorEnt = {}, afilPorEnt = {};
+  filtrado.forEach(function(ev){
+    asistPorEnt[ev.entidad] = (asistPorEnt[ev.entidad]||0) + (ev.asistentes||0);
+    afilPorEnt[ev.entidad] = (afilPorEnt[ev.entidad]||0) + (ev.afiliaciones||0);
+  });
+  const entLabels = Object.keys(asistPorEnt);
+  if(chartBarVisAsistAfil) chartBarVisAsistAfil.destroy();
+  chartBarVisAsistAfil = new Chart(document.getElementById('barVisAsistAfil'), {
+    type:'bar',
+    data:{ labels: entLabels, datasets:[
+      { label:'Asistentes', data: entLabels.map(function(e){return asistPorEnt[e];}), backgroundColor:'#297780', borderRadius:5 },
+      { label:'Afiliaciones nuevas', data: entLabels.map(function(e){return afilPorEnt[e];}), backgroundColor:'#D2BB1D', borderRadius:5 }
+    ]},
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'bottom'}} }
+  });
+
+  ULTIMO_REPORTE_VISITAS = { filtrado: filtrado, canceladas: canceladas, porEntidad: porEntidad, asistPorEnt: asistPorEnt, afilPorEnt: afilPorEnt };
+}
+['fVisAnio','fVisMes','fVisEntidad','fVisAsesor'].forEach(function(id){ document.getElementById(id).addEventListener('change', renderVisitas); });
+document.getElementById('btnLimpiarVis').addEventListener('click', function(){
+  document.getElementById('fVisAnio').value=''; document.getElementById('fVisMes').value='';
+  document.getElementById('fVisEntidad').value=''; document.getElementById('fVisAsesor').value='';
+  renderVisitas();
+});
+
+/* ======================================================================
+   VISTA ASESORES — entidades y asociados asignados por asesor
+====================================================================== */
+let chartAseEntidadesPorAsesor=null, chartAseAsociadosPorAsesor=null, chartAseDetalle=null;
+function renderAsesores(){
+  const selAsesor = document.getElementById('fAseAsesor').value;
+
+  // Entidades asignadas por asesor (según hoja ENTIDADES -> entMap)
+  const entidadesPorAsesorMap = {};
+  Object.keys(DATA.entMap).forEach(function(key){
+    const asesor = DATA.entMap[key] || 'Sin asignar';
+    entidadesPorAsesorMap[asesor] = (entidadesPorAsesorMap[asesor]||0) + 1;
+  });
+
+  // Asociados asignados por asesor (según base social ya cruzada)
+  const asociadosPorAsesorMap = {};
+  DATA.base.forEach(function(r){
+    const asesor = r.asesor || 'Sin asignar';
+    asociadosPorAsesorMap[asesor] = (asociadosPorAsesorMap[asesor]||0) + 1;
+  });
+
+  const asesoresTodos = [...new Set(Object.keys(entidadesPorAsesorMap).concat(Object.keys(asociadosPorAsesorMap)))].sort();
+
+  document.getElementById('kpiAseAsesores').textContent = asesoresTodos.length.toLocaleString('es-CO');
+  if(selAsesor){
+    document.getElementById('kpiAseEntidades').textContent = (entidadesPorAsesorMap[selAsesor]||0).toLocaleString('es-CO');
+    document.getElementById('kpiAseAsociados').textContent = (asociadosPorAsesorMap[selAsesor]||0).toLocaleString('es-CO');
+  } else {
+    document.getElementById('kpiAseEntidades').textContent = Object.keys(DATA.entMap).length.toLocaleString('es-CO');
+    document.getElementById('kpiAseAsociados').textContent = DATA.base.length.toLocaleString('es-CO');
+  }
+
+  const alturaPorAsesor = 34;
+  const alturaGrafico1 = Math.max(asesoresTodos.length*alturaPorAsesor, 280);
+  document.getElementById('barAseEntidadesPorAsesor').parentElement.style.height = alturaGrafico1+'px';
+  document.getElementById('barAseAsociadosPorAsesor').parentElement.style.height = alturaGrafico1+'px';
+
+  if(chartAseEntidadesPorAsesor) chartAseEntidadesPorAsesor.destroy();
+  chartAseEntidadesPorAsesor = new Chart(document.getElementById('barAseEntidadesPorAsesor'), {
+    type:'bar',
+    data:{ labels: asesoresTodos, datasets:[{ label:'Entidades asignadas', data: asesoresTodos.map(function(a){return entidadesPorAsesorMap[a]||0;}), backgroundColor:'#D2BB1D', hoverBackgroundColor:'#e9d772', borderRadius:5, maxBarThickness:26 }] },
+    options:{
+      indexAxis:'y', responsive:true, maintainAspectRatio:false,
+      layout:{ padding:{ right:30 } },
+      plugins:{
+        legend:{display:false},
+        datalabels:{ anchor:'end', align:'right', color:'#0B2530', font:{weight:'700', size:11}, formatter:function(v){return v.toLocaleString('es-CO');} }
+      },
+      scales:{
+        x:{ beginAtZero:true, grid:{ color:'rgba(11,37,48,.06)' } },
+        y:{ ticks:{ autoSkip:false, font:{size:10.5, weight:'500'} }, grid:{ display:false } }
+      }
+    }
+  });
+
+  if(chartAseAsociadosPorAsesor) chartAseAsociadosPorAsesor.destroy();
+  chartAseAsociadosPorAsesor = new Chart(document.getElementById('barAseAsociadosPorAsesor'), {
+    type:'bar',
+    data:{ labels: asesoresTodos, datasets:[{ label:'Asociados asignados', data: asesoresTodos.map(function(a){return asociadosPorAsesorMap[a]||0;}), backgroundColor:'#2E9E6C', hoverBackgroundColor:'#79d1a8', borderRadius:5, maxBarThickness:26 }] },
+    options:{
+      indexAxis:'y', responsive:true, maintainAspectRatio:false,
+      layout:{ padding:{ right:36 } },
+      plugins:{
+        legend:{display:false},
+        datalabels:{ anchor:'end', align:'right', color:'#0B2530', font:{weight:'700', size:11}, formatter:function(v){return v.toLocaleString('es-CO');} }
+      },
+      scales:{
+        x:{ beginAtZero:true, grid:{ color:'rgba(11,37,48,.06)' } },
+        y:{ ticks:{ autoSkip:false, font:{size:10.5, weight:'500'} }, grid:{ display:false } }
+      }
+    }
+  });
+
+  // Detalle: entidades asignadas al asesor seleccionado + asociados por cada una
+  const vacio = document.getElementById('aseDetalleVacio');
+  const wrapDetalle = document.getElementById('aseDetalleGrafico');
+  const tag = document.getElementById('tagAseDetalle');
+  if(!selAsesor){
+    vacio.style.display = 'block';
+    wrapDetalle.style.display = 'none';
+    tag.textContent = 'Selecciona un asesor';
+    if(chartAseDetalle){ chartAseDetalle.destroy(); chartAseDetalle = null; }
+    return;
+  }
+  vacio.style.display = 'none';
+  wrapDetalle.style.display = 'block';
+  tag.textContent = selAsesor;
+
+  const clavesAsesor = Object.keys(DATA.entMap).filter(function(k){ return (DATA.entMap[k]||'Sin asignar') === selAsesor; });
+  const detalle = clavesAsesor.map(function(key){
+    const nombre = DATA.entMapOriginal[key] || key;
+    const cantidad = DATA.base.filter(function(r){ return r.entidadClave === key; }).length;
+    return { entidad: nombre, cantidad: cantidad };
+  }).sort(function(a,b){ return b.cantidad-a.cantidad; });
+
+  const alturaDetalle = Math.max(detalle.length*30, 200);
+  wrapDetalle.style.height = alturaDetalle+'px';
+
+  if(chartAseDetalle) chartAseDetalle.destroy();
+  chartAseDetalle = new Chart(document.getElementById('barAseDetalleEntidades'), {
+    type:'bar',
+    data:{ labels: detalle.map(function(d){return d.entidad;}), datasets:[{ label:'Asociados', data: detalle.map(function(d){return d.cantidad;}), backgroundColor:'#045078', hoverBackgroundColor:'#297780', borderRadius:5, maxBarThickness:26 }] },
+    options:{
+      indexAxis:'y', responsive:true, maintainAspectRatio:false,
+      layout:{ padding:{ right:34 } },
+      plugins:{
+        legend:{display:false},
+        datalabels:{ anchor:'end', align:'right', color:'#0B2530', font:{weight:'700', size:11}, formatter:function(v){return v.toLocaleString('es-CO');} }
+      },
+      scales:{
+        x:{ beginAtZero:true, grid:{ color:'rgba(11,37,48,.06)' } },
+        y:{ ticks:{ autoSkip:false, font:{size:10.5, weight:'500'} }, grid:{ display:false } }
+      }
+    }
+  });
+}
+document.getElementById('fAseAsesor').addEventListener('change', renderAsesores);
+
+/* ======================================================================
+   EXPORTAR INFORME DE VISITAS (disponible para todo usuario)
+   - Sin líneas de cuadrícula, con logo COOPEBIS y datos organizados
+     como tablas nativas de Excel (con bandas de color).
+====================================================================== */
+function encabezadoHojaCoopebis(wbRef, ws, titulo, colFinEncabezado){
+  ws.views = [{ showGridLines: false }];
+  try{
+    const logoId = wbRef.addImage({ base64: LOGO_B64, extension: 'png' });
+    ws.addImage(logoId, { tl: { col: 0.15, row: 0.15 }, ext: { width: 108, height: 40 } });
+  }catch(e){}
+  ws.getRow(1).height = 28;
+  ws.getRow(2).height = 17;
+  ws.mergeCells('C1:' + colFinEncabezado + '1');
+  const cTitulo = ws.getCell('C1');
+  cTitulo.value = 'COOPEBIS  ·  ' + titulo;
+  cTitulo.font = { name:'Calibri', size:14, bold:true, color:{ argb:'FF012E3F' } };
+  cTitulo.alignment = { vertical:'middle' };
+  ws.mergeCells('C2:' + colFinEncabezado + '2');
+  const cSub = ws.getCell('C2');
+  cSub.value = 'Informe de visitas comerciales  ·  generado el ' + new Date().toLocaleString('es-CO');
+  cSub.font = { name:'Calibri', size:9.5, italic:true, color:{ argb:'FF5C6B73' } };
+  cSub.alignment = { vertical:'middle' };
+}
+function estilizarEncabezadoTabla(ws, filaInicio, columnasCount){
+  const filaHeader = ws.getRow(filaInicio);
+  for(let i=1;i<=columnasCount;i++){
+    const cel = filaHeader.getCell(i);
+    cel.font = { name:'Calibri', size:10.5, bold:true, color:{ argb:'FFFFFFFF' } };
+    cel.fill = { type:'pattern', pattern:'solid', fgColor:{ argb:'FF045078' } };
+    cel.alignment = { vertical:'middle', horizontal:'left' };
+  }
+  ws.views = [{ showGridLines:false, state:'frozen', ySplit: filaInicio }];
+}
+
+document.getElementById('btnExportarInformeVisitas').addEventListener('click', async function(){
+  const rep = ULTIMO_REPORTE_VISITAS;
+  const wb = new ExcelJS.Workbook();
+  wb.creator = 'COOPEBIS';
+  wb.created = new Date();
+
+  const totalAsistentes = rep.filtrado.reduce(function(s,e){return s+(e.asistentes||0);},0);
+  const totalAfiliaciones = rep.filtrado.reduce(function(s,e){return s+(e.afiliaciones||0);},0);
+  const entidadesVisitadas = new Set(rep.filtrado.map(function(e){return e.entidad;}));
+  const entidadesOrdRep = Object.keys(rep.porEntidad).sort(function(a,b){return rep.porEntidad[b]-rep.porEntidad[a];});
+
+  /* ---- HOJA RESUMEN ---- */
+  const wsResumen = wb.addWorksheet('RESUMEN');
+  encabezadoHojaCoopebis(wb, wsResumen, 'Resumen de visitas', 'E');
+  wsResumen.getColumn(1).width = 42;
+  wsResumen.getColumn(2).width = 26;
+  const resumenRows = [
+    ['Visitas realizadas', rep.filtrado.length],
+    ['Visitas canceladas', rep.canceladas.length],
+    ['Asistentes totales', totalAsistentes],
+    ['Afiliaciones nuevas', totalAfiliaciones],
+    ['Entidades visitadas', entidadesVisitadas.size],
+    ['Promedio de asistentes por visita', rep.filtrado.length ? Number((totalAsistentes/rep.filtrado.length).toFixed(2)) : 0],
+    ['Tasa de conversión (afiliaciones / asistentes)', totalAsistentes ? Number(((totalAfiliaciones/totalAsistentes)*100).toFixed(1))+'%' : '0%'],
+    ['Entidad más visitada', entidadesOrdRep.length ? (entidadesOrdRep[0]+' ('+rep.porEntidad[entidadesOrdRep[0]]+' visitas)') : '-'],
+    ['Fecha del informe', new Date().toLocaleString('es-CO')]
+  ];
+  wsResumen.addTable({
+    name: 'TablaResumen', ref: 'A4', headerRow: true,
+    style: { theme: 'TableStyleMedium2', showRowStripes: true },
+    columns: [ { name:'Indicador' }, { name:'Valor' } ],
+    rows: resumenRows
+  });
+  estilizarEncabezadoTabla(wsResumen, 4, 2);
+
+  /* ---- HOJA POR ENTIDAD ---- */
+  const wsEntidad = wb.addWorksheet('POR ENTIDAD');
+  encabezadoHojaCoopebis(wb, wsEntidad, 'Visitas por entidad', 'E');
+  wsEntidad.getColumn(1).width = 34; wsEntidad.getColumn(2).width = 12;
+  wsEntidad.getColumn(3).width = 14; wsEntidad.getColumn(4).width = 18; wsEntidad.getColumn(5).width = 16;
+  const porEntidadRows = entidadesOrdRep.map(function(e){
+    const asist = rep.asistPorEnt[e]||0, afil = rep.afilPorEnt[e]||0;
+    return [ e, rep.porEntidad[e]||0, asist, afil, asist ? ((afil/asist)*100).toFixed(1)+'%' : '0%' ];
+  });
+  wsEntidad.addTable({
+    name: 'TablaPorEntidad', ref: 'A4', headerRow: true,
+    style: { theme: 'TableStyleMedium2', showRowStripes: true },
+    columns: [ { name:'Entidad' }, { name:'Visitas' }, { name:'Asistentes' }, { name:'Afiliaciones nuevas' }, { name:'Tasa de conversión' } ],
+    rows: porEntidadRows
+  });
+  estilizarEncabezadoTabla(wsEntidad, 4, 5);
+
+  /* ---- HOJA DETALLE DE VISITAS ---- */
+  const wsDetalle = wb.addWorksheet('DETALLE DE VISITAS');
+  encabezadoHojaCoopebis(wb, wsDetalle, 'Detalle de visitas', 'G');
+  wsDetalle.getColumn(1).width = 12; wsDetalle.getColumn(2).width = 30; wsDetalle.getColumn(3).width = 26;
+  wsDetalle.getColumn(4).width = 12; wsDetalle.getColumn(5).width = 16; wsDetalle.getColumn(6).width = 12; wsDetalle.getColumn(7).width = 42;
+  const detalleRows = rep.filtrado.concat(rep.canceladas)
+    .sort(function(a,b){ return (a.fecha||'').localeCompare(b.fecha||''); })
+    .map(function(ev){
+      return [ ev.fecha, ev.entidad, asesoresDeEvento(ev).join(', '), ev.asistentes||0, ev.afiliaciones||0, ev.cancelado ? 'Sí' : 'No', ev.observaciones||'' ];
+    });
+  wsDetalle.addTable({
+    name: 'TablaDetalleVisitas', ref: 'A4', headerRow: true,
+    style: { theme: 'TableStyleMedium2', showRowStripes: true },
+    columns: [ { name:'Fecha' }, { name:'Entidad' }, { name:'Asesor(es)' }, { name:'Asistentes' }, { name:'Afiliaciones nuevas' }, { name:'Cancelado' }, { name:'Observaciones' } ],
+    rows: detalleRows
+  });
+  estilizarEncabezadoTabla(wsDetalle, 4, 7);
+
+  const fecha = new Date().toISOString().slice(0,10);
+  const buffer = await wb.xlsx.writeBuffer();
+  const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'informe_visitas_'+fecha+'.xlsx';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
+});
+
+/* ======================================================================
+   EXPORTAR EXCEL ACTUALIZADO (solo administrador)
+====================================================================== */
+document.getElementById('btnExportarExcel').addEventListener('click', function(){
+  const wb = XLSX.utils.book_new();
+
+  const baseRows = DATA.base.map(function(r){
+    return {
+      'Cedula': r.cedula, 'Nombre': r.nombre, 'Celular': r.celular,
+      'Entidad donde trabaja': r.labora, 'Tipo de contrato': r.tipoContrato, 'Genero': r.genero,
+      'Pagaduria': r.pagaduria, 'Asesor': r.asesor
+    };
+  });
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(baseRows), 'BASE SOCIAL');
+
+  const entRows = Object.keys(DATA.entMapOriginal).map(function(k){
+    return { 'ENTIDAD': DATA.entMapOriginal[k], 'ASESOR': DATA.entMap[k] };
+  });
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(entRows), 'ENTIDADES');
+
+  const dirRows = DATA.directorioTodos().map(function(r){
+    return { 'Entidad': r.entidad, 'Nombres y Apellidos': r.nombre, 'Cargo': r.cargo, 'Tel. Corporativo': r.telCorp, 'Número de celular': r.celular, 'Correo Institucional': r.correo, 'Dirección': r.direccion, 'Asesor': r.asesor };
+  });
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(dirRows), 'DIRECTORIO');
+
+  const calRows = DATA.eventos.map(function(ev){
+    return { 'Fecha': ev.fecha, 'Entidad': ev.entidad, 'Asesor(es)': asesoresDeEvento(ev).join(', '), 'Asistentes': ev.asistentes||0, 'Afiliaciones nuevas': ev.afiliaciones||0, 'Cancelado': ev.cancelado ? 'Sí' : 'No', 'Observaciones': ev.observaciones||'' };
+  });
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(calRows), 'CALENDARIO');
+
+  const fecha = new Date().toISOString().slice(0,10);
+  XLSX.writeFile(wb, 'base_social_actualizado_'+fecha+'.xlsx');
+});
+
+pedirAcceso();
+</script>
+</body>
+</html>
