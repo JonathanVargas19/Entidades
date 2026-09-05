@@ -18,10 +18,10 @@
     --panel:#FFFFFF; --panel-2:#F0F3F5; --borde:#1A1A1A;
     --texto:#0B2530; --texto-sec:#5C6B73;
     --verde:#2E9E6C; --rojo:#D14550;
-    --fondo:#E7ECEF;
+    --fondo:#C7D2D8; --fondo-2:#B9C6CC;
   }
-  *{box-sizing:border-box;}
-  body{margin:0;font-family:'Poppins',sans-serif;background:var(--fondo);color:var(--texto);}
+  *{box-sizing:border-box;font-family:'Poppins',sans-serif;}
+  body{margin:0;font-family:'Poppins',sans-serif;background:linear-gradient(160deg, var(--fondo) 0%, var(--fondo-2) 100%);background-attachment:fixed;color:var(--texto);}
   .app{max-width:1440px;margin:0 auto;padding:18px 22px 40px;position:relative;}
   .signature{text-align:right;padding:18px 10px 4px;font-size:10.5px;color:var(--texto-sec);opacity:.85;}
 
@@ -75,19 +75,21 @@
   .status{font-size:10px;color:var(--texto-sec);}
   .status.ok{color:var(--verde);} .status.err{color:var(--rojo);}
 
-  .kpi-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:18px;}
-  .kpi{background:var(--panel);border:1px solid var(--borde);border-radius:10px;padding:16px 18px;position:relative;overflow:hidden;border-top:4px solid var(--azul-comp1);box-shadow:0 3px 10px rgba(0,0,0,.08);min-width:0;transition:.2s ease;}
-  .kpi:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.16);border-color:var(--azul-primario);}
-  .kpi.verde{border-top-color:var(--verde);} .kpi.dorado{border-top-color:var(--dorado);} .kpi.rojo{border-top-color:var(--rojo);}
-  .kpi-label{font-size:10.5px;color:var(--texto-sec);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px;}
-  .kpi-value{font-size:22px;font-weight:700;}
-  .kpi-meta{font-size:10px;color:var(--texto-sec);margin-top:4px;}
+  .kpi-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-bottom:20px;}
+  .kpi{background:linear-gradient(155deg,#FFFFFF 0%,#F4F7F8 100%);border:1px solid #D6DEE2;border-radius:14px;padding:18px 20px;position:relative;overflow:hidden;box-shadow:0 4px 14px rgba(1,46,63,.08);min-width:0;transition:.2s ease;}
+  .kpi::after{content:"";position:absolute;top:0;left:0;width:100%;height:4px;background:linear-gradient(90deg,var(--azul-comp1),var(--turquesa));}
+  .kpi.verde::after{background:linear-gradient(90deg,var(--verde),#79d1a8);} .kpi.dorado::after{background:linear-gradient(90deg,var(--dorado),#e9d772);} .kpi.rojo::after{background:linear-gradient(90deg,var(--rojo),#e8898f);}
+  .kpi:hover{transform:translateY(-4px);box-shadow:0 14px 28px rgba(1,46,63,.18);border-color:var(--azul-comp1);}
+  .kpi-icon{position:absolute;top:14px;right:14px;font-size:22px;opacity:.16;line-height:1;}
+  .kpi-label{font-size:10.5px;color:var(--texto-sec);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;font-weight:600;}
+  .kpi-value{font-size:26px;font-weight:800;color:var(--azul-primario);letter-spacing:-.3px;}
+  .kpi-meta{font-size:10px;color:var(--texto-sec);margin-top:5px;}
 
   .grid2{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:16px;margin-bottom:16px;}
   .grid3{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;margin-bottom:16px;}
-  .card{background:var(--panel);border:1px solid var(--borde);border-radius:10px;padding:16px 18px;box-shadow:0 3px 10px rgba(0,0,0,.08);min-width:0;transition:.2s ease;}
-  .card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.16);border-color:var(--azul-primario);}
-  .card-title{font-size:13px;font-weight:600;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;}
+  .card{background:var(--panel);border:1px solid #D6DEE2;border-radius:14px;padding:18px 20px;box-shadow:0 4px 16px rgba(1,46,63,.08);min-width:0;transition:.2s ease;position:relative;}
+  .card:hover{transform:translateY(-3px);box-shadow:0 12px 26px rgba(1,46,63,.16);border-color:var(--azul-comp1);}
+  .card-title{font-size:13.5px;font-weight:700;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;color:var(--azul-primario);}
   .card-title span.tag{font-size:10px;background:var(--panel-2);color:var(--texto-sec);padding:3px 8px;border-radius:6px;font-weight:400;}
   .full-width{grid-column:1 / -1;}
 
@@ -153,24 +155,24 @@
 
   <div id="lockScreen" style="min-height:70vh;display:flex;align-items:center;justify-content:center;flex-direction:column;">
     <div class="logo-chip" style="margin-bottom:22px;"><img id="logoLock" src="" alt="COOPEBIS"></div>
-    <div style="background:var(--panel);border:1px solid var(--borde);border-radius:14px;padding:30px;max-width:360px;width:100%;box-shadow:0 8px 24px rgba(0,0,0,.12);">
+    <div style="background:var(--panel);border:1px solid var(--borde);border-radius:16px;padding:34px;max-width:400px;width:100%;box-shadow:0 8px 24px rgba(0,0,0,.12);">
       <div id="userLockForm">
-        <h3 style="margin:0 0 14px;font-size:15px;text-align:center;color:var(--azul-primario);">Base Social · Acceso</h3>
-        <label style="font-size:10px;color:var(--texto-sec);text-transform:uppercase;">Nombre completo</label>
-        <input type="text" id="lockNombre" style="width:100%;margin:4px 0 12px;">
-        <label style="font-size:10px;color:var(--texto-sec);text-transform:uppercase;">Contraseña</label>
-        <input type="password" id="lockPwd" style="width:100%;margin:4px 0 14px;">
-        <button class="refresh-btn" id="btnEntrarLock" style="width:100%;">Ingresar</button>
-        <div id="lockMsg" style="font-size:11px;color:var(--rojo);margin-top:8px;min-height:16px;text-align:center;"></div>
-        <div style="text-align:center;margin-top:14px;"><button class="ghost-btn" id="toAdminLock">Acceso administrador</button></div>
+        <h3 style="margin:0 0 18px;font-size:19px;text-align:center;color:var(--azul-primario);">Base Social · Acceso</h3>
+        <label style="font-size:13px;color:var(--texto-sec);text-transform:uppercase;font-weight:600;">Nombre completo</label>
+        <input type="text" id="lockNombre" style="width:100%;margin:6px 0 16px;font-size:15px;padding:12px 14px;">
+        <label style="font-size:13px;color:var(--texto-sec);text-transform:uppercase;font-weight:600;">Contraseña</label>
+        <input type="password" id="lockPwd" style="width:100%;margin:6px 0 18px;font-size:15px;padding:12px 14px;">
+        <button class="refresh-btn" id="btnEntrarLock" style="width:100%;font-size:14px;padding:13px 16px;">Ingresar</button>
+        <div id="lockMsg" style="font-size:13px;color:var(--rojo);margin-top:10px;min-height:18px;text-align:center;"></div>
+        <div style="text-align:center;margin-top:16px;"><button class="ghost-btn" id="toAdminLock" style="font-size:13px;padding:10px 16px;">Acceso administrador</button></div>
       </div>
       <div id="adminLockForm" style="display:none;">
-        <h3 style="margin:0 0 14px;font-size:15px;text-align:center;color:var(--azul-primario);">Acceso administrador</h3>
-        <label style="font-size:10px;color:var(--texto-sec);text-transform:uppercase;">Contraseña de administrador</label>
-        <input type="password" id="lockPwdAdmin" style="width:100%;margin:4px 0 14px;">
-        <button class="gold-btn" id="btnEntrarAdminLock" style="width:100%;">Ingresar como administrador</button>
-        <div id="lockMsgAdmin" style="font-size:11px;color:var(--rojo);margin-top:8px;min-height:16px;text-align:center;"></div>
-        <div style="text-align:center;margin-top:14px;"><button class="ghost-btn" id="toUserLock">Volver</button></div>
+        <h3 style="margin:0 0 18px;font-size:19px;text-align:center;color:var(--azul-primario);">Acceso administrador</h3>
+        <label style="font-size:13px;color:var(--texto-sec);text-transform:uppercase;font-weight:600;">Contraseña de administrador</label>
+        <input type="password" id="lockPwdAdmin" style="width:100%;margin:6px 0 18px;font-size:15px;padding:12px 14px;">
+        <button class="gold-btn" id="btnEntrarAdminLock" style="width:100%;font-size:14px;padding:13px 16px;">Ingresar como administrador</button>
+        <div id="lockMsgAdmin" style="font-size:13px;color:var(--rojo);margin-top:10px;min-height:18px;text-align:center;"></div>
+        <div style="text-align:center;margin-top:16px;"><button class="ghost-btn" id="toUserLock" style="font-size:13px;padding:10px 16px;">Volver</button></div>
       </div>
     </div>
   </div>
@@ -212,7 +214,7 @@
       <div class="home-cards">
         <div class="home-card" data-goto="entidades"><div class="icon">🏢</div><h3>Entidades</h3><p>Asesores, entidades y asociados por asesor. KPIs y filtros por mes, año y asesor.</p><div class="go">Ir a Entidades →</div></div>
         <div class="home-card" data-goto="asociados"><div class="icon">🔍</div><h3>Asociados</h3><p>Buscador por cédula o nombre con pagaduría, celular y asesor asignado.</p><div class="go">Ir a Asociados →</div></div>
-        <div class="home-card gold" data-goto="directorio"><div class="icon">📇</div><h3>Directorio</h3><p>Analistas de nómina por entidad: contacto, correo y dirección.</p><div class="go">Ir a Directorio →</div></div>
+        <div class="home-card gold" data-goto="directorio"><div class="icon">📇</div><h3>Directorio</h3><p>Analistas de nómina por pagaduría: contacto, correo y dirección.</p><div class="go">Ir a Directorio →</div></div>
         <div class="home-card" data-goto="calendario"><div class="icon">📅</div><h3>Calendario</h3><p>Ferias, stands y visitas: asistentes, afiliaciones y observaciones.</p><div class="go">Ir a Calendario →</div></div>
         <div class="home-card gold" data-goto="visitas"><div class="icon">📈</div><h3>Visitas</h3><p>Frecuencia de visitas por entidad, asistentes y afiliaciones nuevas.</p><div class="go">Ir a Visitas →</div></div>
       </div>
@@ -238,31 +240,34 @@
       </div>
 
       <div class="kpi-row">
-        <div class="kpi"><div class="kpi-label">Afiliados (filtro actual)</div><div class="kpi-value" id="kpiEntTotal">-</div><div class="kpi-meta" id="kpiEntTotalMeta">-</div></div>
-        <div class="kpi dorado"><div class="kpi-label">% de la base total</div><div class="kpi-value" id="kpiEntPct">-</div></div>
-        <div class="kpi verde"><div class="kpi-label">Femenino</div><div class="kpi-value" id="kpiEntF">-</div></div>
-        <div class="kpi"><div class="kpi-label">Masculino</div><div class="kpi-value" id="kpiEntM">-</div></div>
+        <div class="kpi"><span class="kpi-icon">👥</span><div class="kpi-label">Afiliados (filtro actual)</div><div class="kpi-value" id="kpiEntTotal">-</div><div class="kpi-meta" id="kpiEntTotalMeta">-</div></div>
+        <div class="kpi dorado"><span class="kpi-icon">📊</span><div class="kpi-label">% de la base total</div><div class="kpi-value" id="kpiEntPct">-</div></div>
+        <div class="kpi verde"><span class="kpi-icon">♀</span><div class="kpi-label">Femenino</div><div class="kpi-value" id="kpiEntF">-</div></div>
+        <div class="kpi"><span class="kpi-icon">♂</span><div class="kpi-label">Masculino</div><div class="kpi-value" id="kpiEntM">-</div></div>
       </div>
       <div class="kpi-row">
-        <div class="kpi"><div class="kpi-label">Menores de 49 años</div><div class="kpi-value" id="kpiEntEdad1">-</div></div>
-        <div class="kpi"><div class="kpi-label">Entre 50 y 59 años</div><div class="kpi-value" id="kpiEntEdad2">-</div></div>
-        <div class="kpi"><div class="kpi-label">Mayores de 60 años</div><div class="kpi-value" id="kpiEntEdad3">-</div></div>
+        <div class="kpi"><span class="kpi-icon">🎂</span><div class="kpi-label">Menores de 49 años</div><div class="kpi-value" id="kpiEntEdad1">-</div></div>
+        <div class="kpi"><span class="kpi-icon">🎂</span><div class="kpi-label">Entre 50 y 59 años</div><div class="kpi-value" id="kpiEntEdad2">-</div></div>
+        <div class="kpi"><span class="kpi-icon">🎂</span><div class="kpi-label">Mayores de 60 años</div><div class="kpi-value" id="kpiEntEdad3">-</div></div>
       </div>
 
-      <div class="grid3">
-        <div class="card">
-          <div class="card-title">Asociados por entidad <span class="tag">Según filtros</span></div>
-          <div style="position:relative;height:300px;"><canvas id="barAsesor"></canvas></div>
+      <div class="card full-width" style="margin-bottom:16px;">
+        <div class="card-title">Asociados por entidad <span class="tag">Todas las entidades · según filtros</span></div>
+        <div class="table-scroll" id="wrapBarAsesor" style="overflow-x:auto;overflow-y:hidden;">
+          <div id="innerBarAsesor" style="position:relative;height:460px;min-width:100%;"><canvas id="barAsesor"></canvas></div>
         </div>
-        <div class="card">
-          <div class="card-title">Por tipo de contrato <span class="tag">Según filtros</span></div>
-          <div style="position:relative;height:300px;"><canvas id="pieContrato"></canvas></div>
-        </div>
+      </div>
+      <div class="card full-width" style="margin-bottom:16px;">
+        <div class="card-title">Por tipo de contrato <span class="tag">Según filtros</span></div>
+        <div style="position:relative;height:460px;"><canvas id="pieContrato"></canvas></div>
       </div>
 
       <div class="card">
         <div class="card-title">Entidades y asociados por asesor <span class="tag" id="tagEntTabla">Todos los asesores</span></div>
-        <div class="search-box" style="margin-bottom:10px;"><input type="text" id="searchEntTabla" placeholder="Buscar por nombre de entidad o asesor…"></div>
+        <div class="search-box" style="margin-bottom:10px;gap:10px;">
+          <input type="text" id="searchEntTabla" placeholder="Buscar por nombre de entidad o asesor…">
+          <button class="ghost-btn" id="btnOrdenarEntTabla" data-orden="desc" title="Ordenar por cantidad de afiliados">⇅ Mayor a menor</button>
+        </div>
         <div class="table-scroll full">
           <table id="tableEntAsesor"><thead><tr><th>Asesor</th><th>Entidad</th><th>Asociados</th></tr></thead><tbody></tbody></table>
         </div>
@@ -288,7 +293,7 @@
     <div class="view" id="view-directorio">
       <div class="filters">
         <div class="filter-group"><label>Asesor encargado</label><select id="fDirAsesor"><option value="">Todos</option></select></div>
-        <div class="filter-group"><label>Entidad</label><select id="fDirEntidad"><option value="">Todas</option></select></div>
+        <div class="filter-group"><label>Pagaduría</label><select id="fDirEntidad"><option value="">Todas</option></select></div>
         <div class="toolbar">
           <button class="refresh-btn" id="btnAgregarContacto" style="display:none;">+ Agregar contacto</button>
           <span class="status" id="statusDir"></span>
@@ -297,9 +302,9 @@
 
       <div class="card">
         <div class="card-title">Directorio de analistas de nómina <span class="tag" id="tagDirTotal">-</span></div>
-        <div class="search-box" style="margin-bottom:10px;"><input type="text" id="searchDir" placeholder="Buscar por entidad o nombre…"></div>
+        <div class="search-box" style="margin-bottom:10px;"><input type="text" id="searchDir" placeholder="Buscar por pagaduría o nombre…"></div>
         <div class="table-scroll full">
-          <table id="tableDir"><thead><tr><th>Entidad</th><th>Nombre</th><th>Cargo</th><th>Tel. corporativo</th><th>Celular</th><th>Correo</th><th>Dirección</th><th>Asesor</th><th></th></tr></thead><tbody></tbody></table>
+          <table id="tableDir"><thead><tr><th>Pagaduría</th><th>Nombre</th><th>Cargo</th><th>Tel. corporativo</th><th>Celular</th><th>Correo</th><th>Dirección</th><th>Asesor</th><th></th></tr></thead><tbody></tbody></table>
         </div>
       </div>
     </div>
@@ -338,13 +343,22 @@
         <div class="filter-group"><label>Mes</label><select id="fVisMes"><option value="">Todos</option></select></div>
         <div class="filter-group"><label>Entidad</label><select id="fVisEntidad"><option value="">Todas</option></select></div>
         <div class="filter-group"><label>Asesor</label><select id="fVisAsesor"><option value="">Todos</option></select></div>
-        <div class="toolbar"><button class="refresh-btn" id="btnLimpiarVis">Quitar filtros</button></div>
+        <div class="toolbar">
+          <button class="gold-btn" id="btnExportarInformeVisitas">⬇ Descargar informe de visitas (Excel)</button>
+          <button class="refresh-btn" id="btnLimpiarVis">Quitar filtros</button>
+        </div>
       </div>
       <div class="kpi-row">
-        <div class="kpi"><div class="kpi-label">Visitas realizadas</div><div class="kpi-value" id="kpiVisVisitas">-</div></div>
-        <div class="kpi verde"><div class="kpi-label">Asistentes totales</div><div class="kpi-value" id="kpiVisAsistentes">-</div></div>
-        <div class="kpi dorado"><div class="kpi-label">Afiliaciones nuevas</div><div class="kpi-value" id="kpiVisAfiliaciones">-</div></div>
-        <div class="kpi"><div class="kpi-label">Entidades visitadas</div><div class="kpi-value" id="kpiVisEntidades">-</div></div>
+        <div class="kpi"><span class="kpi-icon">📅</span><div class="kpi-label">Visitas realizadas</div><div class="kpi-value" id="kpiVisVisitas">-</div></div>
+        <div class="kpi verde"><span class="kpi-icon">👤</span><div class="kpi-label">Asistentes totales</div><div class="kpi-value" id="kpiVisAsistentes">-</div></div>
+        <div class="kpi dorado"><span class="kpi-icon">✅</span><div class="kpi-label">Afiliaciones nuevas</div><div class="kpi-value" id="kpiVisAfiliaciones">-</div></div>
+        <div class="kpi"><span class="kpi-icon">🏢</span><div class="kpi-label">Entidades visitadas</div><div class="kpi-value" id="kpiVisEntidades">-</div></div>
+      </div>
+      <div class="kpi-row">
+        <div class="kpi"><span class="kpi-icon">📈</span><div class="kpi-label">Promedio asistentes / visita</div><div class="kpi-value" id="kpiVisPromAsist">-</div></div>
+        <div class="kpi verde"><span class="kpi-icon">🎯</span><div class="kpi-label">Tasa de conversión</div><div class="kpi-value" id="kpiVisConversion">-</div><div class="kpi-meta">Afiliaciones / asistentes</div></div>
+        <div class="kpi dorado"><span class="kpi-icon">🚫</span><div class="kpi-label">Visitas canceladas</div><div class="kpi-value" id="kpiVisCanceladas">-</div></div>
+        <div class="kpi"><span class="kpi-icon">🏆</span><div class="kpi-label">Entidad más visitada</div><div class="kpi-value" id="kpiVisTopEntidad" style="font-size:15px;">-</div></div>
       </div>
       <div class="grid2">
         <div class="card">
@@ -876,11 +890,27 @@ function renderEntidades(){
   filtrado.forEach(function(r){ const e = unificarEtiqueta(r.entidad); porEntidad[e] = (porEntidad[e]||0) + 1; });
   const entidadesOrdenadas = Object.keys(porEntidad).sort(function(a,b){ return porEntidad[b]-porEntidad[a]; });
 
+  // Ancho dinámico para que quepan todas las entidades sin apretarse (barras verticales)
+  const anchoPorBarra = 78;
+  const anchoMinimo = Math.max(entidadesOrdenadas.length * anchoPorBarra, 100);
+  document.getElementById('innerBarAsesor').style.minWidth = anchoMinimo+'px';
+
   if(chartBarAsesor) chartBarAsesor.destroy();
   chartBarAsesor = new Chart(document.getElementById('barAsesor'), {
     type:'bar',
-    data:{ labels: entidadesOrdenadas, datasets:[{ label:'Asociados', data: entidadesOrdenadas.map(function(e){return porEntidad[e];}), backgroundColor:'#045078', borderRadius:5 }] },
-    options:{ responsive:true, maintainAspectRatio:false, indexAxis:'y', plugins:{legend:{display:false}, datalabels:{anchor:'end', align:'end'}} }
+    data:{ labels: entidadesOrdenadas, datasets:[{ label:'Asociados', data: entidadesOrdenadas.map(function(e){return porEntidad[e];}), backgroundColor:'#045078', hoverBackgroundColor:'#297780', borderRadius:6, maxBarThickness:46 }] },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      layout:{ padding:{ top:26 } },
+      plugins:{
+        legend:{display:false},
+        datalabels:{ anchor:'end', align:'top', color:'#0B2530', font:{weight:'700', size:11} }
+      },
+      scales:{
+        x:{ ticks:{ autoSkip:false, font:{size:10.5, weight:'500'}, maxRotation:55, minRotation:entidadesOrdenadas.length>6?45:0 }, grid:{ display:false } },
+        y:{ beginAtZero:true, grid:{ color:'rgba(11,37,48,.06)' } }
+      }
+    }
   });
 
   const contratosOrdenados = Object.keys(porContrato).sort(function(a,b){ return porContrato[b]-porContrato[a]; });
@@ -888,8 +918,8 @@ function renderEntidades(){
   if(chartPieContrato) chartPieContrato.destroy();
   chartPieContrato = new Chart(document.getElementById('pieContrato'), {
     type:'bar',
-    data:{ labels: contratosOrdenados, datasets:[{ label:'Asociados', data: contratosOrdenados.map(function(c){return porContrato[c];}), backgroundColor: paletaContrato, borderRadius:5 }] },
-    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}, datalabels:{anchor:'end', align:'top'}}, scales:{ x:{ ticks:{ autoSkip:false, font:{size:10} } } } }
+    data:{ labels: contratosOrdenados, datasets:[{ label:'Asociados', data: contratosOrdenados.map(function(c){return porContrato[c];}), backgroundColor: paletaContrato, borderRadius:6, maxBarThickness:70 }] },
+    options:{ responsive:true, maintainAspectRatio:false, layout:{padding:{top:26}}, plugins:{legend:{display:false}, datalabels:{anchor:'end', align:'top', font:{weight:'700', size:12}}}, scales:{ x:{ ticks:{ autoSkip:false, font:{size:11.5, weight:'500'} }, grid:{display:false} }, y:{ beginAtZero:true, grid:{ color:'rgba(11,37,48,.06)' } } } }
   });
 
   // Tabla asesor -> entidad -> cantidad (entidades unificadas por nombre)
@@ -900,8 +930,17 @@ function renderEntidades(){
     if(!porAsesorEntidad[k]) porAsesorEntidad[k] = { asesor:r.asesor, entidad:entidadUnificada, cantidad:0 };
     porAsesorEntidad[k].cantidad++;
   });
-  let filas = Object.values(porAsesorEntidad)
-    .sort(function(a,b){ if(a.asesor!==b.asesor) return a.asesor.localeCompare(b.asesor); return b.cantidad-a.cantidad; });
+  let filas = Object.values(porAsesorEntidad);
+
+  const btnOrden = document.getElementById('btnOrdenarEntTabla');
+  const ordenActivo = btnOrden ? btnOrden.dataset.orden : '';
+  if(ordenActivo === 'desc'){
+    filas.sort(function(a,b){ return b.cantidad-a.cantidad; });
+  } else if(ordenActivo === 'asc'){
+    filas.sort(function(a,b){ return a.cantidad-b.cantidad; });
+  } else {
+    filas.sort(function(a,b){ if(a.asesor!==b.asesor) return a.asesor.localeCompare(b.asesor); return b.cantidad-a.cantidad; });
+  }
 
   if(q){
     filas = filas.filter(function(f){ return normTxt(f.entidad).indexOf(q)>-1 || normTxt(f.asesor).indexOf(q)>-1; });
@@ -918,6 +957,13 @@ document.getElementById('searchEntTabla').addEventListener('input', renderEntida
 document.getElementById('btnLimpiarEnt').addEventListener('click', function(){
   document.getElementById('fEntAnio').value=''; document.getElementById('fEntMes').value=''; document.getElementById('fEntAsesor').value='';
   document.getElementById('fEntEntidad').value=''; document.getElementById('fEntRangoEdad').value=''; document.getElementById('searchEntTabla').value='';
+  renderEntidades();
+});
+document.getElementById('btnOrdenarEntTabla').addEventListener('click', function(){
+  const actual = this.dataset.orden;
+  if(actual === 'desc'){ this.dataset.orden = 'asc'; this.innerHTML = '⇅ Menor a mayor'; }
+  else if(actual === 'asc'){ this.dataset.orden = ''; this.innerHTML = '⇅ Orden por asesor'; }
+  else { this.dataset.orden = 'desc'; this.innerHTML = '⇅ Mayor a menor'; }
   renderEntidades();
 });
 
@@ -1305,31 +1351,41 @@ document.getElementById('btnEliminarEvento').addEventListener('click', async fun
    VISTA VISITAS
 ====================================================================== */
 let chartBarVisEnt=null, chartBarVisAsistAfil=null;
+let ULTIMO_REPORTE_VISITAS = { filtrado:[], canceladas:[], porEntidad:{}, asistPorEnt:{}, afilPorEnt:{} };
 function renderVisitas(){
   const anio = document.getElementById('fVisAnio').value;
   const mes = document.getElementById('fVisMes').value;
   const entidad = document.getElementById('fVisEntidad').value;
   const asesor = document.getElementById('fVisAsesor').value;
 
-  const filtrado = DATA.eventos.filter(function(ev){
+  const cumpleFiltrosBase = function(ev){
     if(!ev.fecha) return false;
-    if(ev.cancelado) return false;
     const f = new Date(ev.fecha+'T00:00:00');
     if(anio && String(f.getFullYear()) !== anio) return false;
     if(mes && String(f.getMonth()+1) !== mes) return false;
     if(entidad && ev.entidad !== entidad) return false;
     if(asesor && asesoresDeEvento(ev).indexOf(asesor) === -1) return false;
     return true;
-  });
+  };
+
+  const filtrado = DATA.eventos.filter(function(ev){ return cumpleFiltrosBase(ev) && !ev.cancelado; });
+  const canceladas = DATA.eventos.filter(function(ev){ return cumpleFiltrosBase(ev) && ev.cancelado; });
+
+  const totalAsistentes = filtrado.reduce(function(s,e){return s+(e.asistentes||0);},0);
+  const totalAfiliaciones = filtrado.reduce(function(s,e){return s+(e.afiliaciones||0);},0);
 
   document.getElementById('kpiVisVisitas').textContent = filtrado.length.toLocaleString('es-CO');
-  document.getElementById('kpiVisAsistentes').textContent = filtrado.reduce(function(s,e){return s+(e.asistentes||0);},0).toLocaleString('es-CO');
-  document.getElementById('kpiVisAfiliaciones').textContent = filtrado.reduce(function(s,e){return s+(e.afiliaciones||0);},0).toLocaleString('es-CO');
+  document.getElementById('kpiVisAsistentes').textContent = totalAsistentes.toLocaleString('es-CO');
+  document.getElementById('kpiVisAfiliaciones').textContent = totalAfiliaciones.toLocaleString('es-CO');
   document.getElementById('kpiVisEntidades').textContent = new Set(filtrado.map(function(e){return e.entidad;})).size.toLocaleString('es-CO');
+  document.getElementById('kpiVisPromAsist').textContent = filtrado.length ? (totalAsistentes/filtrado.length).toFixed(1) : '0';
+  document.getElementById('kpiVisConversion').textContent = totalAsistentes ? ((totalAfiliaciones/totalAsistentes)*100).toFixed(1)+'%' : '0%';
+  document.getElementById('kpiVisCanceladas').textContent = canceladas.length.toLocaleString('es-CO');
 
   const porEntidad = {};
   filtrado.forEach(function(ev){ porEntidad[ev.entidad] = (porEntidad[ev.entidad]||0)+1; });
   const entidadesOrd = Object.keys(porEntidad).sort(function(a,b){return porEntidad[b]-porEntidad[a];});
+  document.getElementById('kpiVisTopEntidad').textContent = entidadesOrd.length ? (entidadesOrd[0]+' ('+porEntidad[entidadesOrd[0]]+')') : '-';
   if(chartBarVisEnt) chartBarVisEnt.destroy();
   chartBarVisEnt = new Chart(document.getElementById('barVisitasEntidad'), {
     type:'bar',
@@ -1352,12 +1408,59 @@ function renderVisitas(){
     ]},
     options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'bottom'}} }
   });
+
+  ULTIMO_REPORTE_VISITAS = { filtrado: filtrado, canceladas: canceladas, porEntidad: porEntidad, asistPorEnt: asistPorEnt, afilPorEnt: afilPorEnt };
 }
 ['fVisAnio','fVisMes','fVisEntidad','fVisAsesor'].forEach(function(id){ document.getElementById(id).addEventListener('change', renderVisitas); });
 document.getElementById('btnLimpiarVis').addEventListener('click', function(){
   document.getElementById('fVisAnio').value=''; document.getElementById('fVisMes').value='';
   document.getElementById('fVisEntidad').value=''; document.getElementById('fVisAsesor').value='';
   renderVisitas();
+});
+
+/* ======================================================================
+   EXPORTAR INFORME DE VISITAS (disponible para todo usuario)
+====================================================================== */
+document.getElementById('btnExportarInformeVisitas').addEventListener('click', function(){
+  const rep = ULTIMO_REPORTE_VISITAS;
+  const wb = XLSX.utils.book_new();
+
+  const totalAsistentes = rep.filtrado.reduce(function(s,e){return s+(e.asistentes||0);},0);
+  const totalAfiliaciones = rep.filtrado.reduce(function(s,e){return s+(e.afiliaciones||0);},0);
+  const entidadesVisitadas = new Set(rep.filtrado.map(function(e){return e.entidad;}));
+  const entidadesOrdRep = Object.keys(rep.porEntidad).sort(function(a,b){return rep.porEntidad[b]-rep.porEntidad[a];});
+
+  const resumenRows = [
+    { 'Indicador':'Visitas realizadas', 'Valor': rep.filtrado.length },
+    { 'Indicador':'Visitas canceladas', 'Valor': rep.canceladas.length },
+    { 'Indicador':'Asistentes totales', 'Valor': totalAsistentes },
+    { 'Indicador':'Afiliaciones nuevas', 'Valor': totalAfiliaciones },
+    { 'Indicador':'Entidades visitadas', 'Valor': entidadesVisitadas.size },
+    { 'Indicador':'Promedio de asistentes por visita', 'Valor': rep.filtrado.length ? Number((totalAsistentes/rep.filtrado.length).toFixed(2)) : 0 },
+    { 'Indicador':'Tasa de conversión (afiliaciones / asistentes)', 'Valor': totalAsistentes ? Number(((totalAfiliaciones/totalAsistentes)*100).toFixed(1))+'%' : '0%' },
+    { 'Indicador':'Entidad más visitada', 'Valor': entidadesOrdRep.length ? (entidadesOrdRep[0]+' ('+rep.porEntidad[entidadesOrdRep[0]]+' visitas)') : '-' },
+    { 'Indicador':'Fecha del informe', 'Valor': new Date().toLocaleString('es-CO') }
+  ];
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(resumenRows), 'RESUMEN');
+
+  const porEntidadRows = entidadesOrdRep.map(function(e){
+    const asist = rep.asistPorEnt[e]||0, afil = rep.afilPorEnt[e]||0;
+    return {
+      'Entidad': e, 'Visitas': rep.porEntidad[e]||0, 'Asistentes': asist, 'Afiliaciones nuevas': afil,
+      'Tasa de conversión': asist ? ((afil/asist)*100).toFixed(1)+'%' : '0%'
+    };
+  });
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(porEntidadRows), 'POR ENTIDAD');
+
+  const detalleRows = rep.filtrado.concat(rep.canceladas)
+    .sort(function(a,b){ return (a.fecha||'').localeCompare(b.fecha||''); })
+    .map(function(ev){
+      return { 'Fecha': ev.fecha, 'Entidad': ev.entidad, 'Asesor(es)': asesoresDeEvento(ev).join(', '), 'Asistentes': ev.asistentes||0, 'Afiliaciones nuevas': ev.afiliaciones||0, 'Cancelado': ev.cancelado ? 'Sí' : 'No', 'Observaciones': ev.observaciones||'' };
+    });
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(detalleRows), 'DETALLE DE VISITAS');
+
+  const fecha = new Date().toISOString().slice(0,10);
+  XLSX.writeFile(wb, 'informe_visitas_'+fecha+'.xlsx');
 });
 
 /* ======================================================================
